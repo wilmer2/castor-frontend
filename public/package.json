@@ -1,0 +1,26 @@
+{
+  "name": "castor",
+  "version": "1.0.0",
+  "description": "frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilmer2/castor_frontend.git"
+  },
+  "author": "Wilmer Maldonado",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wilmer2/castor_frontend/issues"
+  },
+  "homepage": "https://github.com/wilmer2/castor_frontend#readme",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-ui-router": "^0.3.1",
+    "angularjs-toaster": "^2.0.0",
+    "jquery": "^1.11.0",
+    "underscore": "^1.8.3"
+  }
+}
