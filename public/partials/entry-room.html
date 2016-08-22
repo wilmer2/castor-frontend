@@ -1,0 +1,6 @@
+<input type="text" ng-model="rental.identity_card" ng-if="client == null" placeholder="cedula">
+
+<label>Fecha de salida</label>
+<input type="date" ng-model="rental.departure_date">
+
+<button class="btn btn-lg btn-success" ng-click="searchRooms()">Buscar habitaciones</button>

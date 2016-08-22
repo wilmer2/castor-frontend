@@ -6,7 +6,8 @@
       'ui.router',
       'castor.routes',
       'castor.controllers',
-      'castor.services'
+      'castor.services',
+      'castor.directives'
     ])
 
 })();

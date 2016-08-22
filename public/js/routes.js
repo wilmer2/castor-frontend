@@ -1,13 +1,21 @@
 (function () {
 
   angular.module('castor.routes', [])
-    .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$httpProvider' ,
+      function ($stateProvider, $urlRouterProvider, $httpProvider) {
+
+        $httpProvider.defaults.withCredentials = true;
         $urlRouterProvider.otherwise("/");
 
         $stateProvider
+         .state('login', {
+            url: "/",
+            templateUrl: "/views/login",
+            controller: "login"
+         })
          .state('menu', {
-           url: "/app",
-           templateUrl: "/views/home/menu.html"
+            url: "/app",
+            templateUrl: "/views/home/menu.html"
          })
          .state('menu.type', {
             url: "/type",
@@ -18,6 +26,16 @@
             templateUrl: "/views/types/typeNew.html",
             controller: "TypeCreate"
          })
+         .state('menu.rental', {
+            url : "/rental",
+            templateUrl: "/views/rentals"
+         })
+         .state('menu.rental.create', {
+            url: "/create",
+            templateUrl: "/views/rentals/create-rental.html",
+            controller: "rentalCreate"
+         })
+         
     }]);
 
 })();

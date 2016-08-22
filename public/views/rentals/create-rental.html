@@ -1,0 +1,15 @@
+<form ng-submit="sendData($event)">
+   <entry-room></entry-room>
+   <div ng-if="rooms.length == 0">
+     <div>
+        No hay habitaciones disponibles hasta la fecha seleccionada
+     </div>
+   </div>
+   <div ng-show="rooms.length > 0">
+      <div class="col-lg-3" ng-repeat="room in rooms" >
+        <panel-room></panel-room>
+      </div>
+   </div>
+    
+   <button class="btn btn-primary" ng-disabled="rooms.length == 0">Guardar</button>
+</form>
