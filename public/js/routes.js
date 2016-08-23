@@ -35,6 +35,15 @@
             templateUrl: "/views/rentals/create-rental.html",
             controller: "rentalCreate"
          })
+         .state('menu.client', {
+            url: "/client",
+            templateUrl: "/views/clients"
+         })
+         .state('menu.client.show', {
+            url: "/{id}",
+            templateUrl: "/views/clients/show.html",
+            controller: "clientShow"
+         })
          
     }]);
 

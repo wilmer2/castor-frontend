@@ -1,0 +1,101 @@
+<div class="col-md-10" ng-hide="loading" ng-if="!notFound">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h2>
+       <i class="fa fa-user"></i>Información de
+       <span ng-bind="client.first_name + client.last_name"></span>
+      </h2>
+    </div>
+    <div class="panel-body">
+    <uib-tabset active="active">
+      <uib-tab index="0" heading="Static title">
+        <tab-heading>
+          <i class="fa fa-info"></i> Información 
+        </tab-heading>
+        <br />
+        <table class="table table-bordered">
+          <tr>
+            <th colspan="4" class="text-center">Informacion Personal</th>
+          </tr>
+          <tr>
+            <th>Cedula</th>
+            <td><span ng-bind="client.identity_card"></span></td>
+          </tr>
+          <tr>
+            <th>Nombre</th>
+            <td><span ng-bind="client.first_name"></span></td>
+          </tr>
+          <tr>
+            <th>Apellido</th>
+            <td><span ng-bind="client.last_name"></span></td>
+          </tr>
+          <tr>
+            <th>Nacionalidad</th>
+            <td><span ng-bind="client.nationality"></span></td>
+          </tr>
+          <tr>
+            <td collspan="2" class="text-center">
+              <div class="buttons">
+                 <button type="button" class="btn btn-primary">
+                  <i class="fa fa-edit"></i> Editar
+                 </button>
+                 <button type="button" class="btn btn-danger">
+                  Eliminar
+                </button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </uib-tab>
+      <uib-tab index="1" heading="Static">
+        <tab-heading>
+          <i class="fa fa-folder-open"></i> Hospedajes
+        </tab-heading>
+        <button class="btn btn-sm btn-primary">
+          <i class="fa fa-plus"></i> Registrar dia
+        </button>
+        <button class="btn btn-sm btn-primary">
+          <i class="fa fa-plus"></i> Registrar hora
+        </button>
+        <hr/>
+        <table class="table table-bordered">
+         <tr>
+           <th colspan="4"  style="text-align:center">
+             Informacion de Hospedajes
+           </th>
+         </tr>
+         <tr ng-show="client.rentals.length > 0">
+           <th>Llegada</th>
+           <th>Salida</th>
+           <th>Tipo</th>
+           <th>Opciones</th>
+         </tr>
+         <tr  ng-repeat="rental in client.rentals" ng-show="client.rentals.length > 0">
+           <td>
+             <span ng-bind="rental.arrival_date"></span>
+             <span ng-bind="rental.arrival_time"></span>
+           </td>
+           <td>
+             <span ng-if="rental.departure_date != null" ng-bind="rental.departure_date"></span>
+             <span ng-if="rental.departure_date == null" ng-bind="rental.arrival_date"></span>
+             <span ng-bind="rental.departure_time"></span>
+           </td>
+           <td>
+             <span ng-bind="rental.type"></span>
+           </td>
+           <td>
+             <button class="btn btn-primary">Ver</button>
+           </td>
+         </tr>
+        </table>
+        <div ng-if="client.rental.length == 0">
+          Cliente no tiene registro de hospedajes
+        </div>
+      </uib-tab>
+      </uib-tabset>
+    </div>
+  </div>
+</div>
+<div ng-if="notFound">
+      Cliente no encontrado
+</div>

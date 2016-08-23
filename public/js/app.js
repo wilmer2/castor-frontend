@@ -4,6 +4,7 @@
       'ngAnimate',
       'toaster',
       'ui.router',
+      'ui.bootstrap',
       'castor.routes',
       'castor.controllers',
       'castor.services',

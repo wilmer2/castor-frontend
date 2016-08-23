@@ -1,19 +1,23 @@
 (function () {
     angular.module('castor.controllers')
 
-    .controller('rentalCreate', ['$scope', '$http', 'showMessage', 'time', 'Backend', 
-        'clientProfile', 'extendRooms', function (
-            $scope, $http, showMessage, time, Backend, clientProfile, extendRooms) {
+    .controller('rentalCreate', [
+        '$scope', 
+        '$http', 
+        'showMessage', 
+        'time', 
+        'Backend', 
+        'extendRooms',
+        'clientService',
 
-            $scope.client = clientProfile.get();
+        function ($scope, $http, showMessage, time, Backend, extendRooms, clientService) {
+            $scope.client = {};
 
             $scope.rental = {
                 departure_date: time.getDayAfter(),
                 type: 'days',
                 room_ids: []
             };
-
-            $scope.rooms = [];
 
             $scope.searchRooms = function () {
                 var arrivalDate = time.getDate();

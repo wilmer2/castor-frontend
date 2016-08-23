@@ -68,29 +68,6 @@
         }
     })
 
-    .factory('clientProfile', ['$http', '$stateParams', 'Backend', 
-       function ($http, $stateParams) {
-          var clientProfile = null;
-
-          return {
-              resolver: function ()  {
-                 if(_.isUndefined($stateParams.id) || _.isEmpty($stateParams.id)) {
-                    return clientProfile;
-                 } else {
-                    return $http.get(Backend.url + 'clients/' + $stateParams.id).then(function (res) {
-                        clientProfile = res.data;
-                    }, function () {
-                        return clientProfile;
-                    })
-                 }
-              },
-
-              get() {
-                  return clientProfile
-              }
-          }
-    }])
-
     .factory('time', ['$filter', function ($filter) {
         var time = new Date();
 
