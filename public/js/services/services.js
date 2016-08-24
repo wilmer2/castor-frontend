@@ -69,9 +69,9 @@
     })
 
     .factory('time', ['$filter', function ($filter) {
-        var time = new Date();
 
         function getHour() {
+           var time = new Date();
            var hour = time.getHours();
            var min = time.getMinutes() + 2;
            var totalTime = hour + ':' + min + ':00';
@@ -84,12 +84,14 @@
         }
 
         function getDay() {
+            var time = new Date();
             var day = time.getDate();
 
             return day;
         }
 
         function getMonth() {
+            var time = new Date();
             var month = time.getMonth();
 
             if(month < 10){
@@ -100,6 +102,7 @@
         }
 
         function getYear() {
+            var time = new Date();
             return time.getFullYear();
         }
 

@@ -5,6 +5,7 @@
       'toaster',
       'ui.router',
       'ui.bootstrap',
+      'ngTable',
       'castor.routes',
       'castor.controllers',
       'castor.services',

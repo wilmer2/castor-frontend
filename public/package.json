@@ -21,6 +21,7 @@
     "angular-ui-router": "^0.3.1",
     "angularjs-toaster": "^2.0.0",
     "jquery": "^1.11.0",
+    "ng-table": "^1.0.0",
     "underscore": "^1.8.3"
   }
 }

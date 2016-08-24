@@ -58,19 +58,14 @@
           <i class="fa fa-plus"></i> Registrar hora
         </button>
         <hr/>
-        <table class="table table-bordered">
+        <table ng-table="tableParams" class="table table-bordered"  ng-show="client.rentals.length > 0">
          <tr>
-           <th colspan="4"  style="text-align:center">
-             Informacion de Hospedajes
-           </th>
-         </tr>
-         <tr ng-show="client.rentals.length > 0">
            <th>Llegada</th>
            <th>Salida</th>
            <th>Tipo</th>
            <th>Opciones</th>
          </tr>
-         <tr  ng-repeat="rental in client.rentals" ng-show="client.rentals.length > 0">
+         <tr  ng-repeat="rental in client.rentals">
            <td>
              <span ng-bind="rental.arrival_date"></span>
              <span ng-bind="rental.arrival_time"></span>
@@ -88,7 +83,7 @@
            </td>
          </tr>
         </table>
-        <div ng-if="client.rental.length == 0">
+        <div ng-if="client.rentals.length == 0">
           Cliente no tiene registro de hospedajes
         </div>
       </uib-tab>

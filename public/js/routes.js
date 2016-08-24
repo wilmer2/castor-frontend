@@ -31,9 +31,12 @@
             templateUrl: "/views/rentals"
          })
          .state('menu.rental.create', {
-            url: "/create",
+            url: "/create/:id",
             templateUrl: "/views/rentals/create-rental.html",
-            controller: "rentalCreate"
+            controller: "rentalCreate",
+            params: {
+             id: null
+            }
          })
          .state('menu.client', {
             url: "/client",
