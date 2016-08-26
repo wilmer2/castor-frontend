@@ -38,6 +38,11 @@
              id: null
             }
          })
+         .state('menu.rental.renovate_date', {
+            url: "/{id}/renovate-date",
+            templateUrl: "/views/rentals/renovate-date.html",
+            controller: 'renovateDate'
+         })
          .state('menu.client', {
             url: "/client",
             templateUrl: "/views/clients"

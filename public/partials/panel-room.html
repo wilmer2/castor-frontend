@@ -12,8 +12,11 @@
     Coste adicional  <strong ng-bind="room.increment"></strong>
      <p ng-bind="room.description"></p>
      <div class="text-center">
-        <button class="btn btn-primary  btn-block" ng-if="!room.select" ng-click="addRoom(room.roomId)">Alquilar</button>
-        <button class="btn btn-success btn-block" ng-if="room.select" ng-click="detachRoom(room.roomId)">Seleccionada</button>
+        <button class="btn btn-primary  btn-block" ng-if="!room.select && !room.inmutable" ng-click="addRoom(room.roomId)" ng-disabled="all">Alquilar</button>
+        <button class="btn btn-success btn-block" ng-if="room.select && !room.inmutable" ng-click="detachRoom(room.roomId)">Seleccionada</button>
+        <button class="btn btn-warning btn-block" ng-if="room.select && room.inmutable">
+          Seleccionada Previamente
+        </button>
         
       </div>
   </div>  

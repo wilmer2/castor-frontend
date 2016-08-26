@@ -132,18 +132,4 @@
         }
     }])
 
-   .factory('extendRooms', function () {
-       function extendSelectRooms (rooms) {
-         var roomsWithSelect = _.map(rooms, function(room) { 
-              return _.extend({}, room, {select: false});
-         });
-         return roomsWithSelect;
-       }
-
-       return {
-          extendSelectRooms: extendSelectRooms
-       }
-   })
-
-
 })(_)

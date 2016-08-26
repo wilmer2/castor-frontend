@@ -44,5 +44,19 @@
           templateUrl: '/partials/entry-room.html'
         }
     })
+
+    .directive('selectRenovate', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/select-renovate.html'
+        }
+    })
+
+    .directive('staticRoom', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/panel-static-room.html'
+        }
+    })
        
 })();

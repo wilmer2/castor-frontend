@@ -1,0 +1,59 @@
+<div ng-if="loading && !notFound">
+  <select-renovate></select-renovate>
+ <h2>   
+    Llegada
+    <span ng-bind="rental.arrival_date"></span>
+    <span ng-bind="rental.arrival_time"></span>
+    Salida Actual
+    <span ng-if="rental.old_departure != null" ng-bind="rental.old_departure"></span>
+    <span ng-if="rental.old_departure == null" ng-bind="rental.arrival_date"></span>
+    <span ng-bind="rental.departure_time"></span>
+ </h2>
+<form ng-submit="sendRenovate($event)">
+
+<label>Fecha para renovar</label>
+<input type="date" ng-model="rental.departure_date" required>
+<button class="btn btn-lg btn-success" ng-click="availableDateRooms($event)" >
+   Disponibilidad de habitaciones
+</button>
+
+<div ng-if="notFound">
+   Hospedaje no encontrado
+</div>
+
+<div ng-if="loadingRoom && !notFound">
+  <div ng-show="rooms.length > 0">
+    <div ng-if="select">
+      <h4>Salida 
+        <span ng-if="rental.old_departure != null" ng-bind="rental.old_departure"></span>
+        <span ng-if="rental.old_departure == null" ng-bind="rental.arrival_date"></span>
+        <span ng-bind="rental.departure_time"></span>
+      </h4>
+      <div>
+        Seleccione habitaciones que no quiere cambiar para renovación, estas estaran disponible hasta su fecha de salida
+      </div> 
+      <div class="col-lg-3" ng-repeat="room in staticRooms">
+         <static-room></static-room>
+      </div>
+    </div>
+     <span ng-bind="countRoom"></span>/<span ng-bind="maxRoom"></span>
+    <div ng-if="select">
+      Algunas de las habitaciones no estan disponibles para la fecha de renovación,
+      seleccione nuevas para remplazar
+    </div>
+    <div ng-if="rooms.length < currentRooms.length">
+      Aviso, no hay suficientes habitaciones disponibles para cambio,
+      solo seran registradas las que seleccione para renovar
+    </div>
+    <div class="col-lg-3" ng-repeat="room in rooms" >
+      <panel-room></panel-room>
+    </div>
+  </div>
+  <div ng-if="rooms.length == 0">
+    No hay habitaciones disponibles para renovar, por esta fecha
+  </div>
+</div>
+
+     <button type="submit" class="btn btn-primary"  ng-show="rooms.length > 0"> Enviar</button>
+</form>
+</div>
