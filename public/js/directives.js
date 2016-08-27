@@ -65,5 +65,19 @@
           templateUrl: '/partials/entry-reservation-date.html'
         }
     })
+
+    .directive('btnRental', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/btn-rental-edit.html'
+        }
+    })
+
+    .directive('countRental', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/count-rental.html'
+        }
+    })
        
 })();

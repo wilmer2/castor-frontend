@@ -27,18 +27,13 @@
        <div ng-if="rooms.length == 0">
           No hay habitaciones disponibles para estas fechas
        </div>
-       <span ng-bind="countRoom" ng-show="rooms.length >= currentRooms.length"></span>
-       <span ng-show="rooms.length >= currentRooms.length">/</span>
-       <span ng-bind="maxRoom"  ng-show="rooms.length >= currentRooms.length"></span>
+       <count-rental></count-rental>
        <div ng-if="rooms.length > 0 &&  currentRooms.length > rooms.length">
             Algunas de las habitaciones no estan disponibles por estas fechas y no se cuenta con la cantidad suficiente para reemplazarlas
        </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary"  
-     ng-show="rooms.length > 0 && rooms.length  >= currentRooms.length" ng-disabled="!all">   
-     Enviar
-  </button>
+  <btn-rental></btn-rental>
 </form>
   
 </div>
