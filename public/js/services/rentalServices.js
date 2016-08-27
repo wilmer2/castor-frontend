@@ -63,6 +63,19 @@
                 return deferred.promise;
             }
 
+            function getConfirmHourRooms(id, startDate, startTime, endTime) {
+                var deferred = $q.defer();
+                var location = 'rentals/' + id + '/rooms_hour/' + startDate + '/' + startTime + '/' + endTime;
+                
+                $http.get(Backend.url + location).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            }
+
             function sendRenovateDate(rental) {
                 var deferred = $q.defer();
                 var location = 'rentals/' + rental.id + '/renovate_date';
@@ -84,7 +97,20 @@
                     deferred.resolve(res.data);
                 }, function (err) {
                     deferred.reject(err);
-                })
+                });
+
+                return deferred.promise;
+            }
+
+            function updateReservationHour(rental) {
+                var deferred = $q.defer();
+                var location = 'rentals/' + rental.id + '/reservation_hour';
+              
+                $http.put(Backend.url + location, rental).then(function (res) {
+                   deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
 
                 return deferred.promise;
             }
@@ -115,6 +141,7 @@
                   departure_date: time.formatDate(data.departure_date),
                   time: time.formatTime(data.arrival_time),
                   room_ids: [],
+                  state: data.state,
                   reservation: data.reservation,
                   type: data.type
                 };
@@ -122,15 +149,33 @@
                 return dataFormatEdit;
             }
 
+            function formatHourDataEdit(data) {
+                var dateHourFormat = {
+                  id: data.id,
+                  start_date: time.formatDate(data.arrival_date),
+                  time: time.formatTime(data.arrival_time),
+                  time_close: time.formatTime(data.departure_time),
+                  room_ids: [],
+                  state: data.state,
+                  reservation: data.reservation,
+                  type: data.type
+                }
+
+                return dateHourFormat;
+            }
+
             return {
               getAvailableDate: getAvailableDate,
               store: store,
               getEnabledRooms: getEnabledRooms,
               getConfirmDateRooms: getConfirmDateRooms,
+              getConfirmHourRooms: getConfirmHourRooms,
               formatData: formatData,
-              sendRenovateDate: sendRenovateDate,
               formatDataEdit: formatDataEdit,
-              updateReservationDate: updateReservationDate
+              formatHourDataEdit: formatHourDataEdit,
+              sendRenovateDate: sendRenovateDate,
+              updateReservationDate: updateReservationDate,
+              updateReservationHour: updateReservationHour
             }
 
         }

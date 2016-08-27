@@ -48,6 +48,11 @@
             templateUrl: "/views/rentals/reservation-date-edit.html",
             controller: "reservationDateEdit"
          })
+         .state('menu.rental.reservation_hour_edit', {
+            url: "/{id}/reservation-hour/edit",
+            templateUrl: "/views/rentals/reservation-hour-edit.html",
+            controller: "reservationHourEdit"
+         })
          .state('menu.client', {
             url: "/client",
             templateUrl: "/views/clients"

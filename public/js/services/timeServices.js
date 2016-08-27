@@ -57,24 +57,36 @@
         }
 
         function formatDate(date) {
-            var splitDate = date.split('-');
-            var formatDate = new Date(splitDate[0], splitDate[1]-1, splitDate[2]);
-
-            return formatDate;
+            if(date == null || date == '') {
+                return null;
+            } else {
+                var splitDate = date.split('-');
+                var formatDate = new Date(splitDate[0], splitDate[1]-1, splitDate[2]);
+                
+                return formatDate;
+            }
         }
 
         function formatTime(time) {
-            var splitTime = time.split(':');
-            var formatTime = new Date(1970, 0, 1, splitTime[0], splitTime[1], splitTime[2]);
-
-            return formatTime;
+            if(time == null || time == '') {
+                return null;
+            } else {
+                var splitTime = time.split(':');
+                var formatTime = new Date(1970, 0, 1, splitTime[0], splitTime[1], splitTime[2]);
+                
+                return formatTime;
+            }
         }
 
         function setTime(time) {
-            var timeFormat = time.toString();
-            var splitSendTime = timeFormat.split(' ');
+            if(time == null || time == '') {
+                return null;
+            } else {
+                var timeFormat = time.toString();
+                var splitSendTime = timeFormat.split(' ');
             
-            return splitSendTime[4];
+                return splitSendTime[4];
+            }
         }
 
         return {

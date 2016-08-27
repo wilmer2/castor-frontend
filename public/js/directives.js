@@ -66,6 +66,13 @@
         }
     })
 
+    .directive('reservationHour', function () {
+        return {
+          restrict: 'E',
+          templateUrl: 'partials/entry-reservation-hour.html'
+        }
+    })
+
     .directive('btnRental', function () {
         return {
           restrict: 'E',
@@ -77,6 +84,27 @@
         return {
           restrict: 'E',
           templateUrl: '/partials/count-rental.html'
+        }
+    })
+
+    .directive('notFound', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/not-found.html'
+        }
+    })
+
+    .directive('reservationConfirmed', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/reservation-confirmed.html'
+        }
+    })
+
+    .directive('selectState', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/select-state.html'
         }
     })
        
