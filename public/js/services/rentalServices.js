@@ -1,8 +1,8 @@
 (function () {
     angular.module('castor.services')
 
-    .factory('rentalService', ['$http', '$q', 'Backend',
-        function ($http, $q, Backend) {
+    .factory('rentalService', ['$http', '$q', 'time' ,'Backend',
+        function ($http, $q, time, Backend) {
             function getAvailableDate(arrivalDate, departureDate, arrivalTime) {
                var deferred = $q.defer();
                var location = 'rooms/available_date/' + arrivalDate + '/' + departureDate + '/' + arrivalTime;
@@ -76,6 +76,19 @@
                 return deferred.promise;
             }
 
+            function updateReservationDate(rental) {
+                var deferred = $q.defer();
+                var location = 'rentals/' + rental.id + '/reservation_date';
+
+                $http.put(Backend.url + location, rental).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                })
+
+                return deferred.promise;
+            }
+
             function formatData(data) {
                 var dataFormat = {
                   id: data.id,
@@ -95,13 +108,29 @@
                 return dataFormat;
             }
 
+            function formatDataEdit(data) {
+                var dataFormatEdit = {
+                  id: data.id,
+                  arrival_date: time.formatDate(data.arrival_date),
+                  departure_date: time.formatDate(data.departure_date),
+                  time: time.formatTime(data.arrival_time),
+                  room_ids: [],
+                  reservation: data.reservation,
+                  type: data.type
+                };
+
+                return dataFormatEdit;
+            }
+
             return {
               getAvailableDate: getAvailableDate,
               store: store,
               getEnabledRooms: getEnabledRooms,
               getConfirmDateRooms: getConfirmDateRooms,
               formatData: formatData,
-              sendRenovateDate: sendRenovateDate
+              sendRenovateDate: sendRenovateDate,
+              formatDataEdit: formatDataEdit,
+              updateReservationDate: updateReservationDate
             }
 
         }

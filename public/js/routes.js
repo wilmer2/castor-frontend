@@ -30,18 +30,23 @@
             url : "/rental",
             templateUrl: "/views/rentals"
          })
-         .state('menu.rental.create', {
+         /*.state('menu.rental.create', {
             url: "/create/:id",
             templateUrl: "/views/rentals/create-rental.html",
             controller: "rentalCreate",
             params: {
              id: null
             }
-         })
+         })*/
          .state('menu.rental.renovate_date', {
             url: "/{id}/renovate-date",
             templateUrl: "/views/rentals/renovate-date.html",
             controller: 'renovateDate'
+         })
+         .state('menu.rental.reservation_date_edit', {
+            url: "/{id}/reservation-date/edit",
+            templateUrl: "/views/rentals/reservation-date-edit.html",
+            controller: "reservationDateEdit"
          })
          .state('menu.client', {
             url: "/client",

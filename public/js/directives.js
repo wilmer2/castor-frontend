@@ -41,7 +41,7 @@
     .directive('entryRoom', function () {
         return {
           restrict: 'E',
-          templateUrl: '/partials/entry-room.html'
+          templateUrl: '/partials/entry-rental.html'
         }
     })
 
@@ -56,6 +56,13 @@
         return {
           restrict: 'E',
           templateUrl: '/partials/panel-static-room.html'
+        }
+    })
+
+    .directive('reservationDate', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/entry-reservation-date.html'
         }
     })
        

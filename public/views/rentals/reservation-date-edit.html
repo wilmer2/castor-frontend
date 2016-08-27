@@ -1,0 +1,44 @@
+<div ng-if="notFound">
+   Reservación no encontrada
+</div>
+
+<div ng-if="loading">
+<div ng-if="!rental.reservation">
+    La reservación ya fue confirmada
+</div>
+
+<div ng-if="rental.type == 'hours' && rental.reservation">
+   La reservación  debe ser por  días
+</div>
+
+<form ng-submit="updateReservationDate($event)">
+  <div ng-if="rental.type == 'days' && rental.reservation">
+    <reservation-date></reservation-date>
+  </div>
+  <div>
+     <div ng-if="select && rooms.length > 0 && rooms.length  >= currentRooms.length">
+      Algunas de las habitaciones no estan disponibles por esta fechas,
+      seleccione nuevas para remplazar
+    </div>
+    <div class="col-lg-3" ng-repeat="room in rooms" ng-show="rooms.length > 0 && rooms.length >= currentRooms.length" >
+      <panel-room></panel-room>
+    </div>
+    <div ng-if="loadingRoom">
+       <div ng-if="rooms.length == 0">
+          No hay habitaciones disponibles para estas fechas
+       </div>
+       <span ng-bind="countRoom" ng-show="rooms.length >= currentRooms.length"></span>
+       <span ng-show="rooms.length >= currentRooms.length">/</span>
+       <span ng-bind="maxRoom"  ng-show="rooms.length >= currentRooms.length"></span>
+       <div ng-if="rooms.length > 0 &&  currentRooms.length > rooms.length">
+            Algunas de las habitaciones no estan disponibles por estas fechas y no se cuenta con la cantidad suficiente para reemplazarlas
+       </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary"  
+     ng-show="rooms.length > 0 && rooms.length  >= currentRooms.length" ng-disabled="!all">   
+     Enviar
+  </button>
+</form>
+  
+</div>

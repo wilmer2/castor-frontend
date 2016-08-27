@@ -1,7 +1,7 @@
 (function () {
     angular.module('castor.controllers')
 
-    .controller('rentalCreate', [
+    /*.controller('rentalCreate', [
         '$scope', 
         '$http', 
         '$stateParams',
@@ -104,7 +104,7 @@
                 })
             }
         }
-    ])
+    ])*/
 
     .controller('renovateDate', [
         '$scope', 
@@ -170,8 +170,8 @@
                 })
             }
 
-            $scope.loadRooms = function (roomsAvailables) {
-                var rooms = extendRoomService.extendRooms(roomsAvailables);
+            $scope.loadRooms = function (roomsAvailable) {
+                var rooms = extendRoomService.extendRooms(roomsAvailable);
 
                 $scope.rooms = extendRoomService.previouslySelectedRoom($scope.currentRooms, rooms);
                 $scope.rental.room_ids = extendRoomService.addPreviouslySelectedRoom($scope.rooms, $scope.rental.room_ids);
