@@ -41,7 +41,12 @@
          .state('menu.rental.renovate_date', {
             url: "/{id}/renovate-date",
             templateUrl: "/views/rentals/renovate-date.html",
-            controller: 'renovateDate'
+            controller: "renovateDate"
+         })
+         .state('menu.rental.revenovate_hour', {
+            url: "/{id}/renovate-hour",
+            templateUrl: "/views/rentals/renovate-hour.html",
+            controller: "renovateHour"
          })
          .state('menu.rental.reservation_date_edit', {
             url: "/{id}/reservation-date/edit",

@@ -89,6 +89,19 @@
                 return deferred.promise;
             }
 
+            function sendRenovateHour(rental) {
+                var deferred = $q.defer();
+                var location = 'rentals/' + rental.id + '/renovate_hour';
+
+                $http.put(Backend.url + location, rental).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                })
+
+                return deferred.promise;
+            }
+
             function updateReservationDate(rental) {
                 var deferred = $q.defer();
                 var location = 'rentals/' + rental.id + '/reservation_date';
@@ -122,7 +135,8 @@
                   arrival_time: data.arrival_time,
                   departure_time: data.departure_time,
                   static_rooms: [],
-                  room_ids: []
+                  room_ids: [],
+                  checkout: data.checkout
                 };
 
                 if(data.departure_date == null) {
@@ -140,10 +154,12 @@
                   arrival_date: time.formatDate(data.arrival_date),
                   departure_date: time.formatDate(data.departure_date),
                   time: time.formatTime(data.arrival_time),
+                  departure_time: data.departure_time,
                   room_ids: [],
                   state: data.state,
                   reservation: data.reservation,
-                  type: data.type
+                  type: data.type,
+                  checkout: data.checkout
                 };
 
                 return dataFormatEdit;
@@ -158,7 +174,8 @@
                   room_ids: [],
                   state: data.state,
                   reservation: data.reservation,
-                  type: data.type
+                  type: data.type,
+                  checkout: data.checkout
                 }
 
                 return dateHourFormat;
@@ -174,6 +191,7 @@
               formatDataEdit: formatDataEdit,
               formatHourDataEdit: formatHourDataEdit,
               sendRenovateDate: sendRenovateDate,
+              sendRenovateHour: sendRenovateHour,
               updateReservationDate: updateReservationDate,
               updateReservationHour: updateReservationHour
             }

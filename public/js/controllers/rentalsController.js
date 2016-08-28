@@ -250,8 +250,130 @@
                     showMessage.error(err.data.message);
                 });
             }
-
         }
      ])
+
+     .controller('renovateHour', [
+         '$scope',
+         '$stateParams',
+         'showMessage',
+         'time',
+         'extendRoomService',
+         'rentalService',
+
+         function (
+            $scope,
+            $stateParams,
+            showMessage,
+            time,
+            extendRoomService,
+            rentalService
+        ) {
+             $scope.notFound = false;
+             $scope.loading = false;
+             $scope.loadingRoom = false;
+
+             rentalService.getEnabledRooms($stateParams.id)
+             .then(function (data) {
+                $scope.rental = rentalService.formatDataEdit(data.rental);
+                $scope.currentRooms = extendRoomService.extendRooms(data.available_rooms);
+                $scope.loading = true;
+             })
+            .catch(function (err) {
+                $scope.notFound = true;
+            });
+
+            $scope.availableHourRooms = function ($event) {
+                $event.preventDefault();
+
+                if(
+                    $scope.rental.renovate_hour == '' || 
+                    $scope.rental.renovate_hour == undefined
+                ) {
+                    showMessage.error('Debe ingresar cantidad de horas a renovar');
+                    return false;
+                }
+
+                $scope.rooms = [];
+                $scope.rental.room_ids = [];
+                $scope.maxRoom = 0;
+                $scope.all = false;
+                $scope.countRoom = 0;
+                $scope.loadingRoom = false;
+
+                var renovateHour = time.sumHours(
+                    time.formatTime($scope.rental.departure_time), 
+                    $scope.rental.renovate_hour
+               );
+
+               rentalService.getConfirmHourRooms(
+                  $scope.rental.id, 
+                  time.filterDate($scope.rental.departure_date), 
+                  $scope.rental.departure_time, 
+                  renovateHour
+               )
+               .then(function (data) {
+                   $scope.loadingRoom = true;
+                   $scope.select = data.select;
+
+                   $scope.loadRooms(data.rooms);
+               })
+               .catch(function (err) {
+                  $scope.loadingRoom = true;
+                  showMessage.error(err.data.message);
+               })
+            }
+
+            $scope.loadRooms = function (roomsAvailable) {
+                var rooms = extendRoomService.extendRooms(roomsAvailable);
+
+                $scope.rooms = extendRoomService.previouslySelectedRoom($scope.currentRooms, rooms);
+                $scope.rental.room_ids = extendRoomService.addPreviouslySelectedRoom($scope.rooms, $scope.rental.room_ids);
+                $scope.countRoom = $scope.rental.room_ids.length;
+                $scope.maxRoom = extendRoomService.maxRoom($scope.currentRooms, $scope.rooms);
+
+                $scope.countAll();
+            }
+
+            $scope.addRoom = function (roomId) {
+                $scope.rental.room_ids = extendRoomService.addRoom(
+                    $scope.rooms,
+                    $scope.rental.room_ids,
+                    roomId
+                );
+                
+                $scope.countRoom ++;
+                $scope.countAll();
+            }
+
+            $scope.detachRoom = function (roomId) {
+                $scope.rental.room_ids = extendRoomService.detachRoom(
+                    $scope.rooms,
+                    $scope.rental.room_ids,
+                    roomId
+                )
+                
+                $scope.countRoom --;
+                $scope.countAll();
+            }
+
+            $scope.countAll = function () {
+                $scope.all = $scope.rental.room_ids.length == $scope.maxRoom;
+            }
+
+            $scope.sendRenovateHour = function ($event) {
+                $event.preventDefault();
+
+                rentalService.sendRenovateHour($scope.rental).then(function (rental) {
+                     console.log(rental.id);
+                     showMessage.success('Renovacion registrada');
+                })
+                .catch(function (err) {
+                     showMessage.error(err.data.message);
+                })
+            }
+
+         }
+      ])
 
 })(_);

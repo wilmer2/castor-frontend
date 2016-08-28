@@ -89,6 +89,17 @@
             }
         }
 
+        function sumHours(hour, extraHour) {
+            var splitExtraTime = extraHour.split(':');
+            var sumTime =  parseInt(splitExtraTime[0]);
+            var addedTime = hour.getHours() + sumTime; 
+            var totalTime = addedTime.toString();
+            
+            totalTime += ':' + splitExtraTime[1] + ':' + splitExtraTime[2];
+
+            return totalTime;
+        }
+
         return {
           getHour: getHour,
           getDate: getDate,
@@ -96,7 +107,8 @@
           filterDate: filterDate,
           formatDate: formatDate,
           formatTime: formatTime,
-          setTime: setTime
+          setTime: setTime,
+          sumHours: sumHours
         }
     }])
 })();
