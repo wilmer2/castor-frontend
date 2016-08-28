@@ -80,6 +80,13 @@
         }
     })
 
+    .directive('btnAdd', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/btn-rental-add.html'
+        }
+    })
+
     .directive('countRental', function () {
         return {
           restrict: 'E',

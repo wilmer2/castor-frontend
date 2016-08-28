@@ -376,4 +376,78 @@
          }
       ])
 
+      .controller('addRoomDate', [
+         '$scope',
+         '$stateParams',
+         'showMessage',
+         'time',
+         'extendRoomService',
+         'rentalService',
+
+         function (
+            $scope,
+            $stateParams,
+            showMessage,
+            time,
+            extendRoomService,
+            rentalService
+         ) {
+              $scope.notFound = false;
+              $scope.loading = false;
+              $scope.loadingRoom = false;
+              $scope.all = false;
+
+              rentalService.getRental($stateParams.id)
+              .then(function (data) {
+                 $scope.rental = rentalService.formatDataEdit(data);
+                 $scope.loading = true;
+                 $scope.availableDateRooms();
+              })
+              .catch(function (err) {
+                 $scope.notFound = true;
+              });
+
+              $scope.availableDateRooms = function () {
+                 $scope.rooms = [];
+
+                 rentalService.getAvailableDate(
+                   time.getDate(),
+                   time.filterDate($scope.rental.departure_date),
+                   time.getHour()
+                 ).then(function (rooms) {
+                     $scope.loadingRoom = true;
+                     $scope.rooms = extendRoomService.extendRooms(rooms);
+                 });
+              }
+
+              $scope.addRoom = function (roomId) {
+                 $scope.rental.room_ids = extendRoomService.addRoom(
+                     $scope.rooms,
+                     $scope.rental.room_ids,
+                     roomId
+                 );
+              }
+
+              $scope.detachRoom = function (roomId) {
+                 $scope.rental.room_ids = extendRoomService.detachRoom(
+                     $scope.rooms,
+                     $scope.rental.room_ids,
+                     roomId
+                 );
+              }
+
+              $scope.addRoomForDate = function () {
+                rentalService.addRoomForDate($scope.rental)
+                .then(function (rental) {
+                    console.log(rental);
+                    showMessage.success('Las habitaciones han sido agregadas');
+                })
+                .catch(function (err) {
+                    showMessage.error(err.data.message);
+                })
+              }
+
+          }
+      ])
+
 })(_);

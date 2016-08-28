@@ -1,0 +1,18 @@
+<div ng-if="notFound">
+   Hospedaje no encontrada
+</div>
+<div ng-if="rental.checkout">
+     El hospedaje ya tiene salida
+</div>
+<div ng-if="loading && !rental.checkout"> 
+  <form ng-submit="addRoomForDate($event)">
+     <div ng-if="rooms.length == 0 && loadingRoom">
+          No hay habitaciones disponibles para renovar
+      </div>
+      <div class="col-lg-3" ng-repeat="room in rooms" ng-show="rooms.length > 0">
+           <panel-room></panel-room>
+      </div>
+      <btn-add></btn-add>
+  </form> 
+
+</div>

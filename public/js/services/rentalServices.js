@@ -3,6 +3,20 @@
 
     .factory('rentalService', ['$http', '$q', 'time' ,'Backend',
         function ($http, $q, time, Backend) {
+
+            function getRental(id) {
+                var deferred = $q.defer();
+                var location = 'rentals/' + id;
+
+                $http.get(Backend.url + location).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            }
+
             function getAvailableDate(arrivalDate, departureDate, arrivalTime) {
                var deferred = $q.defer();
                var location = 'rooms/available_date/' + arrivalDate + '/' + departureDate + '/' + arrivalTime;
@@ -73,6 +87,19 @@
                     deferred.reject(err);
                 });
 
+                return deferred.promise;
+            }
+
+            function addRoomForDate(rental) {
+                var deferred = $q.defer();
+                var location = 'rentals/' + rental.id + '/add_rooms/date';
+
+                $http.post(Backend.url + location, rental).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                })
+                
                 return deferred.promise;
             }
 
@@ -182,6 +209,7 @@
             }
 
             return {
+              getRental: getRental,
               getAvailableDate: getAvailableDate,
               store: store,
               getEnabledRooms: getEnabledRooms,
@@ -192,6 +220,7 @@
               formatHourDataEdit: formatHourDataEdit,
               sendRenovateDate: sendRenovateDate,
               sendRenovateHour: sendRenovateHour,
+              addRoomForDate: addRoomForDate,
               updateReservationDate: updateReservationDate,
               updateReservationHour: updateReservationHour
             }

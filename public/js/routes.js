@@ -38,6 +38,11 @@
              id: null
             }
          })*/
+         .state('menu.rental.add_room_date', {
+            url: "/{id}/add-room-date",
+            templateUrl: "/views/rentals/add-date.html",
+            controller: "addRoomDate"
+         })
          .state('menu.rental.renovate_date', {
             url: "/{id}/renovate-date",
             templateUrl: "/views/rentals/renovate-date.html",
