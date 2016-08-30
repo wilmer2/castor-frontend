@@ -31,18 +31,19 @@
             url : "/rental",
             templateUrl: "/views/rentals"
          })
-         /*.state('menu.rental.create', {
-            url: "/create/:id",
-            templateUrl: "/views/rentals/create-rental.html",
-            controller: "rentalCreate",
+         .state('menu.rental.create_date', {
+            url: "/date/:link/:id",
+            templateUrl: "/views/rentals/create-rental-date.html",
+            controller: "rentalCreateDate",
             params: {
-             id: null
+               link: 'create',
+               id: null
             }
-         })*/
+         })
          .state('menu.rental.create_hour', {
             url: "/hour/:link/:id",
             templateUrl: "/views/rentals/create-rental-hour.html",
-            controller: 'rentalCreateHour',
+            controller: "rentalCreateHour",
             params: {
                link: 'create',
                id: null
@@ -51,7 +52,7 @@
          .state('menu.rental.reservation_hour', {
             url: "/reservation-hour/:link/:id",
             templateUrl: "/views/rentals/create-reservation-hour.html",
-            controller: 'reservationHourCreate',
+            controller: "reservationHourCreate",
             params: {
                link: 'create',
                id: null
@@ -60,7 +61,7 @@
          .state('menu.rental.reservation_date', {
             url: "/reservation-date/:link/:id",
             templateUrl: "/views/rentals/create-reservation-date.html",
-            controller: 'reservationDateCreate',
+            controller: "reservationDateCreate",
             params: {
                link: 'create',
                id: null

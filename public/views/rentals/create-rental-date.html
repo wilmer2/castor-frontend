@@ -1,0 +1,25 @@
+<div ng-if="notFound">
+   Cliente no encontrado
+</div>
+
+<form ng-if="!notFound && loading"  ng-submit="sendData($event)">
+   <identity-card></identity-card>
+   <input type="date" ng-model="rental.departure_date">
+   <button class="btn btn-success btn-flat btn-sm" ng-click="availableDateRoom($event)">     
+      Disponibilidad de habitaciones
+   </button>
+   <btn-create></btn-create>
+</form>
+
+<div ng-if="loadingRoom && !notFound">
+  <div ng-show="rooms.length > 0">
+      <div class="col-lg-3" ng-repeat="room in rooms" >
+        <panel-room></panel-room>
+      </div>
+   </div>
+   <div ng-if="rooms.length == 0">
+    <div>
+        No hay habitaciones disponibles por estas fechas
+     </div>
+   </div>
+</div>
