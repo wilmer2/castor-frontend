@@ -15,6 +15,7 @@
           $stateParams,
           showMessage,
           time,
+          extendRoomService,
           rentalService,
           clientService
        ) {
@@ -33,7 +34,7 @@
 
                 $scope.rental.arrival_time = time.setTime($scope.rental.time);
 
-                if(!time.validDateTime($scope.rental)) {
+                if(!time.validDepartue($scope.rental)) {
                     return;
                 }
 
@@ -67,6 +68,45 @@
                 });
             } else {
                 $scope.loading = true;
+            }
+
+            $scope.addRoom = function (roomId) {
+                $scope.rental.room_ids = extendRoomService.addRoom(
+                    $scope.rooms,
+                    $scope.rental.room_ids,
+                    roomId
+                );
+               
+            }
+
+            $scope.detachRoom = function (roomId) {
+                $scope.rental.room_ids = extendRoomService.detachRoom(
+                    $scope.rooms,
+                    $scope.rental.room_ids,
+                    roomId
+                );
+            }
+
+            $scope.sendDateData = function ($event) {
+                $event.preventDefault();
+
+                if($scope.client.id == undefined && $scope.rental.identity_card == '') {
+                    showMessage.error('La cedula es obligatoria');
+
+                    return false;
+                }
+
+               rentalService.storeReservation($scope.client.id, $scope.rental)
+               .then(function (rental) {
+                  showMessage.success('La reservacion ha sido registrada');
+               })
+               .catch(function (err) {
+                  if(err.status == 404) {
+                     showMessage.error('Cliente no registrado');
+                  } else {
+                     showMessage.error(err.data.message);
+                  }
+               })
             }
 
        }

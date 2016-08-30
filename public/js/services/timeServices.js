@@ -2,6 +2,12 @@
     angular.module('castor.services')
 
     .factory('time', ['$filter', 'showMessage', function ($filter, showMessage) {
+        var errors = [];
+
+        function clearErrors () {
+            errors = [];
+        }
+
         function getHour() {
            var time = new Date();
            var hour = time.getHours();
@@ -103,8 +109,6 @@
         }
 
         function validDateTime(data) {
-            var errors = [];
-
             if(data.arrival_date == null || data.arrival_date == '') {
                 errors.push('La fecha es obligatoria');
             }
@@ -115,11 +119,26 @@
 
             if(errors.length > 0) {
                 showMessage.error(errors);
+                this.clearErrors();
 
                 return false;
             }
 
             return true;
+        }
+
+        function validDepartue(data) {
+            var valid = true;
+
+            if(data.departure_date == null || data.departure_date == '') {
+                valid = false;
+
+                errors.push('La fecha de salida es obligatoria');
+            }
+
+            var valid = this.validDateTime(data);
+
+            return valid;
         }
 
         function getEndTime (fromTime, timeClose, minimumTime) {
@@ -143,7 +162,9 @@
           formatTime: formatTime,
           setTime: setTime,
           sumHours: sumHours,
-          validDateTime: validDateTime
+          validDateTime: validDateTime,
+          validDepartue: validDepartue,
+          clearErrors: clearErrors
         }
     }])
 })();
