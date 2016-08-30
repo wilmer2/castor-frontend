@@ -1,7 +1,7 @@
 (function () {
     angular.module('castor.services')
 
-    .factory('time', ['$filter', function ($filter) {
+    .factory('time', ['$filter', 'showMessage', function ($filter, showMessage) {
         function getHour() {
            var time = new Date();
            var hour = time.getHours();
@@ -94,21 +94,56 @@
             var sumTime =  parseInt(splitExtraTime[0]);
             var addedTime = hour.getHours() + sumTime; 
             var totalTime = addedTime.toString();
-            
-            totalTime += ':' + splitExtraTime[1] + ':' + splitExtraTime[2];
+            var currentTime = this.setTime(hour);
+            var splitCurrentTime = currentTime.split(':');
+
+            totalTime += ':' + splitCurrentTime[1] + ':' + splitCurrentTime[2];
 
             return totalTime;
+        }
+
+        function validDateTime(data) {
+            var errors = [];
+
+            if(data.arrival_date == null || data.arrival_date == '') {
+                errors.push('La fecha es obligatoria');
+            }
+
+            if(data.arrival_time == null || data.arrival_time == '') {
+                errors.push('La hora de llegada es obligatoria');
+            }
+
+            if(errors.length > 0) {
+                showMessage.error(errors);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        function getEndTime (fromTime, timeClose, minimumTime) {
+            var fromTimeFormat = this.formatTime(fromTime);
+            var endTime = this.setTime(timeClose);
+
+            if(endTime == null) {
+                endTime = this.sumHours(fromTimeFormat, minimumTime);
+            }
+
+            return endTime;
         }
 
         return {
           getHour: getHour,
           getDate: getDate,
+          getEndTime: getEndTime,
           getDayAfter: getDayAfter,
           filterDate: filterDate,
           formatDate: formatDate,
           formatTime: formatTime,
           setTime: setTime,
-          sumHours: sumHours
+          sumHours: sumHours,
+          validDateTime: validDateTime
         }
     }])
 })();

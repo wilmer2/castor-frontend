@@ -1,6 +1,207 @@
 (function () {
    angular.module('castor.controllers')
 
+   .controller('reservationDateCreate', [
+       '$scope',
+       '$stateParams',
+       'showMessage',
+       'time',
+       'extendRoomService',
+       'rentalService',
+       'clientService',
+
+       function (
+          $scope,
+          $stateParams,
+          showMessage,
+          time,
+          rentalService,
+          clientService
+       ) {
+            $scope.loadingRoom = false;
+            $scope.client = {};
+            $scope.notFound = false;
+            $scope.loading = false;
+
+            $scope.rental = {
+               identity_card: '',
+               type: 'days'
+            };
+
+            $scope.availableDateReservationRoom = function ($event) {
+                $event.preventDefault();
+
+                $scope.rental.arrival_time = time.setTime($scope.rental.time);
+
+                if(!time.validDateTime($scope.rental)) {
+                    return;
+                }
+
+                $scope.rooms = [];
+                $scope.rental.room_ids = [];
+
+                rentalService.getAvailableDate(
+                  time.filterDate($scope.rental.arrival_date),
+                  time.filterDate($scope.rental.departure_date),
+                  time.setTime($scope.rental.time)
+                )
+                .then(function(rooms) {
+                    $scope.loadingRoom = true;
+                    $scope.rooms = extendRoomService.extendRooms(rooms);
+
+                })
+                .catch(function (err) {
+                    $scope.loadingRoom = true;
+                    showMessage.error(err.data.message);
+                })
+            }
+
+            if($stateParams.id != null) {
+                clientService.getClient($stateParams.id)
+                .then(function (client) {
+                    $scope.loading = true;
+                    $scope.client = client;
+                })
+                .catch(function (err) {
+                    $scope.notFound = true;
+                });
+            } else {
+                $scope.loading = true;
+            }
+
+       }
+    ])
+
+   .controller('reservationHourCreate', [
+       '$scope',
+       '$stateParams',
+       'showMessage',
+       'time',
+       'extendRoomService',
+       'rentalService',
+       'settingService',
+       'clientService',
+
+       function (
+          $scope,
+          $stateParams,
+          showMessage,
+          time,
+          extendRoomService,
+          rentalService,
+          settingService,
+          clientService
+       ) {
+             $scope.loadingRoom = false;
+             $scope.client = {};
+             $scope.notFound = false;
+             $scope.loading = false;
+
+             $scope.rental = {
+                identity_card: '',
+                type: 'hours'
+             };
+
+             $scope.availableHourReservationRoom = function ($event) {
+                $event.preventDefault();
+
+                var currentTime = time.getHour();
+                var endTime = time.getEndTime(
+                   currentTime,
+                   $scope.rental.time_close, 
+                   $scope.setting.time_minimum
+                );
+
+                $scope.rental.arrival_date = time.filterDate($scope.rental.start_date);
+                $scope.rental.arrival_time = time.setTime($scope.rental.time);
+
+                if(!time.validDateTime($scope.rental)) {
+                    return;
+                }
+
+                $scope.rooms = [];
+                $scope.rental.room_ids = [];
+
+                rentalService.getAvailableHour(
+                    $scope.rental.arrival_date,
+                    $scope.rental.arrival_time,
+                    endTime
+                )
+                .then(function (rooms) {
+                    $scope.loadingRoom = true;
+                    $scope.rooms = extendRoomService.extendRooms(rooms);
+                })
+                .catch(function (err) {
+                    $scope.loadingRoom = true;
+                    showMessage.error(err.data.message);
+                })
+             }
+
+             $scope.loadSetting = function () {
+                settingService.getSetting()
+                .then(function (setting) {
+                    $scope.setting = setting;
+                    $scope.loading = true;
+                })
+             }
+
+             if($stateParams.id != null) {
+                clientService.getClient($stateParams.id)
+                .then(function (client) {
+                    $scope.client = client;
+                    $scope.loadSetting();
+
+                })
+                .catch(function (err) {
+                    $scope.notFound = true;
+                });
+             } else {
+                $scope.loadSetting();
+             }
+
+             $scope.addRoom = function (roomId) {
+                $scope.rental.room_ids = extendRoomService.addRoom(
+                    $scope.rooms,
+                    $scope.rental.room_ids,
+                    roomId
+                );
+               
+            }
+
+            $scope.detachRoom = function (roomId) {
+                $scope.rental.room_ids = extendRoomService.detachRoom(
+                    $scope.rooms,
+                    $scope.rental.room_ids,
+                    roomId
+                )
+            }
+
+            $scope.sendReservation = function ($event) {
+                $event.preventDefault();
+
+                if($scope.client.id == undefined && $scope.rental.identity_card == '') {
+                    showMessage.error('La cedula es obligatoria');
+
+                    return false;
+                }
+
+               rentalService.storeReservation($scope.client.id, $scope.rental)
+               .then(function (rental) {
+                  console.log(rental.id);
+                  showMessage.success('La reservacion ha sido registrada');
+               })
+               .catch(function (err) {
+                  if(err.status == 404) {
+                     showMessage.error('Cliente no registrado');
+                  } else {
+                     showMessage.error(err.data.message);
+                  }
+               })
+            }
+
+       }
+    ])
+
    .controller('reservationDateEdit',  [
        '$scope', 
        '$stateParams', 

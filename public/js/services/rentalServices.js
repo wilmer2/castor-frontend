@@ -18,20 +18,46 @@
             }
 
             function getAvailableDate(arrivalDate, departureDate, arrivalTime) {
-               var deferred = $q.defer();
-               var location = 'rooms/available_date/' + arrivalDate + '/' + departureDate + '/' + arrivalTime;
+                var deferred = $q.defer();
+                var location = 'rooms/available_date/' + arrivalDate + '/' + departureDate + '/' + arrivalTime;
 
-               $http.get(Backend.url + location).then(function (res) {
-                   deferred.resolve(res.data);
-               }, function (err) {
-                   deferred.reject(err);
-               });
+                $http.get(Backend.url + location).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
 
-               return deferred.promise;
+                return deferred.promise;
+            }
+
+            function getAvailableHour(arrivalDate, arrivalTime, departureTime) {
+                var deferred = $q.defer();
+                var location = 'rooms/available_hour/' + arrivalDate + '/' + arrivalTime + '/' + departureTime;
+
+                $http.get(Backend.url + location).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+                
+                return deferred.promise;
+            }
+
+            function getAvailableHourAdd(arrivalDate, arrivalTime, departureTime) {
+                var deferred = $q.defer();
+                var location = 'rooms/available_hour/add/'  + arrivalDate + '/' + arrivalTime + '/' + departureTime;
+                
+                $http.get(Backend.url + location).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
             }
 
             function hasClient(clientId, route) {
-                if(clientId != null) {
+                if(clientId != null && clientId != undefined) {
                     route += '?clientId=' + clientId;
                 }
 
@@ -42,6 +68,19 @@
                 var deferred = $q.defer();
                 var location = hasClient(clientId, 'rentals');
 
+                $http.post(Backend.url + location, data).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            }
+
+            function storeReservation(clientId, data) {
+                var deferred = $q.defer();
+                var location = hasClient(clientId, 'rentals/reservation');
+                
                 $http.post(Backend.url + location, data).then(function (res) {
                     deferred.resolve(res.data);
                 }, function (err) {
@@ -98,10 +137,36 @@
                     deferred.resolve(res.data);
                 }, function (err) {
                     deferred.reject(err);
-                })
+                });
                 
                 return deferred.promise;
             }
+
+            function addRoomForHour(rental) {
+                var deferred = $q.defer();
+                var location = 'rentals/' + rental.id + '/add_rooms/hour';
+                
+                $http.post(Backend.url + location, rental).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            }
+
+            function changeRoom(rental, roomId) {
+                var deferred = $q.defer();
+                var location = 'rentals/' + rental.id + '/room/' + roomId + '/change';
+                
+                $http.post(Backend.url + location, rental).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                })
+
+                return deferred.promise;
+            } 
 
             function sendRenovateDate(rental) {
                 var deferred = $q.defer();
@@ -186,7 +251,8 @@
                   state: data.state,
                   reservation: data.reservation,
                   type: data.type,
-                  checkout: data.checkout
+                  checkout: data.checkout,
+                  available_change: data.available_change
                 };
 
                 return dataFormatEdit;
@@ -202,7 +268,8 @@
                   state: data.state,
                   reservation: data.reservation,
                   type: data.type,
-                  checkout: data.checkout
+                  checkout: data.checkout,
+                  availableChange: data.availableChange
                 }
 
                 return dateHourFormat;
@@ -211,16 +278,21 @@
             return {
               getRental: getRental,
               getAvailableDate: getAvailableDate,
+              getAvailableHourAdd: getAvailableHourAdd,
+              getAvailableHour: getAvailableHour,
               store: store,
+              storeReservation: storeReservation,
               getEnabledRooms: getEnabledRooms,
               getConfirmDateRooms: getConfirmDateRooms,
               getConfirmHourRooms: getConfirmHourRooms,
+              changeRoom: changeRoom,
               formatData: formatData,
               formatDataEdit: formatDataEdit,
               formatHourDataEdit: formatHourDataEdit,
               sendRenovateDate: sendRenovateDate,
               sendRenovateHour: sendRenovateHour,
               addRoomForDate: addRoomForDate,
+              addRoomForHour: addRoomForHour,
               updateReservationDate: updateReservationDate,
               updateReservationHour: updateReservationHour
             }

@@ -1,0 +1,28 @@
+<div ng-if="notFound">
+   Hospedaje no encontrada
+</div>
+<div ng-if="roomNotFound">
+  Habitacion no encontrada
+</div>
+<div ng-if="loading">
+  <div ng-if="rental.checkout">
+     El hospedaje ya tiene salida
+  </div>
+  <div ng-if="rooms.length == 0 && loadingRoom">
+     No hay habitaciones disponibles para cambio
+  </div>
+  <form ng-submit="changeRoom($event)" ng-if="rooms.length > 0">
+      <label ng-if="!rental.reservation">Seleccione estado habitacion</label>
+      <select ng-model="rental.state"  ng-if="!rental.reservation">
+          <option value="disponible">disponible</option>
+          <option value="mantenimiento">mantenimiento</option>
+      </select>
+      <div class="col-lg-3" ng-repeat="room in rooms">
+           <panel-room></panel-room>
+      </div>
+      <button class="btn btn-success" ng-disabled="rental.room_id == ''" ng-show="rooms.length > 0">  
+           Enviar
+      </button>
+  </form> 
+
+</div>

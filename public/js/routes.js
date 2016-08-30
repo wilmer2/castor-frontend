@@ -1,3 +1,4 @@
+
 (function () {
 
   angular.module('castor.routes', [])
@@ -38,10 +39,47 @@
              id: null
             }
          })*/
+         .state('menu.rental.create_hour', {
+            url: "/hour/:link/:id",
+            templateUrl: "/views/rentals/create-rental-hour.html",
+            controller: 'rentalCreateHour',
+            params: {
+               link: 'create',
+               id: null
+            }
+         })
+         .state('menu.rental.reservation_hour', {
+            url: "/reservation-hour/:link/:id",
+            templateUrl: "/views/rentals/create-reservation-hour.html",
+            controller: 'reservationHourCreate',
+            params: {
+               link: 'create',
+               id: null
+            }
+         })
+         .state('menu.rental.reservation_date', {
+            url: "/reservation-date/:link/:id",
+            templateUrl: "/views/rentals/create-reservation-date.html",
+            controller: 'reservationDateCreate',
+            params: {
+               link: 'create',
+               id: null
+            }
+         })
+         .state('menu.rental.room_change', {
+            url: "/{id}/room/{roomId}/change",
+            templateUrl: "/views/rentals/change-room.html",
+            controller: "changeRoom"
+         })
          .state('menu.rental.add_room_date', {
             url: "/{id}/add-room-date",
             templateUrl: "/views/rentals/add-date.html",
             controller: "addRoomDate"
+         })
+         .state('menu.rental.add_room_hour', {
+            url: "/{id}/add-room-hour",
+            templateUrl: "/views/rentals/add-hour.html",
+            controller: "addRoomHour"
          })
          .state('menu.rental.renovate_date', {
             url: "/{id}/renovate-date",

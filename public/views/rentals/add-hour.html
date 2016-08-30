@@ -1,0 +1,30 @@
+<div ng-if="notFound">
+   Hospedaje no encontrada
+</div>
+
+<div ng-if="loading">
+  <div ng-if="rental.checkout">
+     El hospedaje ya tiene salida
+  </div> 
+  <div ng-if="rental.type == 'days' && !rental.checkout">
+      El hospedaje debe ser por horas
+  </div>
+  <div ng-if="rental.available_change">
+    <div ng-if="!rental.reservation && rooms.length > 0">
+        Tiene una hora para agregar habitaciones,  a partir de 
+        <span ng-bind="rental.arrival_time"></span>
+    </div>
+    <form ng-submit="addRoomForHour($event)" ng-if="rental.type == 'hours' && !rental.checkout">
+     <div ng-if="rooms.length == 0 && loadingRoom">
+          No hay habitaciones disponibles
+      </div>
+      <div class="col-lg-3" ng-repeat="room in rooms" ng-show="rooms.length > 0">
+           <panel-room></panel-room>
+      </div>
+      <btn-add></btn-add>
+     </form>
+  </div>
+  <div ng-if="!rental.available_change && !rental.checkout && rental.type == 'hours' ">
+      El tiempo para registrar habitaciones a expirado
+  </div>
+</div>

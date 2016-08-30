@@ -43,6 +43,14 @@
             return selectedRooms;
          }
 
+         function findRoom(rooms, roomId) {
+            var room = _.find(rooms, function (room) {
+                return room.roomId == roomId
+            });
+
+            return room;
+         }
+
         
          function addRoom(rooms, room_ids, id) {
             var room = _.find(rooms, function (room) {
@@ -103,7 +111,8 @@
             detachRoom: detachRoom,
             addPreviouslySelectedRoom: addPreviouslySelectedRoom,
             maxRoom: maxRoom,
-            countAllRoom: countAllRoom
+            countAllRoom: countAllRoom,
+            findRoom: findRoom
          }
      })
 

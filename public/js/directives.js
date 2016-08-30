@@ -80,6 +80,13 @@
         }
     })
 
+    .directive('btnCreate', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/btn-create.html'
+        }
+    })
+
     .directive('btnAdd', function () {
         return {
           restrict: 'E',
@@ -87,24 +94,17 @@
         }
     })
 
+    .directive('identityCard', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/identity-card.html'
+        }
+    })
+
     .directive('countRental', function () {
         return {
           restrict: 'E',
           templateUrl: '/partials/count-rental.html'
-        }
-    })
-
-    .directive('notFound', function () {
-        return {
-          restrict: 'E',
-          templateUrl: '/partials/not-found.html'
-        }
-    })
-
-    .directive('reservationConfirmed', function () {
-        return {
-          restrict: 'E',
-          templateUrl: '/partials/reservation-confirmed.html'
         }
     })
 
