@@ -8,7 +8,7 @@
     <input type="text" ng-model="rental.identity_card" ng-if="client.identity_card == null" placeholder="Cedula" >
    <label>Hora de salida (opcional)</label>
    <input type="time" ng-model="rental.time_close">
-   <button class="btn btn-success" ng-click="availableHourRooms()">Disponibilidad de habitaciones</button>
+   <button class="btn btn-success" ng-click="availableHourRooms($event)">Disponibilidad de habitaciones</button>
    <btn-create></btn-create>
 </form>
 
@@ -18,7 +18,7 @@
         <panel-room></panel-room>
       </div>
    </div>
-   <div ng-if="rooms.length == 0">
+   <div ng-if="rooms.length == 0 && loadingRoom">
     <div>
         No hay habitaciones disponibles en este momento
      </div>

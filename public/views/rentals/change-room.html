@@ -4,10 +4,11 @@
 <div ng-if="roomNotFound">
   Habitacion no encontrada
 </div>
+<div ng-if="rental.checkout">
+  El hospedaje ya tiene salida
+</div>
+
 <div ng-if="loading">
-  <div ng-if="rental.checkout">
-     El hospedaje ya tiene salida
-  </div>
   <div ng-if="rooms.length == 0 && loadingRoom">
      No hay habitaciones disponibles para cambio
   </div>
@@ -20,7 +21,7 @@
       <div class="col-lg-3" ng-repeat="room in rooms">
            <panel-room></panel-room>
       </div>
-      <button class="btn btn-success" ng-disabled="rental.room_id == ''" ng-show="rooms.length > 0">  
+      <button class="btn btn-success" ng-disabled="rental.room_id == ''" ng-show="rooms.length > 0"> 
            Enviar
       </button>
   </form> 
