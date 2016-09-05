@@ -40,6 +40,7 @@
 
                 $scope.rooms = [];
                 $scope.rental.room_ids = [];
+                $scope.loadingRoom = false;
 
                 rentalService.getAvailableDate(
                   time.filterDate($scope.rental.arrival_date),
@@ -145,13 +146,6 @@
              $scope.availableHourReservationRoom = function ($event) {
                 $event.preventDefault();
 
-                var currentTime = time.getHour();
-                var endTime = time.getEndTime(
-                   currentTime,
-                   $scope.rental.time_close, 
-                   $scope.setting.time_minimum
-                );
-
                 $scope.rental.arrival_date = time.filterDate($scope.rental.start_date);
                 $scope.rental.arrival_time = time.setTime($scope.rental.time);
 
@@ -159,13 +153,20 @@
                     return;
                 }
 
+                $scope.rental.departure_time = time.getEndTime(
+                   $scope.rental.arrival_time,
+                   $scope.rental.time_close, 
+                   $scope.setting.time_minimum
+                );
+
                 $scope.rooms = [];
                 $scope.rental.room_ids = [];
+                $scope.loadingRoom = false;
 
                 rentalService.getAvailableHour(
                     $scope.rental.arrival_date,
                     $scope.rental.arrival_time,
-                    endTime
+                    $scope.rental.departure_time
                 )
                 .then(function (rooms) {
                     $scope.loadingRoom = true;
@@ -281,12 +282,13 @@
                 $scope.all = false;
                 $scope.countRoom = 0;
                 $scope.loadingRoom = false;
+                $scope.rental.arrival_time = time.setTime($scope.rental.time);
 
                 rentalService.getConfirmDateRooms(
                   $scope.rental.id,
                   time.filterDate($scope.rental.arrival_date),
                   time.filterDate($scope.rental.departure_date),
-                  time.setTime($scope.rental.time)
+                  $scope.rental.arrival_time
                 )
                 .then(function(data) {
                     $scope.loadingRoom = true;
@@ -339,9 +341,6 @@
             }
 
             $scope.updateReservationDate = function () {
-
-                $scope.rental.arrival_time = time.setTime($scope.rental.time);
-
                 rentalService.updateReservationDate($scope.rental)
                 .then(function (rental) {
                     console.log(rental.id);
@@ -361,6 +360,7 @@
         'time',
         'extendRoomService',
         'rentalService',
+        'settingService',
 
         function (
            $scope,
@@ -368,7 +368,8 @@
            showMessage,
            time,
            extendRoomService,
-           rentalService
+           rentalService,
+           settingService
         ) {
             $scope.notFound = false;
             $scope.loadingRoom = false;
@@ -376,9 +377,14 @@
 
             rentalService.getEnabledRooms($stateParams.id)
             .then(function (data) {
-                $scope.loading = true;
                 $scope.rental = rentalService.formatHourDataEdit(data.rental);
                 $scope.currentRooms = extendRoomService.extendRooms(data.available_rooms);
+
+                return settingService.getSetting();
+            })
+            .then(function (setting) {
+                $scope.setting = setting;
+                $scope.loading = true;
             })
             .catch(function (err) {
                 $scope.notFound = true;
@@ -386,6 +392,19 @@
 
             $scope.availableHourReservationRoom = function ($event) {
                 $event.preventDefault();
+
+                $scope.rental.arrival_date = time.filterDate($scope.rental.start_date);
+                $scope.rental.arrival_time = time.setTime($scope.rental.time);
+
+                if(!time.validDateTime($scope.rental)) {
+                    return;
+                }
+
+                $scope.rental.departure_time = time.getEndTime(
+                   $scope.rental.arrival_time,
+                   $scope.rental.time_close, 
+                   $scope.setting.time_minimum
+                );
 
                 $scope.rooms = [];
                 $scope.rental.room_ids = [];
@@ -396,9 +415,9 @@
 
                 rentalService.getConfirmHourRooms(
                   $scope.rental.id,
-                  time.filterDate($scope.rental.start_date),
-                  time.setTime($scope.rental.time),
-                  time.setTime($scope.rental.time_close)
+                  $scope.rental.arrival_date,
+                  $scope.rental.arrival_time,
+                  $scope.rental.departure_time
                 )
                 .then(function (data) {
                     $scope.loadingRoom = true;
@@ -451,10 +470,6 @@
 
             $scope.updateReservationHour = function ($event) {
                 $event.preventDefault();
-                
-                $scope.rental.arrival_date = time.filterDate($scope.rental.start_date);
-                $scope.rental.arrival_time = time.setTime($scope.rental.time);
-                $scope.rental.departure_time = time.setTime($scope.rental.time_close);
 
                 rentalService.updateReservationHour($scope.rental)
                 .then(function (rental) {
