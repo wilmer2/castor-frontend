@@ -1,110 +1,5 @@
 (function () {
     angular.module('castor.controllers')
-
-    /*.controller('rentalCreate', [
-        '$scope', 
-        '$http', 
-        '$stateParams',
-        'showMessage', 
-        'time', 
-        'Backend', 
-        'extendRoomService',
-        'clientService',
-        'rentalService',
-
-        function (
-          $scope, 
-          $http, 
-          $stateParams, 
-          showMessage,
-          time, 
-          Backend, 
-          extendRoomService, 
-          clientService,
-          rentalService
-        ) {
-            
-            $scope.client = {};
-            $scope.notFound = false;
-
-            $scope.rental = {
-                departure_date: time.getDayAfter(),
-                type: 'days',
-                room_ids: []
-            };
-
-              $scope.searchRooms = function () {
-                var arrivalDate = time.getDate();
-                var arrivalTime = time.getHour();
-                var departureDate = time.filterDate($scope.rental.departure_date);
-
-                rentalService.getAvailableDate(arrivalDate, departureDate, arrivalTime)
-                .then(function (rooms) {
-                    $scope.rental.room_ids = [];
-                    $scope.rooms = extendRoomService.extendRooms(rooms);
-                })
-                .catch(function (res) {
-                    $scope.rental.room_ids = [];
-                    $scope.rooms = [];
-
-                    showMessage.error(res.data.message);
-                });
-            }
-
-            if($stateParams.id != null) {
-                clientService.getClient($stateParams.id)
-                .then(function (client) {
-                    $scope.client = client;
-
-                    $scope.searchRooms();
-                })
-                .catch(function (err) {
-                    $scope.notFound = true;
-                })
-            } else {
-                $scope.searchRooms();
-            }
-
-            $scope.addRoom = function (roomId) {
-                var room = _.find($scope.rooms, function (room) {
-                      return room.roomId == roomId
-                });
-
-                $scope.rental.room_ids.push(roomId);
-                room.select = true;
-            }
-
-            $scope.detachRoom = function (roomId) {
-                var room = _.find($scope.rooms, function (room) {
-                      return room.roomId == roomId
-                });
-
-               var roomIds = _.filter($scope.rental.room_ids, function (oldRoomId) {
-                  return oldRoomId != roomId;
-               });
-
-               $scope.rental.room_ids = roomIds;
-               room.select = false;
-            }
-
-            $scope.sendData = function ($event) {
-                $event.preventDefault();
-
-                rentalService.store($stateParams.id, $scope.rental)
-                .then(function (rental) {
-                    showMessage.success('Hospedaje registrado');
-                    console.log(rental);
-                })
-                .catch(function (err) {
-                    if(err.status == 404) {
-                        showMessage.error('client no  registrado');
-                    } else {
-                        showMessage.error(err.data.message);
-                    }
-                })
-            }
-        }
-    ])*/
     .controller('rentalCreateDate', [
         '$scope',
         '$stateParams',
@@ -130,7 +25,8 @@
 
              $scope.rental = {
                 type: 'days',
-                room_ids: []
+                room_ids: [],
+                identity_card: ''
             };
 
             $scope.availableDateRoom = function ($event) {
@@ -144,6 +40,7 @@
 
                 $scope.rooms = [];
                 $scope.rental.room_ids = [];
+                $scope.loadingRoom = false;
 
                 rentalService.getAvailableDate(
                   time.getDate(),
@@ -241,21 +138,30 @@
              $scope.notFound = false;
 
              $scope.rental = {
-                identity_card: '',
                 arrival_date: time.getDate(),
-                type: 'hours'
+                type: 'hours',
+                identity_card: '',
              };
 
-             $scope.availableHourRooms = function () {
-                var currenTime = time.getHour();
-                var endTime = $scope.getEndTime(currenTime);
+             $scope.availableHourRooms = function ($event) {
+                $event.preventDefault();
 
+                var currentTime = time.getHour();
+
+                var endTime = time.getEndTime(
+                   currentTime,
+                   $scope.rental.time_close, 
+                   $scope.setting.time_minimum
+                );
+                
+                $scope.rental.departure_time = time.setTime($scope.rental.time_close);
                 $scope.rooms = [];
                 $scope.rental.room_ids = [];
+                $scope.loadingRoom = false;
 
                 rentalService.getAvailableHour(
                   $scope.rental.arrival_date,
-                  currenTime,
+                  currentTime,
                   endTime
                 ).then(function (rooms) {
                     $scope.loadingRoom = true;
@@ -267,27 +173,12 @@
                 })
              }
 
-             $scope.getEndTime = function (currenTime) {
-                if($scope.rental.time_close == null || $scope.rental.time_close == '') {
-                    var endTime = time.sumHours(
-                      time.formatTime(currenTime), 
-                      $scope.setting.time_minimum
-                    );
-
-                    return endTime;
-                } else {
-                    $scope.rental.departure_time = time.setTime($scope.rental.time_close);
-
-                    return $scope.rental.departure_time;
-                }
-             }
-
              $scope.loadSetting = function () {
                 settingService.getSetting()
                 .then(function (setting) {
                     $scope.setting = setting;
                     $scope.loading = true;
-                    $scope.availableHourRooms();
+
                 })
              }
 
@@ -359,16 +250,35 @@
           time,
           extendRoomService,
           rentalService
-        ) {
+        ) { 
+
             $scope.notFound = false;
             $scope.loading = false;
             $scope.loadingRoom = false;
+            $scope.renovate = false;
+
+            $scope.isRenovate = function () {
+                 var currentDate = time.getDate();
+                 
+                 if(
+                    currentDate == $scope.rental.old_departure &&
+                    !$scope.rental.checkout || 
+                    $scope.rental.type == 'hours' &&
+                    !$scope.rental.checkout
+                  ) {
+                       $scope.renovate = true;
+                }
+            }
 
             rentalService.getEnabledRooms($stateParams.id)
             .then(function (data) {
                 $scope.rental = rentalService.formatData(data.rental);
                 $scope.currentRooms = extendRoomService.extendRooms(data.available_rooms);
                 $scope.loading = true;
+
+                if(!$scope.rental.reservation) {
+                    $scope.isRenovate();
+                }
             })
             .catch(function (err) {
                 $scope.notFound = true;
@@ -384,18 +294,19 @@
                 }
 
                 $scope.rooms = [];
-                $scope.staticRooms = [];
                 $scope.rental.room_ids = [];
-                $scope.rental.static_rooms = [];
                 $scope.maxRoom = 0;
                 $scope.all = false;
                 $scope.countRoom = 0;
+                $scope.loadRoom = false;
+
+                var currentTime = time.getHour();
 
                 rentalService.getConfirmDateRooms(
                   $scope.rental.id,
                   $scope.rental.old_departure,
                   time.filterDate($scope.rental.departure_date),
-                  $scope.rental.departure_time
+                  currentTime
                 )
                 .then(function (data) {
                     $scope.loadingRoom = true;
@@ -404,6 +315,7 @@
                     $scope.loadRooms(data.rooms);  
                 })
                 .catch(function (err) {
+                    $scope.loadingRoom = true;
                     showMessage.error(err.data.message);
                 })
             }
@@ -415,12 +327,6 @@
                 $scope.rental.room_ids = extendRoomService.addPreviouslySelectedRoom($scope.rooms, $scope.rental.room_ids);
                 $scope.countRoom = $scope.rental.room_ids.length;
                 $scope.maxRoom = extendRoomService.maxRoom($scope.currentRooms, $scope.rooms);
-
-                if($scope.select) {
-                    $scope.staticRooms = extendRoomService.getStaticRooms($scope.currentRooms, rooms);
-                } else {
-                    $scope.staticRooms = [];
-                }
 
                 $scope.countAll();
             }
@@ -447,41 +353,16 @@
                 $scope.countAll();
             }
 
-            $scope.addStaticRoom = function (roomId) {
-                $scope.rental.static_rooms = extendRoomService.addRoom(
-                    $scope.staticRooms,
-                    $scope.rental.static_rooms,
-                    roomId
-                );
-                
-                $scope.countRoom ++;
-                $scope.countAll();
-            }
-
-            $scope.detachStaticRoom = function (roomId) {
-                $scope.rental.static_rooms = extendRoomService.detachRoom(
-                    $scope.staticRooms,
-                    $scope.rental.static_rooms,
-                    roomId
-                );
-                 
-                $scope.countRoom --;
-                $scope.countAll();
-            }
 
             $scope.countAll = function () {
-                $scope.all = extendRoomService.countAllRoom(
-                    $scope.rental.room_ids,
-                    $scope.rental.static_rooms,
-                    $scope.maxRoom
-                );
+                $scope.all = $scope.rental.room_ids.length == $scope.maxRoom;
             }
 
             $scope.sendRenovate = function ($event) {
                 $event.preventDefault();
 
-                rentalService.sendRenovateDate($scope.rental).then(function (data) {
-                    $scope.rental = data;
+                rentalService.sendRenovateDate($scope.rental).then(function (rental) {
+                    console.log(rental);
                     showMessage.success('Renovacion registrada');
                 })
                 .catch(function (err) {
@@ -543,10 +424,10 @@
                     time.formatTime($scope.rental.departure_time), 
                     $scope.rental.renovate_hour
                );
-
+                   
                rentalService.getConfirmHourRooms(
                   $scope.rental.id, 
-                  time.filterDate($scope.rental.departure_date), 
+                  time.filterDate($scope.rental.arrival_date), 
                   $scope.rental.departure_time, 
                   renovateHour
                )
@@ -648,8 +529,14 @@
               $scope.availableDateRooms = function () {
                  $scope.rooms = [];
 
+                 var startDate = time.getDate();
+
+                 if($scope.rental.reservation) {
+                     startDate = $scope.rental.arrival_date;
+                 }
+
                  rentalService.getAvailableDate(
-                   time.getDate(),
+                   startDate,
                    time.filterDate($scope.rental.departure_date),
                    time.getHour()
                  ).then(function (rooms) {
@@ -818,8 +705,15 @@
                 $scope.loadingRoom = true;
 
                 if($scope.rental.type == 'days') {
+                    var startDate = time.filterDate($scope.rental.arrival_date);
+                    var currentDate = time.getDate();
+
+                    if(currentDate > startDate) {
+                        startDate = currentDate;
+                    }
+
                     rentalService.getAvailableDate(
-                      time.filterDate($scope.rental.arrival_date), 
+                      startDate, 
                       time.filterDate($scope.rental.departure_date), 
                       time.getHour()
                     )
@@ -857,19 +751,19 @@
              }
 
              $scope.selectTime = function () {
-                var currenTime = time.getHour();
-                var currenDate = time.getDate();
+                var currentTime = time.getHour();
+                var currentDate = time.getDate();
                 var startTime = time.setTime($scope.rental.time);
                 var startDate = time.filterDate($scope.rental.arrival_date);
 
                 if(
-                   currenDate < startDate || 
-                   currenDate == startDate && 
-                   startTime >= currenTime
+                   currentDate < startDate || 
+                   currentDate == startDate && 
+                   startTime >= currentTime
                 ) {
                     return startTime;
                 } else {
-                    return currenTime;
+                    return currentTime;
                 }
              }
 
