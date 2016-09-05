@@ -226,9 +226,10 @@
                   arrival_date: data.arrival_date,
                   arrival_time: data.arrival_time,
                   departure_time: data.departure_time,
-                  static_rooms: [],
+                  type: data.type,
                   room_ids: [],
-                  checkout: data.checkout
+                  checkout: data.checkout,
+                  reservation: data.reservation
                 };
 
                 if(data.departure_date == null) {
@@ -251,8 +252,7 @@
                   state: data.state,
                   reservation: data.reservation,
                   type: data.type,
-                  checkout: data.checkout,
-                  available_change: data.available_change
+                  checkout: data.checkout
                 };
 
                 return dataFormatEdit;
@@ -268,8 +268,7 @@
                   state: data.state,
                   reservation: data.reservation,
                   type: data.type,
-                  checkout: data.checkout,
-                  availableChange: data.availableChange
+                  checkout: data.checkout
                 }
 
                 return dateHourFormat;
