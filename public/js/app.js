@@ -2,6 +2,8 @@
   console.log('load app');
     var app = angular.module('castor', [
       'ngAnimate',
+      'datatables',
+      'datatables.bootstrap',
       'toaster',
       'ui.router',
       'ui.bootstrap',

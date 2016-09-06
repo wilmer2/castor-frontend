@@ -1,0 +1,23 @@
+<h3 class="text-center">Cliente</h3>
+
+<hr />
+<table class="table" datatable="ng" dt-options="dtOptions">
+      <thead>
+        <tr>
+          <th>Cedula</th>
+          <th>Nombre</th>
+          <th>Ver</th>
+         </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="client in clients">
+          <td ng-bind="client.identity_card"></td>
+          <td ng-bind="client.first_name + ' ' + client.last_name"></td>
+          <td>
+            <button class="btn btn-default" ng-click="test()">
+              Ver
+            </button>
+          </td> 
+        </tr>
+      </tbody>
+</table>

@@ -15,8 +15,21 @@
                return deferred.promise;
           }
 
+          function getClients () {
+              var deferred = $q.defer();
+
+              $http.get(Backend.url + 'clients').then(function (res) {
+                  deferred.resolve(res.data);
+              }, function (err) {
+                  deferred.reject(err);
+              });
+
+              return deferred.promise;
+          }
+
           return {
-            getClient: getClient
+            getClient: getClient,
+            getClients: getClients
           }
     }])
 })();

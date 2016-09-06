@@ -106,6 +106,11 @@
             url: "/client",
             templateUrl: "/views/clients"
          })
+         .state('menu.client.list', {
+            url: "/list",
+            templateUrl: "views/clients/list.html",
+            controller: "clientList"
+         })
          .state('menu.client.show', {
             url: "/{id}",
             templateUrl: "/views/clients/show.html",
