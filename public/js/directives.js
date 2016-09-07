@@ -108,6 +108,13 @@
         }
     })
 
+    .directive('menuClient', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/menu-client.html'
+        }
+    })
+
     .directive('selectState', function () {
         return {
           restrict: 'E',

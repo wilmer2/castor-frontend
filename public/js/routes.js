@@ -18,7 +18,36 @@
             url: "/app",
             templateUrl: "/views/home/menu.html"
          })
-         .state('menu.type', {
+         .state('menu.client', {
+            url: "/client",
+            templateUrl: "/views/clients"
+         })
+         .state('menu.client.list', {
+            url: "/list",
+            templateUrl: "views/clients/list.html",
+            controller: "clientList"
+         })
+         .state('menu.client.create', {
+            url:"/create",
+            templateUrl: "views/clients/create.html",
+            controller: "clientCreate"
+         })
+         .state('menu.client.show', {
+            url: "/{id}",
+            templateUrl: "/views/clients/show.html",
+            controller: "clientShow"
+         })
+         .state('menu.client.edit', {
+            url: "/{id}/edit",
+            templateUrl: "/views/clients/edit.html",
+            controller: "clientEdit"
+         })
+         .state('menu.client.rental', {
+            url: "/{id}/rentals",
+            templateUrl: "/views/clients/rentals.html",
+            controller: "clientRentals"
+         })
+         /*.state('menu.type', {
             url: "/type",
             templateUrl: "/views/types"
          })
@@ -26,8 +55,8 @@
             url: "/create",
             templateUrl: "/views/types/typeNew.html",
             controller: "TypeCreate"
-         })
-         .state('menu.rental', {
+         })*/
+         /*.state('menu.rental', {
             url : "/rental",
             templateUrl: "/views/rentals"
          })
@@ -101,26 +130,7 @@
             url: "/{id}/reservation-hour/edit",
             templateUrl: "/views/rentals/reservation-hour-edit.html",
             controller: "reservationHourEdit"
-         })
-         .state('menu.client', {
-            url: "/client",
-            templateUrl: "/views/clients"
-         })
-         .state('menu.client.list', {
-            url: "/list",
-            templateUrl: "views/clients/list.html",
-            controller: "clientList"
-         })
-         .state('menu.client.create', {
-            url:"/create",
-            templateUrl: "views/clients/create.html",
-            controller: "clientCreate"
-         })
-         .state('menu.client.show', {
-            url: "/{id}",
-            templateUrl: "/views/clients/show.html",
-            controller: "clientShow"
-         })
+         })*/
          
     }]);
 

@@ -1,4 +1,4 @@
-<h3 class="text-center">Cliente</h3>
+<h3 class="text-center">Clientes</h3>
 
 <hr />
 <table class="table" datatable="ng" dt-options="dtOptions">
@@ -14,7 +14,7 @@
           <td ng-bind="client.identity_card"></td>
           <td ng-bind="client.first_name + ' ' + client.last_name"></td>
           <td>
-            <button class="btn btn-default" ng-click="test()">
+            <button class="btn btn-default" ng-click="show(client.id)">
               Ver
             </button>
           </td> 

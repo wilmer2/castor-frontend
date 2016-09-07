@@ -27,6 +27,18 @@
               return deferred.promise;
           }
 
+          function update (client) {
+              var deferred = $q.defer();
+
+              $http.put(Backend.url + 'clients/' + client.id, client).then(function (res) {
+                  deferred.resolve(res.data);
+              }, function (err) {
+                  deferred.reject(err);
+              });
+
+              return deferred.promise;
+          }
+
           function getClients () {
               var deferred = $q.defer();
 
@@ -35,6 +47,19 @@
               }, function (err) {
                   deferred.reject(err);
               });
+
+              return deferred.promise;
+          }
+
+          function getRentals (clientId) {
+              var deferred = $q.defer();
+
+              $http.get(Backend.url + 'clients/' +  clientId + '/rentals')
+              .then(function (res) {
+                  deferred.resolve(res.data);
+              }, function (err) {
+                  deferred.reject(err);
+              })
 
               return deferred.promise;
           }
@@ -54,8 +79,10 @@
           return {
             findClient: findClient,
             store: store,
+            update: update,
             deleteClient: deleteClient,
-            getClients: getClients
+            getClients: getClients,
+            getRentals: getRentals
           }
     }])
 })();

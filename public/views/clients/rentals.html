@@ -1,0 +1,44 @@
+<h3 class="text-center">Hospedajes</h3>
+
+<hr>
+
+<div ng-if="loading  && !notFound">
+  <menu-client></menu-client>
+  <div>
+     <table class="table" datatable="ng" dt-options="dtOptions">
+           <thead>
+             <tr>
+             <th>Llegada</th>
+             <th>Salida</th>
+             <th>Tipo</th>
+             <th>Opciones</th>
+           </tr>
+           </thead>
+           <tbody>
+              <tr  ng-repeat="rental in rentals">
+             <td>
+               <span ng-bind="rental.arrival_date"></span>
+               <span ng-bind="rental.arrival_time"></span>
+             </td>
+              <td>
+               <span ng-if="rental.departure_date != null" ng-bind="rental.departure_date">
+               </span>
+               <span ng-if="rental.departure_date == null" ng-bind="rental.arrival_date">
+               </span>
+               <span ng-bind="rental.departure_time"></span>
+             </td>
+             <td>
+               <span ng-bind="rental.type"></span>
+             </td>
+             <td>
+               <button class="btn btn-primary">Ver</button>
+             </td>
+            </tr>
+           </tbody>
+        </table>
+  </div>
+</div>
+
+<div ng-if="loading && notFound">
+   Cliente no encontrado
+</div>
