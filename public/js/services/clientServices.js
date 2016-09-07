@@ -3,16 +3,28 @@
 
      .factory('clientService', ['$http', '$q', 'Backend', 
         function ($http, $q, Backend) {
-            function getClient (id) {
-               var deferred = $q.defer();
+          function findClient (id) {
+              var deferred = $q.defer();
 
-               $http.get(Backend.url + 'clients/' + id).then(function (res) {
+              $http.get(Backend.url + 'clients/' + id).then(function (res) {
                   deferred.resolve(res.data);
-               }, function (err) {
+              }, function (err) {
                   deferred.reject(err);
-               });
+              });
 
-               return deferred.promise;
+              return deferred.promise;
+          }
+
+          function store (client) {
+              var deferred = $q.defer();
+
+              $http.post(Backend.url + 'clients', client).then(function (res) {
+                  deferred.resolve(res.data);
+              }, function (err) {
+                  deferred.reject(err);
+              });
+
+              return deferred.promise;
           }
 
           function getClients () {
@@ -27,8 +39,22 @@
               return deferred.promise;
           }
 
+          function deleteClient(clientId) {
+              var deferred = $q.defer();
+
+              $http.delete(Backend.url + 'clients/' + clientId).then(function (res) {
+                  deferred.resolve(res.data);
+              },  function (err) {
+                   deferred.reject(err);
+              });
+
+              return deferred.promise;
+          }
+
           return {
-            getClient: getClient,
+            findClient: findClient,
+            store: store,
+            deleteClient: deleteClient,
             getClients: getClients
           }
     }])

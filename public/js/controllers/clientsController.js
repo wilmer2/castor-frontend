@@ -1,69 +1,98 @@
 (function () {
     angular.module('castor.controllers')
 
-    /*.controller('clientShow', ['$scope', '$http', '$stateParams', 'NgTableParams', 'clientService',
-        function ($scope, $http, $stateParams, NgTableParams ,clientService) {
-           $scope.loading = true;
-           $scope.client = {};
-
-           clientService.getClient($stateParams.id)
-           .then(function (client) {
-              $scope.loading = false;
-              $scope.notFound = false;
-              $scope.client = client;
-              
-           })
-           .catch(function (err) {
-              $scope.loading = false;
-              $scope.notFound = true;
-           })
-        }
-    ])*/
-
-    .controller('clientList', [
-        '$scope', 
-        'clientService', 
-        'DTOptionsBuilder', 
-        'DTColumnBuilder',
-        'DTColumnDefBuilder',
+    .controller('clientShow', [
+        '$scope',
+        '$state', 
+        '$stateParams', 
+        'showMessage',
+        'DTOptionsBuilder',
         'clientService',
+        'settingService',
 
         function (
-           $scope, 
-           clientService, 
-           DTOptionsBuilder, 
-           DTColumnBuilder,
-           DTColumnDefBuilder, 
-           clientService
+          $scope,
+          $state, 
+          $stateParams, 
+          showMessage,
+          DTOptionsBuilder,
+          clientService, 
+          settingService
         ) {
+
+             $scope.loading = false;
+             $scope.notFound = false;
+
+             clientService.findClient($stateParams.id)
+             .then(function (client) {
+                $scope.loading = true;
+                $scope.client = client;
+
+                $scope.dtOptions = DTOptionsBuilder.newOptions()
+                .withLanguage(settingService.getSettingTable())
+                .withDOM('ftp')
+                .withBootstrap();
+             })
+             .catch(function (err) {
+                $scope.loading = true;
+                $scope.notFound = true;
+             })
+
+             $scope.delete = function () {
+                clientService.deleteClient($scope.client.id)
+                .then(function (res) {
+                    showMessage.success(res.message);
+                })
+                .catch(function (err) {
+                    if(err.status == 404) {
+                        showMessage.error('Cliente no encontrado');
+                    }
+                })
+             }
+
+             $scope.confirmDelete = function () {
+                var message = "Esta seguro de eliminar cliente";
+
+                alertify.confirm(message, $scope.delete)
+                .setting({
+                  'title': 'Eliminar Cliente',
+                  'labels': {
+                    'ok': 'Confirmar',
+                    'cancel': 'Cancelar'
+                   }
+                });
+             }
+        }
+    ])
+
+    .controller('clientCreate', ['$scope', 'showMessage', 'clientService',
+        function ($scope, showMessage, clientService) {
+           $scope.sendData = function ($event) {
+              $event.preventDefault();
+
+              clientService.store($scope.client)
+              .then(function (client) {
+                  console.log(client);
+                  showMessage.success('Cliente ha sido registrado');
+              })
+              .catch(function (err) {
+                  showMessage.error(err.data.message);
+              })
+           }
+        }
+    ])
+
+    .controller('clientList', ['$scope', 'DTOptionsBuilder', 'clientService', 'settingService',
+        function ($scope, DTOptionsBuilder, clientService, settingService) {
+             $scope.clients = [];
+             $scope.dtOptions = DTOptionsBuilder.newOptions()
+             .withLanguage(settingService.getSettingTable())
+             .withDOM('ftp')
+             .withBootstrap()
+
              clientService.getClients()
              .then(function (clients) {
                  $scope.clients = clients;
-                 $scope.dtOptions = DTOptionsBuilder.newOptions().withBootstrap()
-                  .withLanguage({
-                     "sEmptyTable":     "No data available in table",
-                     "sInfo":           "Showing _START_ to _END_ of _TOTAL_ entries",
-                     "sInfoEmpty":      "Showing 0 to 0 of 0 entries",
-                     "sInfoFiltered":   "(filtered from _MAX_ total entries)",
-                     "sInfoPostFix":    "",
-                     "sInfoThousands":  ",",
-                     "sLengthMenu":     "Show _MENU_ entries",
-                     "sLoadingRecords": "Cargando...",
-                     "sProcessing":     "Procesando...",
-                     "sSearch":         "Buscar:",
-                     "sZeroRecords":    "No matching records found",
-                     "oPaginate": {
-                         "sFirst":    "First",
-                         "sLast":     "Last",
-                         "sNext":     "Siguiente",
-                         "sPrevious": "Atras"
-                     },
-                     "oAria": {
-                         "sSortAscending":  ": activate to sort column ascending",
-                         "sSortDescending": ": activate to sort column descending"
-                     }         
-               })
-               .withDOM('ftp')
              })
              .catch(function (err) {
                  console.log(err);
@@ -72,4 +101,4 @@
 
         }
     ])
-})()
+})(alertify)

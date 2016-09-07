@@ -1,0 +1,18 @@
+<h3 class="text-center">Registrar Cliente</h3>
+
+<hr>
+
+<div>
+  <form ng-submit="sendData($event)">
+      <input type="text" ng-model="client.identity_card" required>
+      <input type="text" ng-model="client.first_name" required>
+      <input type="text" ng-model="client.last_name" required>
+      <select ng-model="client.nationality" required>
+        <option value="">Seleccione estado de pago</option>
+        <option value="E">E</option>
+        <option value="V">V</option>
+      </select>
+
+      <button class="btn btn-primary">Enviar</button>
+  </form>
+</div>

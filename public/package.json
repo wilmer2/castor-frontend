@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/wilmer2/castor_frontend#readme",
   "dependencies": {
+    "alertifyjs": "^1.8.0",
     "angular": "^1.5.8",
     "angular-momentjs": "^0.2.2",
     "angular-ui-router": "^0.3.1",

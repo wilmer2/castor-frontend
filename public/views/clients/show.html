@@ -1,13 +1,5 @@
-<div class="col-md-10" ng-hide="loading" ng-if="!notFound">
-  <div class="panel panel-success">
-    <div class="panel-heading">
-      <h2>
-       <i class="fa fa-user"></i>Información de
-       <span ng-bind="client.first_name + client.last_name"></span>
-      </h2>
-    </div>
-    <div class="panel-body">
-    <uib-tabset active="active">
+<div ng-if="loading && !notFound">
+  <uib-tabset active="active">
       <uib-tab index="0" heading="Static title">
         <tab-heading>
           <i class="fa fa-info"></i> Información 
@@ -39,7 +31,7 @@
                  <button type="button" class="btn btn-primary">
                   <i class="fa fa-edit"></i> Editar
                  </button>
-                 <button type="button" class="btn btn-danger">
+                 <button type="button" class="btn btn-danger" ng-click="confirmDelete()">
                   Eliminar
                 </button>
               </div>
@@ -58,39 +50,83 @@
           <i class="fa fa-plus"></i> Registrar hora
         </button>
         <hr/>
-        <table ng-table="tableParams" class="table table-bordered"  ng-show="client.rentals.length > 0">
-         <tr>
-           <th>Llegada</th>
-           <th>Salida</th>
-           <th>Tipo</th>
-           <th>Opciones</th>
-         </tr>
-         <tr  ng-repeat="rental in client.rentals">
-           <td>
-             <span ng-bind="rental.arrival_date"></span>
-             <span ng-bind="rental.arrival_time"></span>
-           </td>
-           <td>
-             <span ng-if="rental.departure_date != null" ng-bind="rental.departure_date"></span>
-             <span ng-if="rental.departure_date == null" ng-bind="rental.arrival_date"></span>
-             <span ng-bind="rental.departure_time"></span>
-           </td>
-           <td>
-             <span ng-bind="rental.type"></span>
-           </td>
-           <td>
-             <button class="btn btn-primary">Ver</button>
-           </td>
-         </tr>
+        <table class="table" datatable="ng" dt-options="dtOptions">
+           <thead>
+             <tr>
+             <th>Llegada</th>
+             <th>Salida</th>
+             <th>Tipo</th>
+             <th>Opciones</th>
+           </tr>
+           </thead>
+           <tbody>
+              <tr  ng-repeat="rental in client.rentals">
+             <td>
+               <span ng-bind="rental.arrival_date"></span>
+               <span ng-bind="rental.arrival_time"></span>
+             </td>
+              <td>
+               <span ng-if="rental.departure_date != null" ng-bind="rental.departure_date">
+               </span>
+               <span ng-if="rental.departure_date == null" ng-bind="rental.arrival_date">
+               </span>
+               <span ng-bind="rental.departure_time"></span>
+             </td>
+             <td>
+               <span ng-bind="rental.type"></span>
+             </td>
+             <td>
+               <button class="btn btn-primary">Ver</button>
+             </td>
+            </tr>
+           </tbody>
         </table>
-        <div ng-if="client.rentals.length == 0">
-          Cliente no tiene registro de hospedajes
-        </div>
+      </uib-tab>
+      <uib-tab index="2" heading="Reservaciones">
+        <tab-heading>
+          <i class="fa fa-folder-open"></i> Reservaciones
+        </tab-heading>
+        <button class="btn btn-sm btn-primary">
+          <i class="fa fa-plus"></i> Registrar dia
+        </button>
+        <button class="btn btn-sm btn-primary">
+          <i class="fa fa-plus"></i> Registrar hora
+        </button>
+        <hr/>
+        <table class="table" datatable="ng" dt-options="dtOptions">
+           <thead>
+             <tr>
+             <th>Llegada</th>
+             <th>Salida</th>
+             <th>Tipo</th>
+             <th>Opciones</th>
+           </tr>
+           </thead>
+           <tbody>
+              <tr  ng-repeat="reservation in client.reservations">
+             <td>
+               <span ng-bind="reservation.arrival_date"></span>
+               <span ng-bind="reservation.arrival_time"></span>
+             </td>
+              <td>
+               <span ng-if="reservation.departure_date != null" ng-bind="reservation.departure_date">
+               </span>
+               <span ng-if="reservation.departure_date == null" ng-bind="reservation.arrival_date">
+               </span>
+               <span ng-bind="reservation.departure_time"></span>
+             </td>
+             <td>
+               <span ng-bind="reservation.type"></span>
+             </td>
+             <td>
+               <button class="btn btn-primary">Ver</button>
+             </td>
+            </tr>
+           </tbody>
+        </table>
       </uib-tab>
       </uib-tabset>
-    </div>
-  </div>
 </div>
-<div ng-if="notFound">
+<div ng-if="loading && notFound">
       Cliente no encontrado
 </div>
