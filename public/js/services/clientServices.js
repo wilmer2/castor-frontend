@@ -3,7 +3,7 @@
 
      .factory('clientService', ['$http', '$q', 'Backend', 
         function ($http, $q, Backend) {
-          function findClient (id) {
+          function findClient(id) {
               var deferred = $q.defer();
 
               $http.get(Backend.url + 'clients/' + id).then(function (res) {
@@ -15,7 +15,7 @@
               return deferred.promise;
           }
 
-          function store (client) {
+          function store(client) {
               var deferred = $q.defer();
 
               $http.post(Backend.url + 'clients', client).then(function (res) {
@@ -27,7 +27,7 @@
               return deferred.promise;
           }
 
-          function update (client) {
+          function update(client) {
               var deferred = $q.defer();
 
               $http.put(Backend.url + 'clients/' + client.id, client).then(function (res) {
@@ -39,7 +39,7 @@
               return deferred.promise;
           }
 
-          function getClients () {
+          function getClients() {
               var deferred = $q.defer();
 
               $http.get(Backend.url + 'clients').then(function (res) {
@@ -51,7 +51,7 @@
               return deferred.promise;
           }
 
-          function getRentals (clientId) {
+          function getRentals(clientId) {
               var deferred = $q.defer();
 
               $http.get(Backend.url + 'clients/' +  clientId + '/rentals')

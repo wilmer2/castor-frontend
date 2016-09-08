@@ -1,0 +1,23 @@
+<h3 class="text-center">Tipos</h3>
+
+<hr />
+<table class="table" datatable="ng" dt-options="dtOptions">
+      <thead>
+        <tr>
+          <th>Titulo</th>
+          <th>Monto extra</th>
+          <th>Ver</th>
+         </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="type in types">
+          <td ng-bind="type.title"></td>
+          <td ng-bind="type.increment"></td>
+          <td>
+            <button class="btn btn-default" ng-click="show(type.id)">
+              Ver
+            </button>
+          </td> 
+        </tr>
+      </tbody>
+</table>

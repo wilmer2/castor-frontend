@@ -47,15 +47,31 @@
             templateUrl: "/views/clients/rentals.html",
             controller: "clientRentals"
          })
-         /*.state('menu.type', {
+         .state('menu.type', {
             url: "/type",
             templateUrl: "/views/types"
          })
+         .state('menu.type.list', {
+            url: "/list",
+            templateUrl: "/views/types/list.html",
+            controller: "typeList"
+         })
          .state('menu.type.create', {
             url: "/create",
-            templateUrl: "/views/types/typeNew.html",
-            controller: "TypeCreate"
-         })*/
+            templateUrl: "/views/types/create.html",
+            controller: "typeCreate"
+         })
+         .state('menu.type.show', {
+            url: "/{id}",
+            templateUrl: "/views/types/show.html",
+            controller: "typeShow"
+         })
+         .state('menu.type.edit', {
+            url:"/{id}/edit",
+            templateUrl: "/views/types/edit.html",
+            controller: "typeEdit"
+         })
+
          /*.state('menu.rental', {
             url : "/rental",
             templateUrl: "/views/rentals"

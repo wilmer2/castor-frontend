@@ -56,6 +56,23 @@
         }
     ])
 
+    .controller('clientCreate', ['$scope', '$state', 'showMessage', 'clientService',
+        function ($scope, $state, showMessage, clientService) {
+           $scope.sendData = function ($event) {
+              $event.preventDefault();
+
+              clientService.store($scope.client)
+              .then(function (client) {
+                  showMessage.success('Cliente ha sido registrado');
+                  state.go('menu.client.show', {id: client.id});
+              })
+              .catch(function (err) {
+                  showMessage.error(err.data.message);
+              })
+           }
+        }
+    ])
+
     .controller('clientEdit', [
         '$scope', 
         '$state', 
@@ -82,23 +99,6 @@
               .then(function (client) {
                   $state.go('menu.client.show', {id: client.id})
                   showMessage.success('El cliente ha sido actualizado');
-              })
-              .catch(function (err) {
-                  showMessage.error(err.data.message);
-              })
-           }
-        }
-    ])
-
-    .controller('clientCreate', ['$scope', '$state', 'showMessage', 'clientService',
-        function ($scope, $state, showMessage, clientService) {
-           $scope.sendData = function ($event) {
-              $event.preventDefault();
-
-              clientService.store($scope.client)
-              .then(function (client) {
-                  showMessage.success('Cliente ha sido registrado');
-                  state.go('menu.client.show', {id: client.id});
               })
               .catch(function (err) {
                   showMessage.error(err.data.message);

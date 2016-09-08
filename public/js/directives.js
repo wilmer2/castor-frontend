@@ -21,6 +21,9 @@
                       reader.readAsDataURL(file);
                    } else {
                       scope.type.file = '';
+                      scope.type.mime = '';
+
+                      alertify.error('Formato de imagen no valido');
 
                       element.val('');
                    }
@@ -122,4 +125,4 @@
         }
     })
        
-})();
+})(alertify);
