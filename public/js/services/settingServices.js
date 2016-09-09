@@ -30,7 +30,7 @@
                          "sFirst":    "First",
                          "sLast":     "Last",
                          "sNext":     "Siguiente",
-                         "sPrevious": "Atras"
+                         "sPrevious": "Anterior"
                      },
                      "oAria": {
                          "sSortAscending":  ": activate to sort column ascending",

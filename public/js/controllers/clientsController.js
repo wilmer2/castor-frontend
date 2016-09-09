@@ -64,7 +64,7 @@
               clientService.store($scope.client)
               .then(function (client) {
                   showMessage.success('Cliente ha sido registrado');
-                  state.go('menu.client.show', {id: client.id});
+                  $state.go('menu.client.show', {id: client.id});
               })
               .catch(function (err) {
                   showMessage.error(err.data.message);
@@ -174,6 +174,47 @@
                 }
              })
         }
+    ])
+
+   .controller('clientReservations', [
+      '$scope',
+      '$state',
+      '$stateParams',
+      'DTOptionsBuilder',
+      'clientService',
+      'settingService',
+
+      function (
+        $scope,
+        $state,
+        $stateParams,
+        DTOptionsBuilder,
+        clientService,
+        settingService
+      ) {
+             $scope.notFound = false;
+             $scope.loading = false;
+             $scope.reservations = [];
+
+             $scope.dtOptions = DTOptionsBuilder.newOptions()
+              .withLanguage(settingService.getSettingTable())
+              .withDOM('ftp')
+              .withBootstrap();
+
+             clientService.getReservations($stateParams.id)
+             .then(function (reservations) {
+                $scope.reservations = reservations;
+                $scope.loading = true;
+
+             })
+             .catch(function (err) {
+                if(err.status == 404) {
+                    $scope.notFound = true;
+                    $scope.loading = true;
+                }
+             })
+      }
+
     ])
 
 

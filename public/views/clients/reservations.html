@@ -1,0 +1,53 @@
+<h3 class="text-center">Reservaciones</h3>
+
+<hr>
+
+<div ng-if="loading  && !notFound">
+  <menu-client></menu-client>
+  <div>
+     <table class="table" datatable="ng" dt-options="dtOptions">
+           <thead>
+             <tr>
+             <th>Llegada</th>
+             <th>Salida</th>
+             <th>Tipo</th>
+             <th>Estado de Pago</th>
+             <th>Ver</th>
+             <th>Opciones</th>
+           </tr>
+           </thead>
+           <tbody>
+              <tr  ng-repeat="reservation in reservations">
+             <td>
+               <span ng-bind="reservation.arrival_date"></span>
+               <span ng-bind="reservation.arrival_time"></span>
+             </td>
+              <td>
+               <span ng-if="reservation.departure_date != null" ng-bind="reservation.departure_date">
+               </span>
+               <span ng-if="reservation.departure_date == null" ng-bind="reservation.arrival_date">
+               </span>
+               <span ng-bind="reservation.departure_time"></span>
+             </td>
+             <td>
+               <span ng-bind="reservation.type"></span>
+             </td>
+             <td>
+               <span ng-bind="reservation.state"></span>
+             </td>
+             <td>
+               <button class="btn btn-primary">Ver</button>
+             </td>
+             <td>
+               <button class="btn btn-success">Cambiar fecha</button>
+               <button class="btn btn-danger" ng-click="delete(rental.id)">Eliminar</button>
+             </td>
+            </tr>
+           </tbody>
+        </table>
+  </div>
+</div>
+
+<div ng-if="loading && notFound">
+   Cliente no encontrado
+</div>

@@ -59,7 +59,20 @@
                   deferred.resolve(res.data);
               }, function (err) {
                   deferred.reject(err);
-              })
+              });
+
+              return deferred.promise;
+          }
+
+          function getReservations(clientId) {
+              var deferred = $q.defer();
+
+              $http.get(Backend.url + 'clients/' + clientId + '/reservations')
+              .then(function (res) {
+                  deferred.resolve(res.data);
+              }, function (err) {
+                  deferred.reject(err);
+              });
 
               return deferred.promise;
           }
@@ -82,7 +95,8 @@
             update: update,
             deleteClient: deleteClient,
             getClients: getClients,
-            getRentals: getRentals
+            getRentals: getRentals,
+            getReservations: getReservations
           }
     }])
 })();

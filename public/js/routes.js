@@ -47,6 +47,11 @@
             templateUrl: "/views/clients/rentals.html",
             controller: "clientRentals"
          })
+         .state('menu.client.reservation', {
+            url: "/{id}/reservations",
+            templateUrl: "/views/clients/reservations.html",
+            controller: "clientReservations"
+         })
          .state('menu.type', {
             url: "/type",
             templateUrl: "/views/types"
@@ -70,6 +75,30 @@
             url:"/{id}/edit",
             templateUrl: "/views/types/edit.html",
             controller: "typeEdit"
+         })
+         .state('menu.room', {
+            url: "/room",
+            templateUrl: "/views/rooms"
+         })
+         .state('menu.room.create', {
+            url:"/create",
+            templateUrl: "/views/rooms/create.html",
+            controller: "roomCreate"
+         })
+         .state('menu.room.list', {
+            url: "/list",
+            templateUrl: "/views/rooms/list.html",
+            controller: "roomList"
+         })
+         .state('menu.room.show', {
+            url: "/{id}",
+            templateUrl: "/views/rooms/show.html",
+            controller: "roomShow"
+         })
+         .state('menu.room.edit', {
+            url: "/{id}/edit",
+            templateUrl: "/views/rooms/edit.html",
+            controller: "roomEdit"
          })
 
          /*.state('menu.rental', {

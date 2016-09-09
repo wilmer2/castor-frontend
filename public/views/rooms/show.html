@@ -1,0 +1,54 @@
+<h3 class="text-center">Datos de Habitación</h3>
+<hr>
+<br>
+
+<div ng-if="loading && !notFound">
+  <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <table class="table">
+           <tr>
+             <td><strong>Codigo de Habitación</strong></td>
+             <td><span ng-bind="room.code_number"></span></td>
+           </tr>
+           <tr>
+             <td><strong>Tipo</strong></td>
+             <td><span ng-bind="room.type.title"></span></td>
+           </tr>
+           <tr>
+             <td><strong>Estado</strong></td>
+             <td><span ng-bind="room.state"></span></td>
+           </tr>
+           <tr>
+             <td><strong>Habilitada</strong></td>
+             <td>
+                <span ng-if="room.available">
+                  <strong class="text-success">Si</strong> 
+                  <button class="btn btn-danger btn-xs" ng-click="disabledRoom()">
+                    Deshabilitar
+                   </button>
+                </span>
+                <span ng-if="!room.available">
+                  <strong class="text-danger">No</strong>  
+                  <button class="btn btn-success btn-xs" ng-click="enableRoom()">
+                    Habilitar
+                  </button>
+                </span>
+          
+             </td>
+           </tr>
+        </table>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1 col-md-offset-4">
+      <button class="btn btn-primary" ng-click="edit()"><i class="fa fa-edit"></i> Editar</button>
+    </div>
+    <div class="col-md-1 col-md-offset-1">
+      <button class="btn btn-danger btn-delete" ng-click="confirmDelete()"><i class="fa fa-trash-o"></i> Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<div ng-if="loading && notFound">
+  Habitación no encontrada
+</div>
