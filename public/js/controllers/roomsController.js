@@ -77,10 +77,8 @@
                   $scope.room = room;
               })
               .catch(function (err) {
-                  if(err.status == 400) {
-                      showMessage.error(err.data.message);
-                  } else if(err.status == 404) {
-                      showMessage.error('Habitacion no encontrada');
+                  if(err.status == 404) {
+                     showMessage.error('Habitacion no encontrada');
                   }
               })
            }
@@ -225,5 +223,115 @@
                 $state.go('menu.room.show', {id: roomId});
             }
        }
+    ])
+
+    .controller('roomMaintenance', [
+       '$scope',
+       '$state',
+       'showMessage',
+       'DTOptionsBuilder',
+       'roomService',
+       'settingService',
+
+       function (
+          $scope,
+          $state,
+          showMessage,
+          DTOptionsBuilder,
+          roomService,
+          settingService
+        ) {  
+             $scope.rooms = [];
+
+             $scope.dtOptions = DTOptionsBuilder.newOptions()
+             .withLanguage(settingService.getSettingTable())
+             .withDOM('ftp')
+             .withBootstrap();
+
+             roomService.getRoomMaintenace()
+             .then(function (rooms) {
+                $scope.rooms = rooms;
+             })
+             .catch(function (err) {
+                console.log(err);
+             });
+
+             $scope.show = function (roomId) {
+                $state.go('menu.room.show', {id: roomId});
+             }
+
+             $scope.available = function (roomId) {
+                roomService.enableRoom(roomId)
+                .then(function (room) {
+                    showMessage.success('Habitacion habilitada');
+
+                    var filterRooms =  _.filter($scope.rooms, function (room) {
+                        return room.id != roomId;
+                    });
+
+                    $scope.rooms =  filterRooms;
+                })
+                .catch(function (err) {
+                    if(err.status == 404) {
+                        showMessage.error('Habitacion no encontrada');
+                    }
+                })
+             }
+       }
+    ])
+
+   .controller('roomDisabled', [
+      '$scope',
+      '$state',
+      'showMessage',
+      'DTOptionsBuilder',
+      'roomService',
+      'settingService',
+
+      function (
+        $scope,
+        $state,
+        showMessage,
+        DTOptionsBuilder,
+        roomService,
+        settingService
+      ) {
+             $scope.rooms = [];
+
+             $scope.dtOptions = DTOptionsBuilder.newOptions()
+             .withLanguage(settingService.getSettingTable())
+             .withDOM('ftp')
+             .withBootstrap();
+
+             roomService.getRoomDisabled()
+             .then(function (rooms) {
+                $scope.rooms = rooms;
+             })
+             .catch(function (err) {
+                console.log(err);
+             });
+
+             $scope.show = function (roomId) {
+                $state.go('menu.room.show', {id: roomId});
+             }
+
+             $scope.available = function (roomId) {
+                roomService.enableRoom(roomId)
+                .then(function (room) {
+                    showMessage.success('Habitacion habilitada');
+
+                    var filterRooms =  _.filter($scope.rooms, function (room) {
+                        return room.id != roomId;
+                    });
+
+                    $scope.rooms =  filterRooms;
+                })
+                .catch(function (err) {
+                    if(err.status == 404) {
+                        showMessage.error('Habitacion no encontrada');
+                    }
+                })
+             }
+      }
     ])
 })(_, alertify)

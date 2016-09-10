@@ -90,6 +90,16 @@
             templateUrl: "/views/rooms/list.html",
             controller: "roomList"
          })
+         .state('menu.room.maintenance', {
+            url: "/list/maintenance",
+            templateUrl: "views/rooms/list-maintenance.html",
+            controller: "roomMaintenance"
+         })
+         .state('menu.room.disabled', {
+            url: "/list/disabled",
+            templateUrl: "views/rooms/list-disabled.html",
+            controller: "roomDisabled"
+         })
          .state('menu.room.show', {
             url: "/{id}",
             templateUrl: "/views/rooms/show.html",
