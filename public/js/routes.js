@@ -110,6 +110,25 @@
             templateUrl: "/views/rooms/edit.html",
             controller: "roomEdit"
          })
+         .state('menu.user', {
+            url: "/user",
+            templateUrl: "views/users"
+         })
+         .state('menu.user.create', {
+            url: "/create",
+            templateUrl: "/views/users/create.html",
+            controller: "userCreate"
+         })
+         .state('menu.user.list', {
+            url: "/list",
+            templateUrl: "/views/users/list.html",
+            controller: "userList"
+         })
+         .state('menu.user.edit', {
+            url: "/{id}/edit",
+            templateUrl: "/views/users/edit.html",
+            controller: "userEdit"
+         })
 
          /*.state('menu.rental', {
             url : "/rental",

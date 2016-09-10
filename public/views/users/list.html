@@ -1,0 +1,30 @@
+<h3 class="text-center">Usuarios</h3>
+
+<hr />
+<table class="table" datatable="ng" dt-options="dtOptions">
+      <thead>
+        <tr>
+          <th>Correo</th>
+          <th>Nombre</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Editar</th>
+         </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in users">
+          <td ng-bind="user.email" ng-hide="user.role == 3"></td>
+          <td ng-bind="user.name" ng-hide="user.role == 3"></td>
+          <td ng-bind="user.display_role" ng-hide="user.role == 3"></td>
+          <td ng-hide="user.role == 3">
+            <span ng-if="user.active">A</span>
+            <span ng-if="!user.active">I</span>
+          </td>
+          <td ng-hide="user.role == 3">
+            <button class="btn btn-default" ng-click="edit(user.id)">
+              Editar
+            </button>
+          </td> 
+        </tr>
+      </tbody>
+</table>
