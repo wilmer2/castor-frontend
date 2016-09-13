@@ -1,22 +1,32 @@
-<div ng-if="notFound">
-   Cliente no encontrado
+<div class="stepwizard">
+    <div class="stepwizard-row">
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-default btn-circle">1</button>
+            <p>Cart</p>
+        </div>
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-default btn-circle">2</button>
+            <p>Shipping</p>
+        </div>
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-primary btn-circle">2</button>
+            <p>Shipping</p>
+        </div>
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
+            <p>Payment</p>
+        </div> 
+    </div>
 </div>
-
-<form ng-if="!notFound && loading" ng-submit="sendDateData($event)">
-   <identity-card></identity-card>
-   <reservation-date></reservation-date>
-   <btn-create></btn-create>
+<form  ng-submit="sendData($event)">
+   <input type="text" ng-model="identity_card" required>
+   <input type="date" ng-model="arrival_date" required>
+   <input type="date" ng-model="departure_date" required>
+   <input type="time" ng-model="time" required>
+   <select ng-model="state" required>
+      <option value="">Seleccione estado de pago</option>
+      <option value="conciliado">conciliado</option>
+      <option value="pendiente">pendiente</option>
+   </select>
+   <button class="btn btn-primary" type="submit">Enviar</button>
 </form>
-
-<div ng-if="loadingRoom && !notFound">
-  <div ng-show="rooms.length > 0">
-      <div class="col-lg-3" ng-repeat="room in rooms" >
-        <panel-room></panel-room>
-      </div>
-   </div>
-   <div ng-if="rooms.length == 0">
-    <div>
-        No hay habitaciones disponibles en este momento
-     </div>
-   </div>
-</div>

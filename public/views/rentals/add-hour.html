@@ -10,10 +10,10 @@
 <div ng-if="loading && rental.type == 'hours' && !rental.checkout">
     <form ng-submit="addRoomForHour($event)">
       <div ng-if="rooms.length == 0 && loadingRoom">
-          No hay habitaciones disponibles para renovar
+          No hay habitaciones para registrar
       </div>
       <div class="col-lg-3" ng-repeat="room in rooms" ng-show="rooms.length > 0">
-          <panel-room></panel-room>
+          <select-room></select-room>
       </div>
       <btn-add></btn-add>
     </form>

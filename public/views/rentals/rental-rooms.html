@@ -1,3 +1,4 @@
+
 <div class="stepwizard">
     <div class="stepwizard-row">
         <div class="stepwizard-step">
@@ -19,12 +20,13 @@
     </div>
 </div>
 
-<form ng-submit="sendData($event)">
-   <input type="text" ng-model="identity_card" required>
-   <input type="date" ng-model="departure_date" required>
-   <button class="btn btn-primary">     
-      enviar
-   </button>
-</form>
+<div ng-show="rooms.length > 0">
+  <div class="col-lg-3" ng-repeat="room in rooms" >
+     <select-room></select-room>
+  </div>
+  <btn-create></btn-create>
+</div>
 
-
+<div ng-if="rooms.length == 0">
+   No hay habitaciones para el periodo solicitado
+</div>

@@ -89,8 +89,22 @@
               return deferred.promise;
           }
 
+          function findByIdentityCard(identityCard) {
+              var deferred = $q.defer();
+
+              $http.get(Backend.url + 'clients/identity_card/' + identityCard)
+              .then(function (res) {
+                  deferred.resolve(res.data);
+              }, function (err) {
+                  deferred.reject(err);
+              });
+
+              return deferred.promise;
+          }
+
           return {
             findClient: findClient,
+            findByIdentityCard: findByIdentityCard,
             store: store,
             update: update,
             deleteClient: deleteClient,

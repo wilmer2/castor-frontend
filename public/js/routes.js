@@ -129,12 +129,150 @@
             templateUrl: "/views/users/edit.html",
             controller: "userEdit"
          })
-
-         /*.state('menu.rental', {
-            url : "/rental",
+         .state('menu.rental', {
+            url: "/rental",
             templateUrl: "/views/rentals"
          })
-         .state('menu.rental.create_date', {
+         .state('menu.rental.date', {
+            url:  "/create/date",
+            templateUrl: "/views/rentals/create-rental-date.html",
+            controller: "rentalCreateDate"
+         })
+         .state('menu.rental.hour', {
+            url: "/create/hour",
+            templateUrl: "/views/rentals/create-rental-hour.html",
+            controller: "rentalCreateHour"
+         })
+         .state('menu.rental.reservation_date', {
+            url: "/create/reservation-date",
+            templateUrl: "/views/rentals/create-reservation-date.html",
+            controller: "reservationDateCreate"
+         })
+         .state('menu.rental.reservation_hour', {
+            url: "/create/reservation-hour",
+            templateUrl: "/views/rentals/create-reservation-hour.html",
+            controller: "reservationHourCreate"
+         })
+         .state('menu.rental.reservation_date_edit', {
+            url: "/{id}/edit/reservation-date",
+            templateUrl: "/views/rentals/edit-reservation-date.html",
+            controller: "reservationDateEdit"
+         })
+         .state('menu.rental.reservation_hour_edit', {
+            url: "/{id}/edit/reservation-hour",
+            templateUrl: "/views/rentals/edit-reservation-hour.html",
+            controller: "reservationHourEdit"
+         })
+         .state('menu.rental.renovate_date', {
+            url: "/{id}/renovate-date",
+            templateUrl: "/views/rentals/renovate-date.html",
+            controller: "renovateDate"
+         })
+         .state('menu.rental.renovate_hour', {
+            url: "/{id}/renovate-hour",
+            templateUrl: "/views/rentals/renovate-hour.html",
+            controller: "renovateHour"
+         })
+         .state('menu.rental.room_renovate_date', {
+            url: "/room/renovate-date",
+            templateUrl: "/views/rentals/rental-edit-rooms.html",
+            controller: "renovateDateRooms",
+            params: {
+               dataTransition: null
+            }
+         })
+         .state('menu.rental.room_renovate_hour', {
+            url: "/room/renovate-hour",
+            templateUrl: "/views/rentals/rental-edit-rooms.html",
+            controller: "renovateHourRoom",
+            params: {
+               dataTransition: null
+            }
+         })
+         .state('menu.rental.room_date', {
+            url: "/room/date",
+            templateUrl: "/views/rentals/rental-rooms.html",
+            controller: "RentalDateRoom",
+            params: {
+               dataTransition: null
+            }
+         })
+         .state('menu.rental.room_hour', {
+            url: "/room/hour",
+            templateUrl: "/views/rentals/rental-rooms.html",
+            controller: "RentalHourRoom",
+            params: {
+               dataTransition: null
+            }
+         })
+         .state('menu.rental.room_reservation_date', {
+            url: "/room/reservation-date",
+            templateUrl: "views/rentals/rental-rooms.html",
+            controller: "reservationDateRoom",
+            params: {
+               dataTransition: null
+            }
+         })
+         .state('menu.rental.room_reservation_hour', {
+            url: "/room/reservations-hour",
+            templateUrl: "views/rentals/rental-rooms.html",
+            controller: "reservationHourRoom",
+            params: {
+               dataTransition: null
+            }
+         })
+         .state('menu.rental.room_reservation_date_edit', {
+            url: "/room/reservation-date-edit",
+            templateUrl: "views/rentals/rental-edit-rooms.html",
+            controller: "reservationDateEditRoom",
+            params: {
+               dataTransition: null
+            }
+         })
+         .state('menu.rental.room_reservation_hour_edit', {
+            url: "/room/reservation-hour-edit",
+            templateUrl: "views/rentals/rental-edit-rooms.html",
+            controller: "reservationHourEditRoom",
+            params: {
+               dataTransition: null
+            }
+         })
+         .state('menu.record', {
+            url: "/record",
+            templateUrl: "views/records"
+         })
+         .state('menu.record.create_step', {
+            url: "/create-step",
+            templateUrl: "/views/records/record-step.html",
+            controller: "recordCreateStep",
+            params: {
+               dataTransition: null
+            }
+         })
+         .state('menu.record.edit_step', {
+            url: "/edit-step",
+            templateUrl: "/views/records/record-step.html",
+            controller: "RecordEditStep",
+            params: {
+               dataTransition: null
+            }
+         })
+         .state('menu.rental.add_room_date', {
+            url: "/{id}/add-room-date",
+            templateUrl: "/views/rentals/add-date.html",
+            controller: "addRoomDate"
+         })
+         .state('menu.rental.add_room_hour', {
+            url: "/{id}/add-room-hour",
+            templateUrl: "/views/rentals/add-hour.html",
+            controller: "addRoomHour"
+         })
+         .state('menu.rental.room_change', {
+            url: "/{id}/room/{roomId}/change",
+            templateUrl: "/views/rentals/change-room.html",
+            controller: "changeRoom"
+         })
+         /*.state('menu.rental.create_date', {
             url: "/date/:link/:id",
             templateUrl: "/views/rentals/create-rental-date.html",
             controller: "rentalCreateDate",

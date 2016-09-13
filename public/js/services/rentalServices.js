@@ -56,17 +56,9 @@
                 return deferred.promise;
             }
 
-            function hasClient(clientId, route) {
-                if(clientId != null && clientId != undefined) {
-                    route += '?clientId=' + clientId;
-                }
-
-                return route;
-            }
-
             function store(clientId, data) {
                 var deferred = $q.defer();
-                var location = hasClient(clientId, 'rentals');
+                var location = 'clients/' + clientId  + '/rentals';
 
                 $http.post(Backend.url + location, data).then(function (res) {
                     deferred.resolve(res.data);
@@ -79,7 +71,7 @@
 
             function storeReservation(clientId, data) {
                 var deferred = $q.defer();
-                var location = hasClient(clientId, 'rentals/reservation');
+                var location = 'clients/' + clientId + '/reservations'
                 
                 $http.post(Backend.url + location, data).then(function (res) {
                     deferred.resolve(res.data);
@@ -242,7 +234,7 @@
             }
 
             function formatDataEdit(data) {
-                var dataFormatEdit = {
+                var dataEdit = {
                   id: data.id,
                   arrival_date: time.formatDate(data.arrival_date),
                   departure_date: time.formatDate(data.departure_date),
@@ -252,26 +244,27 @@
                   state: data.state,
                   reservation: data.reservation,
                   type: data.type,
-                  checkout: data.checkout
+                  checkout: data.checkout,
+                  record: data.record
                 };
 
-                return dataFormatEdit;
+                return dataEdit;
             }
 
             function formatHourDataEdit(data) {
-                var dateHourFormat = {
+                var dataHour = {
                   id: data.id,
                   start_date: time.formatDate(data.arrival_date),
                   time: time.formatTime(data.arrival_time),
-                  time_close: time.formatTime(data.departure_time),
                   room_ids: [],
                   state: data.state,
                   reservation: data.reservation,
                   type: data.type,
-                  checkout: data.checkout
+                  checkout: data.checkout,
+                  record: data.record
                 }
 
-                return dateHourFormat;
+                return dataHour;
             }
 
             return {

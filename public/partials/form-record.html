@@ -1,0 +1,19 @@
+
+<form ng-submit="sendData($event)">
+      <select ng-model="record.vehicle_type">
+        <option value="">Seleccione tipo</option>
+        <option value="carro">carro</option>
+        <option value="camioneta">camioneta</option>
+        <option value="moto">moto</option>
+      </select>
+      <textarea ng-model="record.vehicle_description">
+          
+      </textarea>
+      <select ng-model="record.blanket" convert-to-number>
+        <option value="">Sabanas</option>
+        <option value="1">Si</option>
+        <option value="0">No</option>
+      </select>
+
+      <button class="btn btn-primary">Enviar</button>
+</form>

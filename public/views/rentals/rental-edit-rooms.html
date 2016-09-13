@@ -1,0 +1,41 @@
+<div class="stepwizard">
+    <div class="stepwizard-row">
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-default btn-circle">1</button>
+            <p>Cart</p>
+        </div>
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-default btn-circle">2</button>
+            <p>Shipping</p>
+        </div>
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-primary btn-circle">2</button>
+            <p>Shipping</p>
+        </div>
+        <div class="stepwizard-step" ng-hidden="!rental.reservation">
+            <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
+            <p>Payment</p>
+        </div>
+    </div>
+  </div>
+<div>
+     <div ng-show="rooms.length > 0">
+        <count-rental></count-rental>
+         <div ng-if="select">
+           <div ng-if="rooms.length < currentRooms.length">
+            Aviso, no hay suficientes habitaciones disponibles para cambio
+           </div>
+           <div ng-if="rooms.length >= currentRooms.length">
+             Algunas de las habitaciones no estan disponibles para la fecha de renovación,
+             seleccione nuevas para remplazar
+           </div>
+         </div>
+        <div class="col-lg-3" ng-repeat="room in rooms" ng-if="rooms.length >= currentRooms.length">
+           <select-room></select-room>
+        </div>
+     </div>
+      <btn-rental></btn-rental>
+     <div ng-if="rooms.length == 0">
+       No hay habitaciones disponibles para el periodo solicitado
+    </div>
+</div>

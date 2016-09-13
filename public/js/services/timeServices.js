@@ -2,16 +2,10 @@
     angular.module('castor.services')
 
     .factory('time', ['$filter', 'showMessage', function ($filter, showMessage) {
-        var errors = [];
-
-        function clearErrors () {
-            errors = [];
-        }
-
         function getHour() {
            var time = new Date();
            var hour = time.getHours();
-           var min = time.getMinutes() + 2;
+           var min = time.getMinutes() + 1;
            var totalTime = hour + ':' + min + ':00';
 
            return totalTime;
@@ -99,7 +93,12 @@
             var splitExtraTime = extraHour.split(':');
             var sumTime =  parseInt(splitExtraTime[0]);
             var addedTime = hour.getHours() + sumTime; 
-            var totalTime = addedTime.toString();
+
+            if(addedTime >= 24) {
+                addedTime -= 24;
+            }
+
+            var totalTime = this.oneDigit(addedTime);
             var currentTime = this.setTime(hour);
             var splitCurrentTime = currentTime.split(':');
 
@@ -108,48 +107,26 @@
             return totalTime;
         }
 
-        function validDateTime(data) {
-            if(data.arrival_date == null || data.arrival_date == '') {
-                errors.push('La fecha es obligatoria');
-            }
-
-            if(data.arrival_time == null || data.arrival_time == '') {
-                errors.push('La hora de llegada es obligatoria');
-            }
-
-            if(errors.length > 0) {
-                showMessage.error(errors);
-                this.clearErrors();
-
-                return false;
-            }
-
-            return true;
-        }
-
-        function validDepartue(data) {
-            var valid = true;
-
-            if(data.departure_date == null || data.departure_date == '') {
-                valid = false;
-
-                errors.push('La fecha de salida es obligatoria');
-            }
-
-            var valid = this.validDateTime(data);
-
-            return valid;
-        }
-
-        function getEndTime (fromTime, timeClose, minimumTime) {
-            var fromTimeFormat = this.formatTime(fromTime);
+        function getEndTime (fromTime,timeClose, minimumTime) {
             var endTime = this.setTime(timeClose);
-
+            var formatTime = this.formatTime(fromTime);
+            
             if(endTime == null) {
-                endTime = this.sumHours(fromTimeFormat, minimumTime);
+                endTime = this.sumHours(formatTime, minimumTime);
             }
 
             return endTime;
+        }
+
+        function oneDigit(timeStand) {
+            var timeDigit;
+            if(timeStand < 10) {
+               timeDigit = '0' + timeStand;
+            } else {
+                timeDigit = timeStand.toString();
+            }
+
+            return timeDigit;
         }
 
         return {
@@ -162,9 +139,7 @@
           formatTime: formatTime,
           setTime: setTime,
           sumHours: sumHours,
-          validDateTime: validDateTime,
-          validDepartue: validDepartue,
-          clearErrors: clearErrors
+          oneDigit: oneDigit
         }
     }])
 })();

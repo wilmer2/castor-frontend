@@ -50,11 +50,10 @@
      };
     })
 
-
-    .directive('panelRoom', function () {
+    .directive('selectRoom', function () {
         return {
           restrict: 'E',
-          templateUrl: '/partials/panel-room.html'
+          templateUrl: '/partials/select-room.html'
         }
     })
 
@@ -69,27 +68,6 @@
         return {
           restrict: 'E',
           templateUrl: '/partials/select-renovate.html'
-        }
-    })
-
-    .directive('staticRoom', function () {
-        return {
-          restrict: 'E',
-          templateUrl: '/partials/panel-static-room.html'
-        }
-    })
-
-    .directive('reservationDate', function () {
-        return {
-          restrict: 'E',
-          templateUrl: '/partials/entry-reservation-date.html'
-        }
-    })
-
-    .directive('reservationHour', function () {
-        return {
-          restrict: 'E',
-          templateUrl: 'partials/entry-reservation-hour.html'
         }
     })
 
@@ -113,14 +91,7 @@
           templateUrl: '/partials/btn-rental-add.html'
         }
     })
-
-    .directive('identityCard', function () {
-        return {
-          restrict: 'E',
-          templateUrl: '/partials/identity-card.html'
-        }
-    })
-
+    
     .directive('countRental', function () {
         return {
           restrict: 'E',
@@ -135,11 +106,11 @@
         }
     })
 
-    .directive('selectState', function () {
+    .directive('formRecord', function () {
         return {
           restrict: 'E',
-          templateUrl: '/partials/select-state.html'
+          templateUrl: '/partials/form-record.html'
         }
     })
-       
+ 
 })(alertify);

@@ -14,45 +14,31 @@
 </div>
 
 <div ng-if="loading && !notFound && renovate">
+   <div class="stepwizard">
+    <div class="stepwizard-row">
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-default btn-circle">1</button>
+            <p>Cart</p>
+        </div>
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-default btn-circle">2</button>
+            <p>Shipping</p>
+        </div>
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-primary btn-circle">2</button>
+            <p>Shipping</p>
+        </div>
+    </div>
+  </div>
   <div>
     <select-renovate ng-show="rental.type == 'hours'"></select-renovate>
-     <h2>   
-        Salida Actual
-        <span ng-if="rental.old_departure != null" ng-bind="rental.old_departure"></span>
-        <span ng-if="rental.old_departure == null" ng-bind="rental.arrival_date"></span>
-        <span ng-bind="rental.departure_time"></span>
-     </h2>
-     <form ng-submit="sendRenovate($event)">
+     <form ng-submit="availableDateRooms($event)">
 
         <label>Fecha para renovar</label>
-        <input type="date" ng-model="rental.departure_date">
-        <button class="btn btn-lg btn-success" ng-click="availableDateRooms($event)" >
-          Disponibilidad de habitaciones
-        </button>
-        <button type="submit" class="btn btn-primary"  ng-if="rooms.length >= currentRooms.length" 
-          ng-disabled="rental.room_ids.length < currentRooms.length"> 
-           Enviar
+        <input type="date" ng-model="rental.departure_date" required>
+        <button class="btn btn-primary" type="submit">
+          Enviar
         </button>
      </form>
   </div>
-  <div>
-    <div ng-show="rooms.length > 0">
-      <count-rental></count-rental>
-      <div ng-if="select">
-        <div ng-if="rooms.length < currentRooms.length">
-          Aviso, no hay suficientes habitaciones disponibles para cambio
-        </div>
-        <div ng-if="rooms.length >= currentRooms.length">
-          Algunas de las habitaciones no estan disponibles para la fecha de renovación,
-          seleccione nuevas para remplazar
-        </div>
-      </div>
-      <div class="col-lg-3" ng-repeat="room in rooms" ng-if="rooms.length >= currentRooms.length">
-        <panel-room></panel-room>
-      </div>
-    </div>
-    <div ng-if="rooms.length == 0 && loadingRoom">
-       No hay habitaciones disponibles para renovar, para esta fecha
-    </div>
- </div>
 </div>

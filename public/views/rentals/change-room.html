@@ -19,7 +19,7 @@
           <option value="mantenimiento">mantenimiento</option>
       </select>
       <div class="col-lg-3" ng-repeat="room in rooms">
-           <panel-room></panel-room>
+           <select-room></select-room>
       </div>
       <button class="btn btn-success" ng-disabled="rental.room_id == ''" ng-show="rooms.length > 0"> 
            Enviar

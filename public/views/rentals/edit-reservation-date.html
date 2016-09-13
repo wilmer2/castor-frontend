@@ -1,0 +1,42 @@
+<div ng-if="notFound">
+   Reservación no encontrada
+</div>
+<div ng-if="loading && !rental.reservation">
+    La reservación ya fue confirmada
+</div>
+<div ng-if="loading && rental.type == 'hours' && rental.reservation">
+   La reservación  debe ser por  días
+</div>
+
+<div ng-if="loading && rental.reservation && rental.type == 'days'">
+  <div class="stepwizard">
+    <div class="stepwizard-row">
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-default btn-circle">1</button>
+            <p>Cart</p>
+        </div>
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-default btn-circle">2</button>
+            <p>Shipping</p>
+        </div>
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-primary btn-circle">2</button>
+            <p>Shipping</p>
+        </div>
+    </div>
+  </div>
+
+  <div>
+     <form ng-submit="availableDateReservationRoom($event)">
+         <input type="date" ng-model="rental.arrival_date" required>
+         <input type="date" ng-model="rental.departure_date" required>
+         <input type="time" ng-model="rental.time" required>
+         <select ng-model="rental.state" required>
+           <option value="">Seleccione estado de pago</option>
+           <option value="conciliado">conciliado</option>
+           <option value="pendiente">pendiente</option>
+         </select>
+        <button class="btn btn-primary" type="submit">Enviar</button>
+     </form>
+  </div>
+</div>

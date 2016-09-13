@@ -1,0 +1,58 @@
+<div ng-if="notFound">
+   Hospedaje no encontrado
+</div>
+<div ng-if="loading && !renovate && !rental.checkout && !rental.reservation">
+   Solo puede renovar hasta la fecha de salida
+</div>
+
+<div ng-if="rental.checkout">
+     El hospedaje ya tiene salida
+</div>
+
+<div ng-if="rental.reservation">
+  Debe confirmar  reservación
+</div>
+
+<div ng-if="loading && !notFound && renovate">
+  <div>
+    <select-renovate ng-show="rental.type == 'hours'"></select-renovate>
+     <h2>   
+        Salida Actual
+        <span ng-if="rental.old_departure != null" ng-bind="rental.old_departure"></span>
+        <span ng-if="rental.old_departure == null" ng-bind="rental.arrival_date"></span>
+        <span ng-bind="rental.departure_time"></span>
+     </h2>
+     <form ng-submit="sendRenovate($event)">
+
+        <label>Fecha para renovar</label>
+        <input type="date" ng-model="rental.departure_date">
+        <button class="btn btn-lg btn-success" ng-click="availableDateRooms($event)" >
+          Disponibilidad de habitaciones
+        </button>
+        <button type="submit" class="btn btn-primary"  ng-if="rooms.length >= currentRooms.length" 
+          ng-disabled="rental.room_ids.length < currentRooms.length"> 
+           Enviar
+        </button>
+     </form>
+  </div>
+  <div>
+    <div ng-show="rooms.length > 0">
+      <count-rental></count-rental>
+      <div ng-if="select">
+        <div ng-if="rooms.length < currentRooms.length">
+          Aviso, no hay suficientes habitaciones disponibles para cambio
+        </div>
+        <div ng-if="rooms.length >= currentRooms.length">
+          Algunas de las habitaciones no estan disponibles para la fecha de renovación,
+          seleccione nuevas para remplazar
+        </div>
+      </div>
+      <div class="col-lg-3" ng-repeat="room in rooms" ng-if="rooms.length >= currentRooms.length">
+        <panel-room></panel-room>
+      </div>
+    </div>
+    <div ng-if="rooms.length == 0 && loadingRoom">
+       No hay habitaciones disponibles para renovar, para esta fecha
+    </div>
+ </div>
+</div>

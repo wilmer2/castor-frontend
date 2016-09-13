@@ -1,0 +1,53 @@
+<div ng-if="notFound">
+   Hospedaje no encontrada
+</div>
+<div ng-if="rental.checkout">
+     El hospedaje ya tiene salida
+</div>
+
+<div ng-if="loading &&  !rental.checkout && !rental.reservation && rental.type == 'days'">
+   hospedaje por dia no puede renovar por horas
+</div>
+<div ng-if="rental.reservation">
+  Debe confirmar  reservación
+</div>
+
+
+<div ng-if="loading && !rental.checkout && !rental.reservation && rental.type == 'hours'">  
+   <div>
+      <form ng-submit="sendRenovateHour($event)">
+        <label>horas de renovación</label>
+        <select ng-model="rental.renovate_hour">
+            <option value="">Seleccione horas</option>
+            <option value="01:00:00">1 hora</option>
+            <option value="02:00:00">2 horas</option>
+            <option value="03:00:00">3 horas</option>
+            <option value="04:00:00">4 horas</option>
+        </select>
+        <button class="btn btn-success" ng-click="availableHourRooms($event)">
+          Disponibilidad de habitaciones
+        </button>
+        <btn-rental></btn-rental>
+      </form>
+   </div>
+   <div>
+      <div ng-show="rooms.length > 0">
+        <count-rental></count-rental>
+        <div ng-if="select">
+          <div ng-if="rooms.length < currentRooms.length">
+            Aviso, no hay suficientes habitaciones disponibles para cambio
+          </div>
+          <div ng-if="rooms.length >= currentRooms.length">
+             Algunas de las habitaciones no estan disponibles para la fecha de renovación,
+             seleccione nuevas para remplazar
+          </div>
+        </div>
+        <div class="col-lg-3" ng-repeat="room in rooms" ng-if="rooms.length >= currentRooms.length">
+          <panel-room></panel-room>
+        </div>
+      </div>
+      <div ng-if="rooms.length == 0 && loadingRoom">
+         No hay habitaciones disponibles para renovar por estas horas
+      </div>
+   </div>
+</div>
