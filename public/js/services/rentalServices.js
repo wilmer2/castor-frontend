@@ -4,6 +4,18 @@
     .factory('rentalService', ['$http', '$q', 'time' ,'Backend',
         function ($http, $q, time, Backend) {
 
+            function all() {
+                var deferred = $q.defer();
+
+                $http.get(Backend.url + 'rentals').then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            }
+
             function getRental(id) {
                 var deferred = $q.defer();
                 var location = 'rentals/' + id;
@@ -268,6 +280,7 @@
             }
 
             return {
+              all: all,
               getRental: getRental,
               getAvailableDate: getAvailableDate,
               getAvailableHourAdd: getAvailableHourAdd,

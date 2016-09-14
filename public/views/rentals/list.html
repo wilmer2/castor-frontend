@@ -1,13 +1,4 @@
-<h3 class="text-center">Hospedajes</h3>
-
-<hr>
-
-<div ng-if="loading  && !notFound">
-  <menu-client></menu-client>
-  <div>
-    <button class="btn btn-primary">Alquilar hora</button>
-    <button class="btn btn-primary">Alquilar dia</button>
-     <table class="table" datatable="ng" dt-options="dtOptions">
+ <table class="table" datatable="ng" dt-options="dtOptions">
            <thead>
              <tr>
              <th>Llegada</th>
@@ -34,13 +25,9 @@
              </td>
              <td>
                <button class="btn btn-primary">Ver</button>
+               <button class="btn btn-primary">Renovar</button>
+               <button class="btn btn-primary">Salida</button>
              </td>
             </tr>
            </tbody>
         </table>
-  </div>
-</div>
-
-<div ng-if="loading && notFound">
-   Cliente no encontrado
-</div>

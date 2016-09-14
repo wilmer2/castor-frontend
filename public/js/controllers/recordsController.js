@@ -18,6 +18,7 @@
              if($stateParams.dataTransition == null) {
                  $state.go('menu.rental.date');
              } else {
+                 console.log('record');
                  $scope.rental = $stateParams.dataTransition.rental;
                  $scope.record = {};
                  $scope.record.blanket = 0;

@@ -47,10 +47,30 @@
             templateUrl: "/views/clients/rentals.html",
             controller: "clientRentals"
          })
+         .state('menu.client.rental_date', {
+            url: "/{id}/rentals/date",
+            templateUrl: "/views/clients/create-rental-date.html",
+            controller: "clientRentalDate"
+         })
+         .state('menu.client.rental_hour', {
+            url: "/{id}/rentals/hour",
+            templateUrl: "/views/clients/create-rental-hour.html",
+            controller: "clientRentalHour"
+         })
          .state('menu.client.reservation', {
             url: "/{id}/reservations",
             templateUrl: "/views/clients/reservations.html",
             controller: "clientReservations"
+         })
+         .state('menu.client.reservation_date', {
+            url: "/{id}/reservations-date",
+            templateUrl: "/views/clients/create-reservation-date.html",
+            controller: "clientReservationDate"
+         })
+         .state('menu.client.reservation_hour', {
+            url: "/{id}/reservations-hour",
+            templateUrl: "/views/clients/create-reservation-hour.html",
+            controller: "clientReservationHour"
          })
          .state('menu.type', {
             url: "/type",
@@ -132,6 +152,11 @@
          .state('menu.rental', {
             url: "/rental",
             templateUrl: "/views/rentals"
+         })
+         .state('menu.rental.list', {
+            url: "/list",
+            templateUrl: "/views/rentals/list.html",
+            controller: "rentalList"
          })
          .state('menu.rental.date', {
             url:  "/create/date",
@@ -271,6 +296,15 @@
             url: "/{id}/room/{roomId}/change",
             templateUrl: "/views/rentals/change-room.html",
             controller: "changeRoom"
+         })
+         .state('menu.setting', {
+            url: "setting",
+            templateUrl: "/views/setting"
+         })
+         .state('menu.setting.edit', {
+            url: "/edit",
+            templateUrl: "/views/setting/setting.html",
+            controller: "setting"
          })
          /*.state('menu.rental.create_date', {
             url: "/date/:link/:id",

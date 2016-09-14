@@ -1,5 +1,37 @@
 (function () {
     angular.module('castor.controllers')
+
+    .controller('rentalList', [
+      '$scope', 
+      '$state', 
+      'DTOptionsBuilder',
+      'settingService',
+      'rentalService',
+
+      function (
+        $scope, 
+        $state, 
+        DTOptionsBuilder,
+        settingService,
+        rentalService
+      ) {
+           $scope.rentals = [];
+
+           $scope.dtOptions = DTOptionsBuilder.newOptions()
+           .withLanguage(settingService.getSettingTable())
+           .withDOM('ftp')
+           .withBootstrap();
+
+           rentalService.all()
+           .then(function (rentals) {
+              $scope.rentals = rentals
+           })
+           .catch(function (err) {
+              console.log('error');
+           })
+        }
+    ])
+
     .controller('rentalCreateDate', [
         '$scope',
         '$state',

@@ -1,0 +1,43 @@
+<h3 class="text-center">Hospedaje por dia</h3>
+
+<hr>
+
+<div class="row" ng-if="loading && !notFound">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="stepwizard">
+    <div class="stepwizard-row">
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-default btn-circle">1</button>
+            <p>Cart</p>
+        </div>
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-default btn-circle">2</button>
+            <p>Shipping</p>
+        </div>
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-primary btn-circle">2</button>
+            <p>Shipping</p>
+        </div>
+        <div class="stepwizard-step">
+            <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
+            <p>Payment</p>
+        </div> 
+    </div>
+   </div>
+
+   <menu-client></menu-client>
+    <form class="form-horizontal" ng-submit="availableDateRooms($event)">
+       <div class="form-group">
+        <label class="control-label col-sm-2">Fechaa de salida</label>
+        <div class="col-sm-10">
+          <input type="date" ng-model="data.departure_date" required>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit">Enviar</button>
+    </form>
+  </div>
+</div>
+
+<div ng-if="loading && notFound">
+      Cliente no encontrado
+</div>

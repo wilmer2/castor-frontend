@@ -13,6 +13,18 @@
                 return deferred.promise;
             }
 
+            function update(setting) {
+                var deferred = $q.defer();
+
+                $http.put(Backend.url + 'setting', setting).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            }
+
             function getSettingTable () {
                 var optionTable = {
                     "sEmptyTable":     "No hay data disponible",
@@ -43,7 +55,8 @@
 
             return {
               getSetting: getSetting,
-              getSettingTable: getSettingTable
+              getSettingTable: getSettingTable,
+              update: update
             }
         
     }])
