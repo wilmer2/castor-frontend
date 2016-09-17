@@ -161,7 +161,12 @@
               .withDOM('ftp')
               .withBootstrap();
 
-             clientService.getRentals($stateParams.id)
+             clientService.findClient($stateParams.id)
+             .then(function (client) {
+                $scope.client = client;
+
+                return clientService.getRentals($scope.client.id)
+             })
              .then(function (rentals) {
                 $scope.rentals = rentals;
                 $scope.loading = true;
@@ -172,7 +177,19 @@
                     $scope.notFound = true;
                     $scope.loading = true;
                 }
-             })
+             });
+
+             $scope.show = function (id) {
+                $state.go('menu.rental.show', {id: id});
+             }
+
+             $scope.rentalDay = function () {
+                $state.go('menu.client.rental_date', {id: $scope.client.id});
+             }
+
+             $scope.rentalHour = function () {
+                $state.go('menu.client.rental_hour', {id: $scope.client.id});
+             }
         }
     ])
 
@@ -180,39 +197,106 @@
       '$scope',
       '$state',
       '$stateParams',
+      'showMessage',
       'DTOptionsBuilder',
       'clientService',
+      'rentalService',
       'settingService',
 
       function (
         $scope,
         $state,
         $stateParams,
+        showMessage,
         DTOptionsBuilder,
         clientService,
+        rentalService,
         settingService
       ) {
-             $scope.notFound = false;
-             $scope.loading = false;
-             $scope.reservations = [];
+           $scope.notFound = false;
+           $scope.loading = false;
+           $scope.reservations = [];
 
-             $scope.dtOptions = DTOptionsBuilder.newOptions()
-              .withLanguage(settingService.getSettingTable())
-              .withDOM('ftp')
-              .withBootstrap();
+           $scope.dtOptions = DTOptionsBuilder.newOptions()
+           .withLanguage(settingService.getSettingTable())
+           .withDOM('ftp')
+           .withBootstrap();
 
-             clientService.getReservations($stateParams.id)
-             .then(function (reservations) {
-                $scope.reservations = reservations;
-                $scope.loading = true;
+           clientService.findClient($stateParams.id)
+           .then(function (client) {
+              $scope.client = client;
 
-             })
-             .catch(function (err) {
-                if(err.status == 404) {
-                   $scope.notFound = true;
-                   $scope.loading = true;
-                }
-             })
+              return clientService.getReservations($scope.client.id);
+            })
+            .then(function (reservations) {
+               $scope.reservations = reservations;
+               $scope.loading = true;
+
+            })
+            .catch(function (err) {
+               if(err.status == 404) {
+                  $scope.notFound = true;
+                  $scope.loading = true;
+               }
+            });
+
+            $scope.show = function (id) {
+              $state.go('menu.rental.show', {id: id});
+            }
+
+            $scope.deleteReservation = function () {
+              rentalService.deleteRental($scope.deleteReservaionId)
+              .then(function (res) {
+                 showMessage.success(res.message);
+
+                 var filterReservations =  _.filter($scope.reservations, function (reservation) {
+                     return reservation.id != $scope.deleteReservaionId
+                 });
+
+                 $scope.reservations = filterReservations;
+              })
+              .catch(function (err) {
+                  if(err.status == 400) {
+                      showMessage.error(err.data.message);
+                  }
+              })
+            }
+
+            $scope.confirmDeleteReservation = function (reservationId) {
+              var message = 'Esta seguro de eliminar reservacion';
+
+              $scope.deleteReservaionId = reservationId;
+
+              alertify.confirm(message, $scope.deleteReservation)
+               .setting({
+                 'title': 'Eliminar Reservacion',
+                 'labels': {
+                   'ok': 'Confirmar',
+                   'cancel': 'Cancelar'
+                 }
+              });
+            }
+
+            $scope.edit = function (id) {
+              var reservation  = _.find($scope.reservations, function (reservation) {
+                return  reservation.id == id;
+              });
+
+              if(reservation.type == 'days') {
+                  $state.go('menu.rental.reservation_date_edit', {id: id});
+              } else {
+                  $state.go('menu.rental.reservation_hour_edit', {id: id});
+              }
+            }
+
+            $scope.reservationHour = function () {
+              $state.go('menu.client.reservation_hour', {id: $scope.client.id});
+            }
+
+            $scope.reservationDay = function () {
+              $state.go('menu.client.reservation_date', {id: $scope.client.id});
+            }
+
       }
 
     ])
@@ -341,13 +425,13 @@
                 currentTime,
                 endTime
               ).then(function (rooms) {
-                    $scope.rooms = extendRoomService.extendRooms(rooms);
-                    $state.go('menu.rental.room_hour', {dataTransition: {
+                 $scope.rooms = extendRoomService.extendRooms(rooms);
+                   $state.go('menu.rental.room_hour', {dataTransition: {
                       rooms: $scope.rooms,
                       client: $scope.client,
                       arrival_date: $scope.data.arrival_date,
                       departure_time: time.setTime($scope.data.departure_time)
-                    }})
+                   }})
                 })
                 .catch(function (err) {
                     showMessage.error(err.data.message);
@@ -402,15 +486,15 @@
                   $scope.data.arrival_time
                 )
                 .then(function(rooms) {
-                    $scope.rooms = extendRoomService.extendRooms(rooms);
+                   $scope.rooms = extendRoomService.extendRooms(rooms);
                     
-                    $state.go('menu.rental.room_reservation_date', {dataTransition: {
-                        arrival_time: $scope.data.arrival_time,
-                        arrival_date: $scope.data.arrival_date,
-                        departure_date: $scope.data.departure_date,
-                        state: $scope.data.state,
-                        rooms: $scope.rooms,
-                        client: $scope.client
+                   $state.go('menu.rental.room_reservation_date', {dataTransition: {
+                      arrival_time: $scope.data.arrival_time,
+                      arrival_date: $scope.data.arrival_date,
+                      departure_date: $scope.data.departure_date,
+                      state: $scope.data.state,
+                      rooms: $scope.rooms,
+                      client: $scope.client
                     }})
 
                 })
@@ -484,16 +568,16 @@
                     endTime
                 )
                 .then(function (rooms) {
-                    $scope.rooms = extendRoomService.extendRooms(rooms);
+                  $scope.rooms = extendRoomService.extendRooms(rooms);
 
-                    $state.go('menu.rental.room_reservation_hour', {dataTransition: {
-                        arrival_time: $scope.data.arrival_time,
-                        arrival_date: $scope.data.arrival_date,
-                        departure_time: time.setTime($scope.data.departure_time),
-                        state: $scope.data.state,
-                        rooms: $scope.rooms,
-                        client: $scope.client
-                    }})
+                  $state.go('menu.rental.room_reservation_hour', {dataTransition: {
+                     arrival_time: $scope.data.arrival_time,
+                     arrival_date: $scope.data.arrival_date,
+                     departure_time: time.setTime($scope.data.departure_time),
+                     state: $scope.data.state,
+                     rooms: $scope.rooms,
+                     client: $scope.client
+                  }})
                 })
                 .catch(function (err) {
                     showMessage.error(err.data.message);
