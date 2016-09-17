@@ -5,6 +5,8 @@
 <div ng-if="loading  && !notFound">
   <menu-client></menu-client>
   <div>
+     <button class="btn btn-primary" ng-click="reservationHour()">Reservar hora</button>
+     <button class="btn btn-primary" ng-click="reservationDay()">Reservar dia</button>
      <table class="table" datatable="ng" dt-options="dtOptions">
            <thead>
              <tr>
@@ -12,7 +14,6 @@
              <th>Salida</th>
              <th>Tipo</th>
              <th>Estado de Pago</th>
-             <th>Ver</th>
              <th>Opciones</th>
            </tr>
            </thead>
@@ -36,11 +37,12 @@
                <span ng-bind="reservation.state"></span>
              </td>
              <td>
-               <button class="btn btn-primary">Ver</button>
-             </td>
-             <td>
-               <button class="btn btn-success">Cambiar fecha</button>
-               <button class="btn btn-danger" ng-click="delete(rental.id)">Eliminar</button>
+               <button class="btn btn-primary" ng-click="show(reservation.id)">Ver</button>
+               <button class="btn btn-success" ng-click="edit(reservation.id)">
+                 Editar
+               </button>
+               <button class="btn btn-danger" ng-click="confirmDeleteReservation(reservation.id)">     Eliminar
+               </button>
              </td>
             </tr>
            </tbody>
