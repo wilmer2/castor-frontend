@@ -7,7 +7,10 @@
 <div ng-if="rental.type == 'days' && !rental.checkout">
    El hospedaje debe ser por horas
 </div>
-<div ng-if="loading && rental.type == 'hours' && !rental.checkout">
+<div ng-if="loading && timeOut">
+   La hora de salida ya paso
+</div>
+<div ng-if="loading &&  !timeOut">
     <form ng-submit="addRoomForHour($event)">
       <div ng-if="rooms.length == 0 && loadingRoom">
           No hay habitaciones para registrar
