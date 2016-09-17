@@ -42,6 +42,19 @@
                 return deferred.promise;
             }
 
+            function getAvailableDateAdd(arrivalDate, departureDate, arrivalTime) {
+                var deferred = $q.defer();
+                var location = 'rooms/available_date/add/' + arrivalDate + '/' + departureDate + '/' + arrivalTime;
+
+                $http.get(Backend.url + location).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            }
+
             function getAvailableHour(arrivalDate, arrivalTime, departureTime) {
                 var deferred = $q.defer();
                 var location = 'rooms/available_hour/' + arrivalDate + '/' + arrivalTime + '/' + departureTime;
@@ -73,6 +86,18 @@
                 var location = 'clients/' + clientId  + '/rentals';
 
                 $http.post(Backend.url + location, data).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            }
+
+            function deleteRental(rentalId) {
+                var deferred = $q.defer();
+
+                $http.delete(Backend.url + 'rentals/' + rentalId).then(function (res) {
                     deferred.resolve(res.data);
                 }, function (err) {
                     deferred.reject(err);
@@ -180,7 +205,7 @@
                     deferred.resolve(res.data);
                 }, function (err) {
                     deferred.reject(err);
-                })
+                });
 
                 return deferred.promise;
             }
@@ -193,7 +218,20 @@
                     deferred.resolve(res.data);
                 }, function (err) {
                     deferred.reject(err);
-                })
+                });
+
+                return deferred.promise;
+            }
+
+            function checkout(rentalId) {
+                var deferred = $q.defer();
+                var location = 'rentals/' + rentalId + '/checkout';
+                
+                $http.post(Backend.url + location).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
 
                 return deferred.promise;
             }
@@ -211,12 +249,38 @@
                 return deferred.promise;
             }
 
+            function deleteRoom(rentalId, roomId) {
+                var deferred = $q.defer();
+                var location = 'rentals/' + rentalId + '/room/' + roomId + '/remove';
+
+                $http.post(Backend.url + location).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            }
+
             function updateReservationHour(rental) {
                 var deferred = $q.defer();
                 var location = 'rentals/' + rental.id + '/reservation_hour';
               
                 $http.put(Backend.url + location, rental).then(function (res) {
                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            }
+
+            function confirmReservation(rentalId) {
+                var deferred = $q.defer();
+                var location = 'rentals/' + rentalId + '/confirm';
+
+                $http.post(Backend.url + location).then(function (res) {
+                    deferred.resolve(res.data);
                 }, function (err) {
                     deferred.reject(err);
                 });
@@ -283,9 +347,11 @@
               all: all,
               getRental: getRental,
               getAvailableDate: getAvailableDate,
+              getAvailableDateAdd: getAvailableDateAdd,
               getAvailableHourAdd: getAvailableHourAdd,
               getAvailableHour: getAvailableHour,
               store: store,
+              checkout: checkout,
               storeReservation: storeReservation,
               getEnabledRooms: getEnabledRooms,
               getConfirmDateRooms: getConfirmDateRooms,
@@ -299,7 +365,10 @@
               addRoomForDate: addRoomForDate,
               addRoomForHour: addRoomForHour,
               updateReservationDate: updateReservationDate,
-              updateReservationHour: updateReservationHour
+              updateReservationHour: updateReservationHour,
+              deleteRental: deleteRental,
+              deleteRoom: deleteRoom,
+              confirmReservation: confirmReservation
             }
 
         }
