@@ -18,7 +18,6 @@
              if($stateParams.dataTransition == null) {
                  $state.go('menu.rental.date');
              } else {
-                 console.log('record');
                  $scope.rental = $stateParams.dataTransition.rental;
                  $scope.record = {};
                  $scope.record.blanket = 0;
@@ -29,7 +28,7 @@
                     recordService.store($scope.record, $scope.rental.id)
                     .then(function (record) {
                         showMessage.success('Datos registrados');
-                        console.log(record);
+                        $state.go('menu.rental.show', {id: $scope.rental.id});
                     })
                     .catch(function (err) {
                         if(err.status == 404) {
@@ -68,7 +67,7 @@
                     recordService.update($scope.record)
                     .then(function (record) {
                         showMessage.success('Datos registrados');
-                        console.log(record);
+                        $state.go('menu.rental.show', {id: $scope.record.rental_id})
                     })
                     .catch(function (err) {
                         if(err.status == 404) {
