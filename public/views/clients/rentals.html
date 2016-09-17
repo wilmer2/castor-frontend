@@ -5,8 +5,8 @@
 <div ng-if="loading  && !notFound">
   <menu-client></menu-client>
   <div>
-    <button class="btn btn-primary">Alquilar hora</button>
-    <button class="btn btn-primary">Alquilar dia</button>
+    <button class="btn btn-primary" ng-click="rentalHour()">Alquilar hora</button>
+    <button class="btn btn-primary" ng-click="rentalDay()">Alquilar dia</button>
      <table class="table" datatable="ng" dt-options="dtOptions">
            <thead>
              <tr>
@@ -33,7 +33,7 @@
                <span ng-bind="rental.type"></span>
              </td>
              <td>
-               <button class="btn btn-primary">Ver</button>
+               <button class="btn btn-primary" ng-click="show(rental.id)">Ver</button>
              </td>
             </tr>
            </tbody>
