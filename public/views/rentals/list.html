@@ -24,9 +24,9 @@
                <span ng-bind="rental.type"></span>
              </td>
              <td>
-               <button class="btn btn-primary">Ver</button>
-               <button class="btn btn-primary">Renovar</button>
-               <button class="btn btn-primary">Salida</button>
+               <button class="btn btn-primary" ng-click="show(rental.id)">Ver</button>
+               <button class="btn btn-primary" ng-click="renovate(rental.id)">Renovar</button>
+               <button class="btn btn-danger" ng-click="confirmCheckout(rental.id)">Salida</button>
              </td>
             </tr>
            </tbody>

@@ -1,0 +1,51 @@
+
+<input type="date" ng-model="startDate">
+<input type="date" ng-model="endDate">
+<button class="btn btn-primary" ng-click="getMove()">Enviar</button>
+
+<table class="table" datatable="ng" dt-options="dtOptions">
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Fecha</th>
+          <th>Hospedajes dia</th>
+          <th>Hospedajes hora</th>
+          <th>Monto hora (exento)</th>
+          <th>Monto hora (iva)</th>
+          <th>Monto dia (exento)</th>
+          <th>Monto dia (iva)</th>
+         </tr>
+      </thead>
+     <tbody>
+        <tr ng-repeat="move in moves">
+          <td>
+            <span ng-bind="move.email"></span>
+          </td>
+          <td>
+            <span ng-bind="move.date"></span>
+          </td>
+          <td>
+            <span ng-bind="move.num_days"></span>
+          </td>
+          <td>
+            <span ng-bind="move.num_hours"></span>
+          </td>
+          <td>
+            <span ng-bind="move.total_hour" ng-if="move.total_hour"></span>
+            <span ng-if="!move.total_hour">0</span>
+          </td>
+          <td>
+            <span ng-bind="move.impost_hour" ng-if="move.impost_hour"></span>
+            <span ng-if="!move.impost_hour">0</span>
+          </td>
+          <td>
+            <span ng-bind="move.total_day" ng-if="move.total_day"></span>
+            <span ng-if="!move.total_day">0</span>
+          </td>
+          <td>
+            <span ng-bind="move.impost_day" ng-if="move.impost_day"></span>
+            <span ng-if="!move.impost_day">0</span>
+          </td>
+        </tr>
+      </tbody>
+</table>

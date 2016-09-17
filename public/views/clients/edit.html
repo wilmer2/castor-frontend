@@ -3,6 +3,10 @@
 
 <hr>
 
+<div ng-if="loading && notFound">
+      Cliente no encontrado
+</div>
+
 <div class="row" ng-if="loading && !notFound">
   <menu-client></menu-client>
   <div class="col-md-8 col-md-offset-2">
@@ -41,8 +45,4 @@
         <button class="btn btn-primary center-block" type="submit"> Actualizar Información</button>
     </form>
   </div>
-</div>
-
-<div ng-if="loading && notFound">
-      Cliente no encontrado
 </div>

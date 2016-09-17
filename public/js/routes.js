@@ -158,6 +158,11 @@
             templateUrl: "/views/rentals/list.html",
             controller: "rentalList"
          })
+         .state('menu.rental.show', {
+            url: "/{id}",
+            templateUrl: "/views/rentals/show.html",
+            controller: "rentalShow"
+         })
          .state('menu.rental.date', {
             url:  "/create/date",
             templateUrl: "/views/rentals/create-rental-date.html",
@@ -282,6 +287,22 @@
                dataTransition: null
             }
          })
+         .state('menu.record.create', {
+            url: "/create",
+            templateUrl: "/views/records/register-record.html",
+            controller: "recordCreateStep",
+            params: {
+               dataTransition: null
+            }
+         })
+         .state('menu.record.edit', {
+            url: "/edit",
+            templateUrl: "/views/records/register-record.html",
+            controller: "RecordEditStep",
+            params: {
+               dataTransition: null
+            }
+         })
          .state('menu.rental.add_room_date', {
             url: "/{id}/add-room-date",
             templateUrl: "/views/rentals/add-date.html",
@@ -305,6 +326,15 @@
             url: "/edit",
             templateUrl: "/views/setting/setting.html",
             controller: "setting"
+         })
+         .state('menu.move', {
+            url: "/move",
+            templateUrl: "/views/moves/"
+         })
+         .state('menu.move.list', {
+            url: "/list",
+            templateUrl: "/views/moves/list.html",
+            controller: "moveController"
          })
          /*.state('menu.rental.create_date', {
             url: "/date/:link/:id",
