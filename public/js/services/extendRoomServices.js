@@ -10,21 +10,6 @@
             return roomsWithSelect;
          }
 
-         function getStaticRooms (currentRooms, rooms) {
-            var staticRooms = _.filter(currentRooms, function (currentRoom) {
-                 var selectRoom = _.find(rooms, function (room) {
-                    return room.roomId == currentRoom.roomId;
-                 });
-
-                 if(selectRoom == undefined) {
-                    currentRoom.select = false;
-                    return currentRoom;
-                 }
-            })
-
-            return staticRooms;
-         }
-
          function previouslySelectedRoom(currentRooms, rooms) {
             var selectedRooms = _.map(rooms, function (room) {
 
@@ -105,7 +90,6 @@
 
          return {
             extendRooms: extendRooms,
-            getStaticRooms: getStaticRooms,
             previouslySelectedRoom: previouslySelectedRoom,
             addRoom: addRoom,
             detachRoom: detachRoom,
