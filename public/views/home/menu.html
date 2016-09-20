@@ -1,11 +1,7 @@
-<div class="main-sidebar">
-  <!-- Inner sidebar -->
+<!--<div class="main-sidebar">
   <div class="sidebar">
-
-    <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
       <li class="header">HEADER</li>
-      <!-- Optionally, you can add icons to the links -->
       <li class="active"><a href="#"><span>Link</span></a></li>
       <li><a href="#"><span>Another Link</span></a></li>
       <li class="treeview">
@@ -15,10 +11,73 @@
           <li><a ui-sref="menu.rental.create">Registrar por dia</a></li>
         </ul>
       </li>
-    </ul><!-- /.sidebar-menu -->
+    </ul>
 
-  </div><!-- /.sidebar -->
-</div><!-- /.main-sidebar -->
+  </div>
+</div>
 
 <div ui-view>
-</div>
+</div>-->
+
+<!--<header class="main-header">
+  <nav class="navbar navbar-static-top">
+    <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="../../index2.html" class="navbar-brand"><b>Hotel</b>Castor</a>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+
+      <form class="navbar-form navbar-left " role="search" style="margin-left:300px">
+        <div class="form-group">
+          <input type="text" class="form-control" id="navbar-search-input" placeholder="Buscar Cliente">
+        </div>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+
+        <li uib-dropdown>
+          <a  href id="simple-dropdown" uib-dropdown-toggle>
+          <span ng-bind="currentUser.email"></span>
+           <span class="caret"></span></a>
+          <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    </div>
+  </nav>
+</header>-->
+
+
+<header class="main-header">
+  <a  ui-sref="menu.rental.list" class="logo">
+    <!-- LOGO -->
+    Hotel Castor
+  </a>
+  <!-- Header Navbar: style can be found in header.less -->
+  <nav class="navbar navbar-static-top" role="navigation">
+    <!-- Navbar Right Menu -->
+    <div class="navbar-custom-menu">
+      <ul class="nav navbar-nav">
+        <li uib-dropdown>
+          <a  href id="simple-dropdown" uib-dropdown-toggle>
+          <i class="fa fa-user" aria-hidden="true"></i>
+           &nbsp;
+          <span ng-bind="currentUser.email"></span>
+           <span class="caret"></span></a>
+          <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+            <li><a ng-click="logout($event)"><i class="fa fa-power-off"></i> Cerrar Session</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+

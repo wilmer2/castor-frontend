@@ -1,15 +1,8 @@
-<h3 class="text-center">Reservaciones</h3>
-
-<hr>
-
-<div ng-if="loading  && !notFound">
-  <menu-client></menu-client>
-  <div>
-     <button class="btn btn-primary" ng-click="reservationHour()">Reservar hora</button>
-     <button class="btn btn-primary" ng-click="reservationDay()">Reservar dia</button>
-     <table class="table" datatable="ng" dt-options="dtOptions">
+<table class="table" datatable="ng" dt-options="dtOptions">
            <thead>
              <tr>
+             <th>Cedula</th>
+             <th>Nombre</th>
              <th>Llegada</th>
              <th>Salida</th>
              <th>Tipo</th>
@@ -19,6 +12,12 @@
            </thead>
            <tbody>
               <tr  ng-repeat="reservation in reservations">
+              <td>
+                <span ng-bind="reservation.client.identity_card"></span>
+              </td>
+              <td>
+                <span ng-bind="reservation.client.first_name + reservation.client.last_name"></span>
+              </td>
              <td>
                <span ng-bind="reservation.arrival_date"></span>
                <span ng-bind="reservation.arrival_time"></span>
@@ -38,18 +37,10 @@
              </td>
              <td>
                <button class="btn btn-primary" ng-click="show(reservation.id)">Ver</button>
-               <button class="btn btn-success" ng-click="edit(reservation.id)">
-                 Editar
-               </button>
-               <button class="btn btn-danger" ng-click="confirmDeleteReservation(reservation.id)">     Eliminar
+               <button class="btn btn-success" ng-click="confirmReservation(reservation.id)">
+                 Confirmar
                </button>
              </td>
             </tr>
            </tbody>
       </table>
-  </div>
-</div>
-
-<div ng-if="loading && notFound">
-   Cliente no encontrado
-</div>

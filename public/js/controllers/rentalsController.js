@@ -38,6 +38,8 @@
               if(err.status == 404) {
                   $scope.notFound = true;
                   $scope.loading = true;
+              } else if(err.status == 401) {
+                  $state.go('login');
               }
            });
 
@@ -59,6 +61,8 @@
               .catch(function (err) {
                   if(err.status == 400) {
                       showMessage.error(err.data.message);
+                  } else if(err.status == 401) {
+                      $state.go('login');
                   }
               })
            }
@@ -72,6 +76,8 @@
                .catch(function (err) {
                   if(err.status == 400) {
                       showMessage.error(err.data.message);
+                  } else if(err.status == 401) {
+                      $state.go('login');
                   }
                })
            }
@@ -89,6 +95,8 @@
 
                  } else if(err.status == 400) {
                      showMessage.error(err.data.message);
+                 } else if(err.status == 401) {
+                     $state.go('login');
                  }
               })
           }

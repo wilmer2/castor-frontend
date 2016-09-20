@@ -3,24 +3,29 @@
 <head>
   <meta charset="uft-8">
   <title>Hotel Castor</title>
-  <link rel="stylesheet" type="text/css" href="node_modules/angularjs-toaster/toaster.min.css">
-  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="bower_components/angular-xeditable/dist/css/xeditable.min.css">
-  <link rel="stylesheet" type="text/css" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="node_modules/alertifyjs/build/css/alertify.min.css">
-  <link rel="stylesheet" type="text/css" href="node_modules/alertifyjs/build/css/themes/semantic.min.css">
-  <!--<link rel="stylesheet" type="text/css" href="bower_components/AdminLTE/dist/css/AdminLTE.min.css">-->
+  <link rel="stylesheet" href="node_modules/angularjs-toaster/toaster.min.css">
+  <link rel="stylesheet" href="bower_components/AdminLTE/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css">
+  <link rel="stylesheet" href="node_modules/alertifyjs/build/css/alertify.min.css">
+  <link rel="stylesheet" href="node_modules/alertifyjs/build/css/themes/semantic.min.css">
+  <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="css/fonts/css/font-awesome.min.css">
 </head>
-<body>
+<body class="skin-blue-light fixed" data-spy="scroll" data-target="#scrollspy">
+
+  <toaster-container></toaster-container>
+   <div ui-view class="wrapper">
+  </div>
    
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script src="/node_modules/underscore/underscore-min.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!--<script src="/bower_components/AdminLTE/dist/js/app.js"></script>-->
   <script src="/node_modules/angular/angular.min.js"></script> 
   <script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
   <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-  <script src="/bower_components/angular-xeditable/dist/js/xeditable.min.js"></script>
   <script src="/node_modules/angularjs-toaster/toaster.min.js"></script>
   <script src="/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
   <script src="/bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
@@ -41,6 +46,7 @@
   <script src="/js/services/userServices.js"></script>
   <script src="/js/services/recordServices.js"></script>
   <script src="/js/services/moveServices.js"></script>
+  <script src="/js/services/authServices.js"></script>
   <script src="js/controllers/controller.js"></script>
   <script src="/js/controllers/typesController.js"></script>
   <script src="/js/controllers/loginController.js"></script>
@@ -53,8 +59,6 @@
   <script src="/js/controllers/settingController.js"></script>
   <script src="/js/controllers/movesController.js"></script>
    
-   <toaster-container></toaster-container>
-   <div ui-view>
-  </div>
+  
 </body>
 </html>

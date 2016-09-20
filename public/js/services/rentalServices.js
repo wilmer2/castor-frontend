@@ -288,6 +288,32 @@
                 return deferred.promise;
             }
 
+            function getReservations(startDate, endDate) {
+                var deferred = $q.defer();
+                var location = 'rentals/reservation/' + startDate + '/' + endDate;
+                
+                $http.get(Backend.url + location).then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            }
+
+            function getReservationsPending() {
+                var deferred = $q.defer();
+
+                $http.get(Backend.url + 'rentals/reservation/pending')
+                .then(function (res) {
+                    deferred.resolve(res.data);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            }
+
             function formatData(data) {
                 var dataFormat = {
                   id: data.id,
@@ -353,9 +379,11 @@
               store: store,
               checkout: checkout,
               storeReservation: storeReservation,
+              getReservations: getReservations,
               getEnabledRooms: getEnabledRooms,
               getConfirmDateRooms: getConfirmDateRooms,
               getConfirmHourRooms: getConfirmHourRooms,
+              getReservationsPending: getReservationsPending,
               changeRoom: changeRoom,
               formatData: formatData,
               formatDataEdit: formatDataEdit,

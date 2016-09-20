@@ -28,13 +28,14 @@
               errors = '"' + errors + '"';
           }
 
-          toaster.pop({
+          /*toaster.pop({
             type: 'error',
             title: '"' + 'Error en solicitud' + '"',
             body: errors,
             showCloseButton: true,
             bodyOutputType: 'trustedHtml'
-          });
+          });*/
+          alertify.error(errors);
         }
 
         function formatErrors(errors) {
@@ -68,4 +69,4 @@
         }
     })
 
-})(_)
+})(_, alertify)

@@ -1,16 +1,18 @@
-<div class="container col-md-4 login">
-  <form class="form-signin" role="form">
+<div class="container col-md-4 login" ng-if="loading">
+  <form class="form-signin" role="form" ng-submit="login($event)">
      <h2 class="form-signin-heading text-primary">Iniciar sesion</h2>
      <div class="input-group">
        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-       <input type="email" ng-model="email" class="form-control" placeholder="Usuario">
+       <input type="email" ng-model="credentials.email" class="form-control" placeholder="Usuario" required>
       
      </div>
      <div class="input-group">
        <span class="input-group-addon"><i class="fa fa-unlock-alt"></i></span>
-       <input type="password" ng-model="password" class="form-control" placeholder="Contraseña"> 
+       <input type="password" ng-model="credentials.password" class="form-control" placeholder="Contraseña" required> 
      </div>
-     <button class="btn btn-lg btn-primary btn-block" ng-click="login()"><i class="fa fa-sign-in"></i> Ingresar</button>
+     <button class="btn btn-lg btn-primary btn-block" type="submit">
+       <i class="fa fa-sign-in"></i> Ingresar
+      </button>
  </form>
 
 </div>

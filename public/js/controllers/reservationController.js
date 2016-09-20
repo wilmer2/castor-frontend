@@ -617,4 +617,155 @@
              }
        }
     ])
-})()
+
+   .controller('reservationList', [
+      '$scope',
+      '$state',
+      'time',
+      'showMessage',
+      'DTOptionsBuilder',
+      'rentalService',
+      'settingService',
+
+      function(
+        $scope,
+        $state,
+        time,
+        showMessage,
+        DTOptionsBuilder,
+        rentalService,
+        settingService
+      ) {
+           var currentDate = time.getDate();
+
+           $scope.startDate = time.formatDate(currentDate);
+           $scope.endDate = time.getDayAfter();
+           $scope.reservations = [];
+
+           $scope.dtOptions = DTOptionsBuilder.newOptions()
+             .withLanguage(settingService.getSettingTable())
+             .withDOM('ftp')
+             .withBootstrap();
+
+          $scope.getReservations = function () {
+            rentalService.getReservations(
+              time.filterDate($scope.startDate), 
+              time.filterDate($scope.endDate)
+            )
+            .then(function(reservations) {
+                $scope.reservations = reservations;
+            })
+            .catch(function (err) {
+               console.log(err);
+            })
+          }
+
+          $scope.getReservations();
+
+          $scope.show = function (id) {
+             $state.go('menu.rental.show', {id: id});
+          }
+
+          $scope.edit = function (id) {
+            var reservation  = _.find($scope.reservations, function (reservation) {
+              return  reservation.id == id;
+            });
+
+            if(reservation.type == 'days') {
+                $state.go('menu.rental.reservation_date_edit', {id: id});
+            } else {
+                $state.go('menu.rental.reservation_hour_edit', {id: id});
+            }
+          }
+
+          $scope.deleteReservation = function () {
+            rentalService.deleteRental($scope.deleteReservaionId)
+            .then(function (res) {
+              showMessage.success(res.message);
+
+              var filterReservations =  _.filter($scope.reservations, function (reservation) {
+                return reservation.id != $scope.deleteReservaionId
+              });
+
+              $scope.reservations = filterReservations;
+            })
+            .catch(function (err) {
+               if(err.status == 400) {
+                 showMessage.error(err.data.message);
+               }
+            })
+          }
+
+          $scope.confirmDeleteReservation = function (reservationId) {
+            var message = 'Esta seguro de eliminar reservacion';
+
+            $scope.deleteReservaionId = reservationId;
+
+            alertify.confirm(message, $scope.deleteReservation)
+               .setting({
+                 'title': 'Eliminar Reservacion',
+                 'labels': {
+                   'ok': 'Confirmar',
+                   'cancel': 'Cancelar'
+                 }
+            });
+          }
+      }
+    ])
+
+    .controller('reservationPending', [
+       '$scope',
+       '$state',
+       'showMessage',
+       'DTOptionsBuilder',
+       'rentalService',
+       'settingService',
+
+       function (
+         $scope,
+         $state,
+         showMessage,
+         DTOptionsBuilder,
+         rentalService,
+         settingService
+       ) {  
+
+           $scope.dtOptions = DTOptionsBuilder.newOptions()
+           .withLanguage(settingService.getSettingTable())
+           .withDOM('ftp')
+           .withBootstrap();
+
+           rentalService.getReservationsPending()
+           .then(function (reservations) {
+             $scope.reservations = reservations;
+           })
+           .catch(function (err) {
+             console.log(err);
+           });
+
+           $scope.show = function (id) {
+              $state.go('menu.rental.show', {id: id});
+           }
+
+           $scope.confirmReservation = function (reservationId) {
+             rentalService.confirmReservation(reservationId)
+             .then(function (res) {
+               showMessage.success('Reservacion confirmada');
+                  
+               var filterReservations =  _.filter($scope.reservations, function (reservation) {
+                 return reservation.id != reservationId
+               });
+
+               $scope.reservations = filterReservations;
+             })
+             .catch(function (err) {
+                if(err.status == 400) {
+                  showMessage.error(err.data.message);
+                }
+             })
+           }
+       }
+     ])
+
+
+})(_, alertify)

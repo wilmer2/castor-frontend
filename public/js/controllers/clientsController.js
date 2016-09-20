@@ -14,6 +14,8 @@
 
            clientService.findClient($stateParams.id)
            .then(function (client) {
+             console.log('client show promise');
+
               $scope.loading = true;
               $scope.client = client;
            })
@@ -123,6 +125,7 @@
 
              clientService.getClients()
              .then(function (clients) {
+                 console.log('list promise');
                  $scope.clients = clients;
              })
              .catch(function (err) {
@@ -586,4 +589,4 @@
         }
     ])
 
-})(alertify)
+})(_, alertify)
