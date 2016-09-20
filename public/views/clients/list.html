@@ -1,23 +1,39 @@
-<h3 class="text-center">Clientes</h3>
+<div class="row">
+   <div class="col-xs-12">
+     <div class="box box-primary">
+      <div class="box-header">
+        <h3 class="box-title">Clientes</h3>
+      </div>
+      <div class="box-body">
+        <div>
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table table-hover" datatable="ng" dt-options="dtOptions">
+               <thead>
+                <tr>
+                 <th>Cedula</th>
+                 <th>Nombre</th>
+                 <th>Ver</th>
+                </tr>
+               </thead>
+               <tbody>
+                 <tr ng-repeat="client in clients">
+                   <td ng-bind="client.identity_card"></td>
+                   <td ng-bind="client.first_name + ' ' + client.last_name"></td>
+                   <td>
+                    <button class="btn btn-primary btn-sm" ng-click="show(client.id)">
+                      <i class="fa fa-eye"></i>
+                    </button>
+                   </td> 
+                 </tr>
+               </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+   </div>
+</div>
 
-<hr />
-<table class="table" datatable="ng" dt-options="dtOptions">
-      <thead>
-        <tr>
-          <th>Cedula</th>
-          <th>Nombre</th>
-          <th>Ver</th>
-         </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="client in clients">
-          <td ng-bind="client.identity_card"></td>
-          <td ng-bind="client.first_name + ' ' + client.last_name"></td>
-          <td>
-            <button class="btn btn-default" ng-click="show(client.id)">
-              Ver
-            </button>
-          </td> 
-        </tr>
-      </tbody>
-</table>
+

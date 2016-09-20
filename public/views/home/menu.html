@@ -1,63 +1,5 @@
-<!--<div class="main-sidebar">
-  <div class="sidebar">
-    <ul class="sidebar-menu">
-      <li class="header">HEADER</li>
-      <li class="active"><a href="#"><span>Link</span></a></li>
-      <li><a href="#"><span>Another Link</span></a></li>
-      <li class="treeview">
-        <a href="#"><span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
-        <ul class="treeview-menu">
-          <li><a ui-sref="menu.type.create">Registra tipo</a></li>
-          <li><a ui-sref="menu.rental.create">Registrar por dia</a></li>
-        </ul>
-      </li>
-    </ul>
-
-  </div>
-</div>
-
-<div ui-view>
-</div>-->
-
-<!--<header class="main-header">
-  <nav class="navbar navbar-static-top">
-    <div class="container-fluid">
-    <div class="navbar-header">
-      <a href="../../index2.html" class="navbar-brand"><b>Hotel</b>Castor</a>
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-        <i class="fa fa-bars"></i>
-      </button>
-    </div>
-    <div class="collapse navbar-collapse" id="navbar-collapse">
-
-      <form class="navbar-form navbar-left " role="search" style="margin-left:300px">
-        <div class="form-group">
-          <input type="text" class="form-control" id="navbar-search-input" placeholder="Buscar Cliente">
-        </div>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-
-        <li uib-dropdown>
-          <a  href id="simple-dropdown" uib-dropdown-toggle>
-          <span ng-bind="currentUser.email"></span>
-           <span class="caret"></span></a>
-          <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    </div>
-  </nav>
-</header>-->
-
-
 <header class="main-header">
-  <a  ui-sref="menu.rental.list" class="logo">
+  <a ui-sref="menu.rental.list" class="logo">
     <!-- LOGO -->
     Hotel Castor
   </a>
@@ -80,4 +22,48 @@
     </div>
   </nav>
 </header>
+
+<aside class="main-sidebar">
+  <!-- Inner sidebar -->
+  <section class="sidebar" style="height: auto;">
+    <!-- Search Form (Optional) -->
+    <form action="#" method="get" class="sidebar-form">
+      <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Buscar Cliente">
+        <span class="input-group-btn">
+          <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+        </span>
+      </div>
+    </form><!-- /.sidebar-form -->
+
+    <!-- Sidebar Menu -->
+    <ul class="sidebar-menu">
+      <li class="header">Contenido</li>
+      <li class="treeview">
+        <a> 
+          <i class="fa fa-users" aria-hidden="true"></i>
+          <span>Clientes</span>
+          <span class="pull-right-container">
+             <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <a href="#">
+               <i class="fa fa-plus"></i>
+              <span>Registrar</span>
+            </a>
+          </li>
+          <li>
+            <a ui-sref="menu.client.list"><i class="fa fa-list"></i> 
+            <span>Listar</span></a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </section><!-- /.sidebar -->
+</aside><!-- /.main-sidebar -->
+
+<section ui-view class="content-wrapper" style="min-height: 916px;"></section>
+
 
