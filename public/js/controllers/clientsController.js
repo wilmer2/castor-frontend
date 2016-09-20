@@ -14,8 +14,6 @@
 
            clientService.findClient($stateParams.id)
            .then(function (client) {
-             console.log('client show promise');
-
               $scope.loading = true;
               $scope.client = client;
            })
@@ -96,7 +94,7 @@
               $scope.notFound = true;
            })
 
-           $scope.updateClient = function () {
+           $scope.sendData = function () {
               clientService.update($scope.client)
               .then(function (client) {
                   $state.go('menu.client.show', {id: client.id})

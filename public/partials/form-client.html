@@ -1,0 +1,28 @@
+<form  role="form"  lpformnum="1" ng-submit="sendData($event)">
+  <div class="box-body">
+    <div class="form-group">
+      <label>Cedula</label>
+      <input class="form-control" type="text" ng-model="client.identity_card" placeholder="Cedula"required>
+    </div>
+    <div class="form-group">
+      <label>Nombre</label>
+      <input class="form-control" type="text" ng-model="client.first_name" required placeholder="Nombre">
+    </div>
+     <div class="form-group">
+      <label>Apellido</label>
+      <input class="form-control" type="text" ng-model="client.last_name" required placeholder="Apellido">
+    </div>
+     <div class="form-group">
+      <label>Nacionalidad</label>
+      <select class="form-control" ng-model="client.nationality" required>
+        <option value="">Nacionalidad</option>
+        <option value="E">E</option>
+        <option value="V">V</option>
+      </select>
+  
+    </div>
+  </div>
+  <div class="box-footer">
+    <button type="submit" class="btn btn-primary">Enviar</button>
+  </div>
+</form>

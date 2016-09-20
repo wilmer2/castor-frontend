@@ -106,6 +106,13 @@
         }
     })
 
+    .directive('formClient', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/form-client.html'
+        }
+    })
+
     .directive('formRecord', function () {
         return {
           restrict: 'E',

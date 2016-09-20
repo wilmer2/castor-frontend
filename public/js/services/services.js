@@ -9,14 +9,15 @@
 
     .factory('showMessage', ['toaster', function (toaster) {
         function success(message) {
-           toaster.clear();
+           /*toaster.clear();
 
            toaster.pop({
             type: 'success',
             body: '<strong>' + message + '</strong>',
             showCloseButton: true,
             bodyOutputType: 'trustedHtml'
-         });
+         });*/
+           alertify.success(message);
         }
 
         function error(errors) {
@@ -30,7 +31,6 @@
 
           /*toaster.pop({
             type: 'error',
-            title: '"' + 'Error en solicitud' + '"',
             body: errors,
             showCloseButton: true,
             bodyOutputType: 'trustedHtml'

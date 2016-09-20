@@ -1,12 +1,12 @@
-<h3 class="text-center">Datos de Cliente</h3>
-<hr>
-<br>
-<div ng-if="loading && !notFound">
-   <menu-client></menu-client>
-
-   <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        <table class="table">
+<div class="row" ng-if="loading && !notFound">
+  <menu-client></menu-client>
+  <div class="col-md-9">
+    <div class="box box-primary">
+      <div class="box-header">
+        <h3 class="box-title">Datos</h3>
+      </div>
+      <div class="box-body">
+        <table class="table no-padding">
            <tr>
              <td><strong>Cedula</strong></td>
              <td><span ng-bind="client.identity_card"></span></td>
@@ -25,17 +25,26 @@
            </tr>
 
         </table>
+        <div class="row">
+          <div class="col-md-1 col-md-offset-4">
+           <button class="btn btn-primary" ng-click="edit()">
+             <i class="fa fa-edit"></i> Editar
+           </button>
+         </div>
+         <div class="col-md-1 col-md-offset-1">
+          <button class="btn btn-danger btn-delete" ng-click="confirmDelete()">
+             <i class="fa fa-trash-o"></i> Eliminar
+          </button>
+         </div>
+        </div>
       </div>
-   </div>
-   <div class="row">
-     <div class="col-md-1 col-md-offset-4">
-        <button class="btn btn-primary" ng-click="edit()"><i class="fa fa-edit"></i> Editar</button>
-     </div>
-     <div class="col-md-1 col-md-offset-1">
-        <button class="btn btn-danger btn-delete" ng-click="confirmDelete()"><i class="fa fa-trash-o"></i> Eliminar</button>
-     </div>
-   </div>
+    </div>
+  </div>
 </div>
-<div ng-if="loading && notFound">
+
+<div class="callout callout-danger lead" ng-if="loading && notFound">
+    <h4>Aviso!</h4>
+    <p>
       Cliente no encontrado
+    </p>
 </div>
