@@ -1,30 +1,29 @@
-<div class="stepwizard">
-    <div class="stepwizard-row">
-        <div class="stepwizard-step">
-            <button type="button" class="btn btn-default btn-circle">1</button>
-            <p>Cart</p>
-        </div>
-        <div class="stepwizard-step">
-            <button type="button" class="btn btn-default btn-circle">2</button>
-            <p>Shipping</p>
-        </div>
-        <div class="stepwizard-step">
-            <button type="button" class="btn btn-primary btn-circle">2</button>
-            <p>Shipping</p>
-        </div>
-        <div class="stepwizard-step">
-            <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
-            <p>Payment</p>
-        </div> 
-    </div>
+<step-one></step-one>
+
+<div class="row">
+  <div class="col-md-12">
+     <div class="box box-primary">
+       <div class="box-header">
+         <h3 class="box-title">Registrar información </h3>
+       </div>
+       <form role="form"  lpformnum="1" ng-submit="sendData($event)">
+          <div class="box-body">
+            <div class="form-group">
+              <label>Cedula</label>
+              <input class="form-control"  type="text" ng-model="identity_card" placeholder="Cedula de cliente"  required>
+            </div>
+            <div class="form-group">
+              <label>Fecha de Salida</label>
+              <input class="form-control" type="date" ng-model="departure_date" required>
+            </div>
+          </div>
+          <div class="box-footer">
+             <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+       </form>
+     </div>
+  </div>
 </div>
 
-<form ng-submit="sendData($event)">
-   <input type="text" ng-model="identity_card" required>
-   <input type="date" ng-model="departure_date" required>
-   <button class="btn btn-primary">     
-      enviar
-   </button>
-</form>
 
 

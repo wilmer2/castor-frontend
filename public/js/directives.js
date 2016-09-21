@@ -119,5 +119,12 @@
           templateUrl: '/partials/form-record.html'
         }
     })
+
+    .directive('stepOne', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/step-one.html'
+        }
+    })
  
 })(alertify);

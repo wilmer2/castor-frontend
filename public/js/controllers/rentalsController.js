@@ -311,7 +311,9 @@
                    $scope.availableDateRooms();
                 })
                 .catch(function (err) {
-                   if(err.status == 404) {
+                   if(err.status == 401) {
+                       $state.go('login');
+                   } else if(err.status == 404) {
                        showMessage.error('No existe cliente con esta cedula');
                     }
                 })
