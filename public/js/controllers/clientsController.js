@@ -18,8 +18,12 @@
               $scope.client = client;
            })
            .catch(function (err) {
-              $scope.loading = true;
-              $scope.notFound = true;
+              if(err.status == 401) {
+                  $state.go('login');
+              } else if(err.status == 404){
+                  $scope.loading = true;
+                  $scope.notFound = true;
+              }           
            })
 
            $scope.edit = function () {
@@ -33,10 +37,11 @@
                  $state.go('menu.client.list');
               })
               .catch(function (err) {
-                 if(err.status == 404) {
-                    showMessage.error('Cliente no encontrado');
-                    $state.go('menu.client.list');
-
+                 if(err.status == 401) {
+                     $state.go('login');
+                 } else if(err.status == 404) {
+                     showMessage.error('Cliente no encontrado');
+                     $state.go('menu.client.list');
                  }
               })
           }
@@ -67,7 +72,11 @@
                   $state.go('menu.client.show', {id: client.id});
               })
               .catch(function (err) {
-                  showMessage.error(err.data.message);
+                  if(err.status == 401) {
+                      $state.go('login');
+                  } else if(err.status == 400) {
+                      showMessage.error(err.data.message);
+                  }
               })
            }
         }
@@ -90,8 +99,13 @@
               $scope.client = client;
            })
            .catch(function (err) {
-              $scope.loading = true;
-              $scope.notFound = true;
+              if(err.status == 401) {
+                  $state.go('login');
+              } else {
+                  $scope.loading = true;
+                  $scope.notFound = true;
+              }
+              
            })
 
            $scope.sendData = function () {
@@ -101,7 +115,12 @@
                   showMessage.success('El cliente ha sido actualizado');
               })
               .catch(function (err) {
-                  showMessage.error(err.data.message);
+                 if(err.status == 401) {
+                     $state.go('login');
+                 } else if(err.status == 400) {
+                     showMessage.error(err.data.message);
+                 }
+                 
               })
            }
         }
@@ -123,11 +142,12 @@
 
              clientService.getClients()
              .then(function (clients) {
-                 console.log('list promise');
                  $scope.clients = clients;
              })
              .catch(function (err) {
-                 console.log(err);
+                 if(err.status == 401) {
+                    $state.go('login');
+                 }
              });
 
              $scope.show = function (clientId) {

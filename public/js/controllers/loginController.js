@@ -17,6 +17,7 @@
        ) {   
             $scope.loading = false;
             $scope.credentials = {};
+            authService.cleanUser(); 
 
             $scope.redirectUser = function (user) {
               if(user.role == 1 || user.role == 3) {
