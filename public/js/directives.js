@@ -126,5 +126,19 @@
           templateUrl: '/partials/step-one.html'
         }
     })
+
+    .directive('stepTwo', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/step-two.html'
+        }
+    })
+
+    .directive('stepThree', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/step-three.html'
+        }
+    })
  
 })(alertify);

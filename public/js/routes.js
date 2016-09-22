@@ -320,7 +320,7 @@
          .state('menu.rental.room_date', {
             url: "/room/date",
             templateUrl: "/views/rentals/rental-rooms.html",
-            controller: "RentalDateRoom",
+            controller: "rentalDateRoom",
             params: {
                dataTransition: null
             },
@@ -330,7 +330,7 @@
          .state('menu.rental.room_hour', {
             url: "/room/hour",
             templateUrl: "/views/rentals/rental-rooms.html",
-            controller: "RentalHourRoom",
+            controller: "rentalHourRoom",
             params: {
                dataTransition: null
             },

@@ -45,7 +45,11 @@
 
                 })
                 .catch(function (err) {
-                    showMessage.error(err.data.message);
+                    if(err.status == 401) {
+                        $state.go('login');
+                    } else if(err.status == 400) {
+                        showMessage.error(err.data.message);
+                    }
                 })
             }
 
@@ -56,8 +60,10 @@
                    $scope.availableDateReservationRoom();
                 })
                 .catch(function (err) {
-                   if(err.status == 404) {
-                       showMessage.error('No existe cliente con esta cedula');
+                   if(err.status == 401) {
+                        $state.go('login');
+                    } else if(err.status == 404) {
+                        showMessage.error('No existe cliente con esta cedula');
                     }
                 })
             }
@@ -92,7 +98,7 @@
           rentalService
         ) {  
              if($stateParams.dataTransition == null) {
-                 $state.go('/');
+                 $state.go('menu.rental.reservation_date');
              } else {
                  $scope.client = $stateParams.dataTransition.client;
                  $scope.rooms = $stateParams.dataTransition.rooms;
@@ -194,7 +200,11 @@
                     }})
                 })
                 .catch(function (err) {
-                    showMessage.error(err.data.message);
+                    if(err.status == 401) {
+                        $state.go('login');
+                    } else if(err.status == 400) {
+                        showMessage.error(err.data.message);
+                    }
                 })
              }
 
@@ -210,7 +220,9 @@
                     $scope.availableHourReservationRoom();
                 })
                 .catch(function (err) {
-                   if(err.status == 404) {
+                    if(err.status == 401) {
+                        $state.go('login');
+                    } else if(err.status == 404) {
                        showMessage.error('No existe cliente con esta cedula');
                     }
                 })
@@ -245,7 +257,7 @@
           extendRoomService
         ) {  
              if($stateParams.dataTransition == null) {
-                $state.go('/');
+                $state.go('menu.rental.reservation_hour');
              } else {
                 $scope.client = $stateParams.dataTransition.client;
                 $scope.rooms = $stateParams.dataTransition.rooms;
