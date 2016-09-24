@@ -16,6 +16,16 @@
             authenticate: false,
             isAdmin: false
          })
+         .state('print', {
+            url: "/rental/print",
+            templateUrl: "views/rentals/rental-print.html",
+            controller: "rentalPrint",
+            params: {
+               dataTransition: null
+            },
+            authenticate: false,
+            isAdmin: false
+         })
          .state('menu', {
             url: "/app",
             templateUrl: "/views/home/menu.html",

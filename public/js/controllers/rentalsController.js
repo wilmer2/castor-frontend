@@ -24,7 +24,7 @@
 
            $scope.dtOptions = DTOptionsBuilder.newOptions()
            .withLanguage(settingService.getSettingTable())
-           .withDOM('ftp')
+           .withDOM('tp')
            .withBootstrap();
 
            rentalService.getRental($stateParams.id)
@@ -1205,5 +1205,29 @@
              }
         }
       ])
+
+      .controller('rentalPrint', [
+         '$scope', 
+         '$stateParams', 
+         '$window',
+         '$timeout',
+
+         function ($scope, $stateParams, $window ,$timeout) {
+          if($stateParams.dataTransition == null) {
+             $state.go('menu.rental.list');
+          } else {
+             $scope.client = $stateParams.dataTransition.client;
+             $scope.rental = $stateParams.dataTransition.rental;
+             $scope.rooms = $stateParams.dataTransition.rooms;
+
+             $scope.print = function () {
+                $window.print();
+             }
+
+             $timeout(function () {
+                $scope.print();
+             }, 100);
+          }
+      }])
 
 })(_, alertify);
