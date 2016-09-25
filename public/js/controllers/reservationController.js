@@ -338,6 +338,7 @@
                 $scope.currentRooms = extendRoomService.extendRooms(data.available_rooms);
              })
              .catch(function (err) {
+                $scope.loading = true;
                 $scope.notFound = true;
              });
 
@@ -369,7 +370,11 @@
                     }})
                 })
                 .catch(function (err) {
-                    showMessage.error(err.data.message);
+                    if(err.status == 401) {
+                        $state.go('login');
+                    } else if(err.status == 400) {
+                        showMessage.error(err.data.message);
+                    }
                 })
             }
 
@@ -402,7 +407,7 @@
           extendRoomService
         ) {  
              if($stateParams.dataTransition == null) {
-                 $state.go('/');
+                 $state.go('menu.rental.reservation_date');
              } else {
                  $scope.select = $stateParams.dataTransition.select;
                  $scope.rental = $stateParams.dataTransition.rental;
@@ -455,7 +460,10 @@
                      }
                   })
                   .catch(function (err) {
-                     if(err.status == 404) {
+                     if(err.status == 401) {
+                        $state.go('login');
+                     }
+                     else if(err.status == 400) {
                         showMessage.error(err.data.message);
                      }
                   })
@@ -499,6 +507,7 @@
                 $scope.loading = true;
             })
             .catch(function (err) {
+                $scope.loading = true;
                 $scope.notFound = true;
             });
 
@@ -539,7 +548,11 @@
 
                 })
                 .catch(function (err) {
-                    showMessage.error(err.data.message);
+                    if(err.status == 401) {
+                       $state.go('login');
+                    } else if(err.status == 400) {
+                       showMessage.error(err.data.message);
+                    }
                 })
             }
 

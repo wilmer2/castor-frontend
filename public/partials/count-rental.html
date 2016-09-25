@@ -1,3 +1,6 @@
-<span ng-bind="countRoom" ng-show="rooms.length >= currentRooms.length"></span>
-<span ng-show="rooms.length >= currentRooms.length">/</span>
-<span ng-bind="maxRoom"  ng-show="rooms.length >= currentRooms.length"></span>
+<div class="count-rental">
+  <span>Total</span>
+  <span ng-bind="countRoom" ng-show="rooms.length >= currentRooms.length"></span>
+  <span ng-show="rooms.length >= currentRooms.length">/</span>
+  <span ng-bind="maxRoom"  ng-show="rooms.length >= currentRooms.length"></span>
+</div>
