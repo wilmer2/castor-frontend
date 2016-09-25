@@ -54,17 +54,25 @@
        '$state',
        '$rootScope',  
        'authService',
+       'settingService',
 
         function (
           $scope, 
           $state, 
           $rootScope,
-          authService
+          authService,
+          settingService
         ) {
-            $scope.$watch( $rootScope.loggedIn, function () {
+            $scope.$watch($rootScope.loggedIn, function () {
                authService.getUser().then(function (user) {
-                    $scope.currentUser = user;
+                  $scope.currentUser = user;
+                    
+                  return settingService.getSetting();
                 })
+               .then(function (setting) {
+                  $scope.companyName = setting.name;
+               })
+
             });
 
             $scope.logout = function ($event) {

@@ -29,10 +29,17 @@
 
            rentalService.getRental($stateParams.id)
            .then(function (data) {
-              $scope.loading = true;
               $scope.rental = data;
               $scope.client = data.client;
               $scope.rooms = data.rooms;
+
+              return settingService.getSetting()
+           })
+           .then(function (setting) {
+              $scope.loading = true;
+              $scope.rif = setting.rif;
+              $scope.companyName = setting.name;
+              $scope.impost = setting.impost;
            })
            .catch(function (err) {
               if(err.status == 404) {
@@ -129,6 +136,14 @@
                   record: $scope.rental.record
                 }});
              }
+          }
+
+          $scope.editReservation = function () {
+            if($scope.rental.type == 'days') {
+                $state.go('menu.rental.reservation_date_edit', {id: $scope.rental.id});
+            } else {
+                $state.go('menu.rental.reservation_hour_edit', {id: $scope.rental.id});
+            }
           }
 
           $scope.confirmCheckout = function () {
@@ -293,7 +308,7 @@
 
                     $state.go('menu.rental.room_date', {dataTransition: {
                       rooms: $scope.rooms,
-                      departure_date: $scope.departure_date,
+                      departure_date: time.filterDate($scope.departure_date),
                       client: $scope.client
                     }});
                 })
@@ -535,6 +550,7 @@
                  $scope.sendData = function () {
                     rentalService.store($scope.client.id, $scope.data)
                     .then(function (rental) {
+
                         showMessage.success('Hospedaje ha sido registrado');
 
                         $state.go('menu.record.create_step', {dataTransition: {
@@ -1212,20 +1228,28 @@
          '$window',
          '$timeout',
 
-         function ($scope, $stateParams, $window ,$timeout) {
+         function (
+           $scope, 
+           $stateParams, 
+           $window ,
+           $timeout
+         ) {
           if($stateParams.dataTransition == null) {
              $state.go('menu.rental.list');
           } else {
              $scope.client = $stateParams.dataTransition.client;
              $scope.rental = $stateParams.dataTransition.rental;
              $scope.rooms = $stateParams.dataTransition.rooms;
+             $scope.rif = $stateParams.dataTransition.rif;
+             $scope.companyName = $stateParams.dataTransition.companyName;
+             $scope.impost = $stateParams.dataTransition.impost;
 
              $scope.print = function () {
                 $window.print();
              }
 
              $timeout(function () {
-                $scope.print();
+               $scope.print();
              }, 100);
           }
       }])

@@ -1,5 +1,6 @@
-<div class="row">
-  <div class="col-md-12">
+<div ng-if="loading && !notFound">
+  <div class="row">
+   <div class="col-md-12">
      <div class="box box-primary">
        <div class="box-header with-border">
          <h3 class="box-title">
@@ -10,7 +11,7 @@
        </div>
        <div class="box-body">
          <div class="mailbox-controls">
-           <a ui-sref="print({dataTransition: {rental: rental, client: client, rooms: rooms}})"      class="btn btn-default btn-sm">
+           <a ui-sref="print({dataTransition: {rental: rental, client: client, rooms: rooms, rif: rif, companyName: companyName, impost: impost}})" class="btn btn-default btn-sm">
               <i class="fa fa-barcode" aria-hidden="true"></i>
              &nbsp;
              Factura
@@ -25,7 +26,7 @@
               &nbsp; 
              Editar Información
            </button>
-           <button class="btn btn-default btn-sm" ng-if="rental.reservation">
+           <button class="btn btn-primary btn-sm" ng-if="rental.reservation" ng-click="editReservation()">
              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
              &nbsp; 
              Editar Reservación
@@ -82,7 +83,7 @@
           <td>
             <strong>Salida anticipida</strong>
           </td>
-          <td ng-bind="rental.checkout_date">
+          <td ng-bind="rental.checkout_date|date: 'MM/dd/yyyy'">
           </td>
         </tr>
          <tr>
@@ -109,7 +110,7 @@
           </td>
           <td>
             <span ng-if="rental.record.blanket">Si</span>
-            <span ng-if="!rental.record.blanket"> N/A</span>
+            <span ng-if="!rental.record.blanket"> No</span>
           </td>
         </tr>
         <tr>
@@ -155,11 +156,11 @@
        <table class="table table-condensed" datatable="ng" dt-options="dtOptions">
            <thead>
              <tr>
-             <th>Codigo</th>
-             <th>Fecha de registro</th>
-             <th>Hora de registro</th>
-             <th>Fecha de salida</th>
-             <th>Hora de salida</th>
+             <th class="text-center">Codigo</th>
+             <th class="text-center">Fecha de registro</th>
+             <th class="text-center">Hora de registro</th>
+             <th class="text-center">Fecha de salida</th>
+             <th class="text-center">Hora de salida</th>
              <th ng-if="!rental.checkout">Acciones</th>
            </tr>
            </thead>
@@ -169,21 +170,21 @@
                  <span ng-bind="room.code_number"></span>
                </td>
                <td class="text-center">
-                 <span ng-bind="room.pivot.check_in" ng-if="room.pivot.check_in"></span>
-                 <span ng-bind="rental.arrival_date" ng-if="!room.pivot.check_in"></span>
+                 <span ng-bind="room.pivot.check_in| date:'MM/dd/yyyy'" ng-if="room.pivot.check_in"></span>
+                 <span ng-bind="rental.arrival_date | date:'MM/dd/yyyy'" ng-if="!room.pivot.check_in"></span>
                </td>
                <td class="text-center">
-                 <span ng-bind="room.pivot.check_timein" ng-if="room.pivot.check_timein"></span>
-                 <span ng-bind="rental.arrival_time" ng-if="!room.pivot.check_timein"></span>
+                 <span ng-bind="room.pivot.check_timein|normalizeTime" ng-if="room.pivot.check_timein"></span>
+                 <span ng-bind="rental.arrival_time|normalizeTime" ng-if="!room.pivot.check_timein"></span>
                </td>
                <td class="text-center">
-                 <span ng-bind="room.pivot.check_out" ng-if="room.pivot.check_out"></span>
-                 <span ng-bind="rental.departure_date" ng-if="!room.pivot.check_out"></span>
+                 <span ng-bind="room.pivot.check_out|date:'MM/dd/yyyy'" ng-if="room.pivot.check_out"></span>
+                 <span ng-bind="rental.departure_date|date:'MM/dd/yyyy'" ng-if="!room.pivot.check_out"></span>
                  <span ng-if="!rental.departure_date && !room.pivot.check_out">N/A</span>
                </td>
-             <td>
-                 <span ng-bind="room.pivot.check_timeout" ng-if="room.pivot.check_timeout"></span>
-                 <span ng-bind="rental.departure_time" ng-if="!room.pivot.check_timeout"></span>
+             <td class="text-center">
+                 <span ng-bind="room.pivot.check_timeout|normalizeTime" ng-if="room.pivot.check_timeout"></span>
+                 <span ng-bind="rental.departure_time|normalizeTime" ng-if="!room.pivot.check_timeout"></span>
              </td>
              <td ng-if="!rental.checkout" class="text-center">
                <div ng-if="!room.pivot.check_out">
@@ -202,6 +203,12 @@
      </div>
     </div>
   </div>
+ </div>
+</div>
+
+<div class="callout callout-danger lead" ng-if="loading && notFound">
+    <b>Aviso!</b>
+    <p>Hospedaje no encontrado</p>
 </div>
 
   

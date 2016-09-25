@@ -14,8 +14,8 @@
   </div>
   <div class="row">
     <small class="company-info">
-     <strong>Rif:</strong> v2122649 <br>
-     <strong>Empresa:</strong> Hotel Castor
+     <strong>Rif:</strong> <span ng-bind="rif"></span> <br>
+     <strong>Empresa:</strong> <span ng-bind="companyName"></span>
     </small>
      
     <h2 class="text-center">Datos</h2>
@@ -74,7 +74,7 @@
          </td>
          <td>
           <span ng-if="rental.record.blanket">Si</span>
-          <span ng-if="!rental.record.blanket"> N/A</span>
+          <span ng-if="!rental.record.blanket">No</span>
          </td>
        </tr>
     </table>
@@ -132,7 +132,7 @@
             <td ng-bind="rental.amount"></td>
            </tr>
            <tr>
-            <th>Iva (12.3%)</th>
+            <th>Iva (<span ng-bind="impost"></span>%)</th>
             <td ng-bind="rental.amount_impost"></td>
            </tr>
            <tr>

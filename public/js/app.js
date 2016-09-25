@@ -10,6 +10,7 @@
       'castor.routes',
       'castor.controllers',
       'castor.services',
+      'castor.filters',
       'castor.directives'
     ])
 
