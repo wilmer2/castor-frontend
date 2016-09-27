@@ -429,7 +429,7 @@
                    $state.go('menu.rental.room_hour', {dataTransition: {
                       rooms: $scope.rooms,
                       client: $scope.client,
-                      arrival_date: $scope.data.arrival_date,
+                      arrival_date: time.filterDate($scope.data.arrival_date),
                       departure_time: time.setTime($scope.data.departure_time)
                    }})
                 })
@@ -572,7 +572,7 @@
 
                   $state.go('menu.rental.room_reservation_hour', {dataTransition: {
                      arrival_time: $scope.data.arrival_time,
-                     arrival_date: $scope.data.arrival_date,
+                     arrival_date: time.filterDate($scope.data.arrival_date),
                      departure_time: time.setTime($scope.data.departure_time),
                      state: $scope.data.state,
                      rooms: $scope.rooms,
