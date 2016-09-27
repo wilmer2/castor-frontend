@@ -140,5 +140,13 @@
           templateUrl: '/partials/step-three.html'
         }
     })
+
+    .directive('headerClient', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/header-client.html'
+        }
+    })
+
  
 })(alertify);

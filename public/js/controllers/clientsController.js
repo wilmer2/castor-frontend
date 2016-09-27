@@ -101,7 +101,7 @@
            .catch(function (err) {
               if(err.status == 401) {
                   $state.go('login');
-              } else {
+              } else if(err.status == 404){
                   $scope.loading = true;
                   $scope.notFound = true;
               }
@@ -179,8 +179,9 @@
 
              $scope.dtOptions = DTOptionsBuilder.newOptions()
               .withLanguage(settingService.getSettingTable())
-              .withDOM('ftp')
-              .withBootstrap();
+              .withDOM('tp')
+              .withBootstrap()
+              .withOption('order', [0, 'desc']);
 
              clientService.findClient($stateParams.id)
              .then(function (client) {
@@ -199,18 +200,6 @@
                     $scope.loading = true;
                 }
              });
-
-             $scope.show = function (id) {
-                $state.go('menu.rental.show', {id: id});
-             }
-
-             $scope.rentalDay = function () {
-                $state.go('menu.client.rental_date', {id: $scope.client.id});
-             }
-
-             $scope.rentalHour = function () {
-                $state.go('menu.client.rental_hour', {id: $scope.client.id});
-             }
         }
     ])
 
@@ -240,7 +229,7 @@
 
            $scope.dtOptions = DTOptionsBuilder.newOptions()
            .withLanguage(settingService.getSettingTable())
-           .withDOM('ftp')
+           .withDOM('tp')
            .withBootstrap();
 
            clientService.findClient($stateParams.id)
@@ -255,15 +244,13 @@
 
             })
             .catch(function (err) {
-               if(err.status == 404) {
+               if(err.status == 401) {
+                  $state.go('login');
+               } else if(err.status == 404) {
                   $scope.notFound = true;
                   $scope.loading = true;
                }
             });
-
-            $scope.show = function (id) {
-              $state.go('menu.rental.show', {id: id});
-            }
 
             $scope.deleteReservation = function () {
               rentalService.deleteRental($scope.deleteReservaionId)
@@ -308,14 +295,6 @@
               } else {
                   $state.go('menu.rental.reservation_hour_edit', {id: id});
               }
-            }
-
-            $scope.reservationHour = function () {
-              $state.go('menu.client.reservation_hour', {id: $scope.client.id});
-            }
-
-            $scope.reservationDay = function () {
-              $state.go('menu.client.reservation_date', {id: $scope.client.id});
             }
 
       }
@@ -371,7 +350,7 @@
                          
                     $state.go('menu.rental.room_date', {dataTransition: {
                       rooms: $scope.data.rooms,
-                      departure_date: $scope.data.departure_date,
+                      departure_date:  time.filterDate($scope.data.departure_date),
                       client: $scope.client
                     }});
                 })
@@ -511,8 +490,8 @@
                     
                    $state.go('menu.rental.room_reservation_date', {dataTransition: {
                       arrival_time: $scope.data.arrival_time,
-                      arrival_date: $scope.data.arrival_date,
-                      departure_date: $scope.data.departure_date,
+                      arrival_date: time.filterDate($scope.data.arrival_date),
+                      departure_date: time.filterDate($scope.data.departure_date), 
                       state: $scope.data.state,
                       rooms: $scope.rooms,
                       client: $scope.client

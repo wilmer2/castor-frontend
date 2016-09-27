@@ -1,55 +1,83 @@
-<h3 class="text-center">Reservaciones</h3>
-
-<hr>
-
-<div ng-if="loading  && !notFound">
+<div ng-if="loading && !notFound">
+  <header-client></header-client>
   <menu-client></menu-client>
-  <div>
-     <button class="btn btn-primary" ng-click="reservationHour()">Reservar hora</button>
-     <button class="btn btn-primary" ng-click="reservationDay()">Reservar dia</button>
-     <table class="table" datatable="ng" dt-options="dtOptions">
-           <thead>
-             <tr>
-             <th>Llegada</th>
-             <th>Salida</th>
-             <th>Tipo</th>
-             <th>Estado de Pago</th>
-             <th>Opciones</th>
-           </tr>
-           </thead>
-           <tbody>
-              <tr  ng-repeat="reservation in reservations">
-             <td>
-               <span ng-bind="reservation.arrival_date"></span>
-               <span ng-bind="reservation.arrival_time"></span>
-             </td>
-              <td>
-               <span ng-if="reservation.departure_date != null" ng-bind="reservation.departure_date">
-               </span>
-               <span ng-if="reservation.departure_date == null" ng-bind="reservation.arrival_date">
-               </span>
-               <span ng-bind="reservation.departure_time"></span>
-             </td>
-             <td>
-               <span ng-bind="reservation.type"></span>
-             </td>
-             <td>
-               <span ng-bind="reservation.state"></span>
-             </td>
-             <td>
-               <button class="btn btn-primary" ng-click="show(reservation.id)">Ver</button>
-               <button class="btn btn-success" ng-click="edit(reservation.id)">
-                 Editar
-               </button>
-               <button class="btn btn-danger" ng-click="confirmDeleteReservation(reservation.id)">     Eliminar
-               </button>
-             </td>
-            </tr>
-           </tbody>
-      </table>
+  <div class="col-xs-9">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Reservaciones</h3>
+      </div>
+      <div class="box-body">
+        <div>
+         <div class="box-tools">
+           <a ui-sref="menu.client.reservation_date({id: client.id})" class="btn btn-default btn-sm">
+            <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+             &nbsp;
+            Reservar dia
+           </a>
+           <a ui-sref="menu.client.reservation_hour({id: client.id})" class="btn btn-default btn-sm" ng-click="reservationHour()">
+            <i class="fa fa-calendar-minus-o" aria-hidden="true"></i>
+              &nbsp;
+             Reservar hora
+           </a>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table  table-hover" datatable="ng" dt-options="dtOptions">
+               <thead>
+                <tr>
+                 <th>Llegada</th>
+                 <th>Salida</th>
+                 <th>Tipo</th>
+                 <th>Acciones</th>
+                </tr>
+               </thead>
+               <tbody>
+                <tr ng-repeat="reservation in reservations">
+                 <td>
+                  <span ng-bind="reservation.arrival_date|date:'MM/dd/yyyy'"></span>
+                  <span ng-bind="reservation.arrival_time|normalizeTime"></span>
+                 </td>
+                 <td>
+                  <span ng-if="reservation.departure_date != null" ng-bind="reservation.departure_date|date:'MM/dd/yyyy'">
+                  </span>
+                  <span ng-if="reservation.departure_date == null" ng-bind="reservation.arrival_date|date:'MM/dd/yyyy'">
+                  </span>
+                  <span ng-bind="reservation.departure_time|normalizeTime"></span>
+                 </td>
+                 <td>
+                  <span ng-bind="reservation.type|normalizeType"></span>
+                 </td>
+                 <td>
+                  <a ui-sref="menu.rental.show({id:reservation.id})"  class="btn btn-default btn-sm" uib-tooltip="Ver" > 
+                    <i class="fa fa-eye"></i>
+                  </a>
+                  <button class="btn btn-default btn-sm" ng-click="edit(reservation.id)" uib-tooltip="Editar">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true">                     
+                    </i>
+                  </button>
+                  <button class="btn btn-danger btn-sm" 
+                   ng-click="confirmDeleteReservation(reservation.id)"  uib-tooltip="Eliminar">  
+                   <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  </button>
+                 </td>
+                </tr>
+               </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div ng-if="loading && notFound">
-   Cliente no encontrado
+
+
+
+<div class="callout callout-danger lead" ng-if="loading && notFound">
+  <b>Aviso!</b>
+  <p>
+    Cliente no encontrado
+  </p>
 </div>

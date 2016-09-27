@@ -213,14 +213,17 @@
            $scope.dtOptions = DTOptionsBuilder.newOptions()
            .withLanguage(settingService.getSettingTable())
            .withDOM('ftp')
-           .withBootstrap();
+           .withBootstrap()
+           .withOption('order', [0, 'desc']);
 
            rentalService.all()
            .then(function (rentals) {
               $scope.rentals = rentals
            })
            .catch(function (err) {
-              console.log('error');
+              if(err.status == 401) {
+                 $state.go('login');
+              }
            });
 
            $scope.show = function (rentalId) {
@@ -616,10 +619,14 @@
                 }
             })
             .catch(function (err) {
-                $scope.notFound = true;
+                if(err.status == 401) {
+                    $state.go('login');
+                } else if(err.status == 404) {
+                    $scope.notFound = true;                  
+                }
             });
 
-            $scope.availableDateRooms = function ($event) {
+            $scope.sendData = function ($event) {
                $event.preventDefault();
 
                 $scope.rooms = [];
@@ -634,31 +641,35 @@
                   currentTime
                 )
                 .then(function (data) {
-                    $scope.select = data.select;
-                    $scope.loadRooms(data.rooms);
+                  $scope.select = data.select;
+                  $scope.loadRooms(data.rooms);
 
-                    $state.go('menu.rental.room_renovate_date', {dataTransition: {
-                       rental: $scope.rental,
-                       rooms: $scope.rooms,
-                       select: $scope.select,
-                       currentRooms: $scope.currentRooms,
-                       countRoom: $scope.countRoom,
-                       maxRoom: $scope.maxRoom
-                    }})
+                  $state.go('menu.rental.room_renovate_date', {dataTransition: {
+                    rental: $scope.rental,
+                    rooms: $scope.rooms,
+                    select: $scope.select,
+                    currentRooms: $scope.currentRooms,
+                    countRoom: $scope.countRoom,
+                    maxRoom: $scope.maxRoom
+                  }})
                     
                 })
                 .catch(function (err) {
-                    showMessage.error(err.data.message);
+                    if(err.status == 401) {
+                       $state.go('login');
+                    } else if(err.status == 400) {
+                       showMessage.error(err.data.message);
+                    }
                 })
             }
 
             $scope.loadRooms = function (roomsAvailable) {
-                var rooms = extendRoomService.extendRooms(roomsAvailable);
+              var rooms = extendRoomService.extendRooms(roomsAvailable);
 
-                $scope.rooms = extendRoomService.previouslySelectedRoom($scope.currentRooms, rooms);
-                $scope.rental.room_ids = extendRoomService.addPreviouslySelectedRoom($scope.rooms, $scope.rental.room_ids);
-                $scope.countRoom = $scope.rental.room_ids.length;
-                $scope.maxRoom = extendRoomService.maxRoom($scope.currentRooms, $scope.rooms);
+              $scope.rooms = extendRoomService.previouslySelectedRoom($scope.currentRooms, rooms);
+              $scope.rental.room_ids = extendRoomService.addPreviouslySelectedRoom($scope.rooms, $scope.rental.room_ids);
+              $scope.countRoom = $scope.rental.room_ids.length;
+              $scope.maxRoom = extendRoomService.maxRoom($scope.currentRooms, $scope.rooms);
             }
         }
      ])
@@ -680,9 +691,9 @@
            rentalService
         ) {
              if($stateParams.dataTransition == null)  {
-                 $state.go('/');
+                 $state.go('login');
              } else {
-                $scope.select = $stateParams.dataTransition.select;
+                 $scope.select = $stateParams.dataTransition.select;
                  $scope.rental = $stateParams.dataTransition.rental;
                  $scope.rooms = $stateParams.dataTransition.rooms;
                  $scope.countRoom = $stateParams.dataTransition.countRoom;
@@ -718,13 +729,17 @@
                  }
 
                  $scope.sendData = function () {
-
                    rentalService.sendRenovateDate($scope.rental).then(function (rental) {
-                       console.log(rental);
-                       showMessage.success('Renovacion registrada');
+                      showMessage.success('Renovacion registrada');
+                      $state.go('menu.rental.show', {id: rental.id});
                    })
                    .catch(function (err) {
-                       showMessage.error(err.data.message);
+                      if(err.status == 401) {
+                         $state.go('login');
+                      } else if(err.status == 400) {
+                         showMessage.error(err.data.message);
+
+                      }
                    });
                  }
              }
@@ -902,11 +917,18 @@
               rentalService.getRental($stateParams.id)
               .then(function (data) {
                  $scope.rental = rentalService.formatDataEdit(data);
-                 $scope.loading = true;
-                 $scope.availableDateRooms();
+
+                 if($scope.rental.type == 'days') {
+                    $scope.loading = true;
+                    $scope.availableDateRooms();
+                 }
               })
               .catch(function (err) {
-                 $scope.notFound = true;
+                 if(err.status == 401) {
+                    $state.go('login');
+                 } else if(err.status == 404) {
+                    $scope.notFound = true;
+                 }
               });
 
               $scope.availableDateRooms = function () {
@@ -944,14 +966,18 @@
                  );
               }
 
-              $scope.addRoomForDate = function () {
+              $scope.sendData = function () {
                 rentalService.addRoomForDate($scope.rental)
                 .then(function (res) {
                     showMessage.success(res.message);
                     $state.go('menu.rental.show', {id: $scope.rental.id});
                 })
                 .catch(function (err) {
-                    showMessage.error(err.data.message);
+                    if(err.status == 401) {
+                       $state.go('login');
+                    } else if(err.status == 400) {
+                       showMessage.error(err.data.message);
+                    }
                 })
               }
 
@@ -1016,7 +1042,11 @@
                  
               })
               .catch(function (err) {
-                 $scope.notFound = true;
+                 if(err.status == 401) {
+                    $state.go('login');
+                 } else if(err.status == 404) {
+                    $scope.notFound = true;
+                 }
               });
 
               $scope.availableHourRooms = function () {
@@ -1033,7 +1063,11 @@
                       $scope.rooms = extendRoomService.extendRooms(rooms);
                   })
                   .catch(function (err) {
-                      showMessage.error(err.data.message);
+                     if(err.status == 401) {
+                        $state.go('login');
+                     } else if(err.status == 400) {
+                        showMessage.error(err.data.message);
+                     }
                   })
               }
 
@@ -1054,16 +1088,18 @@
                  );
               }
 
-              $scope.addRoomForHour = function ($event) {
-                  $event.preventDefault();
-
+              $scope.sendData = function () {
                   rentalService.addRoomForHour($scope.rental)
                    .then(function (res) {
                       showMessage.success(res.message);
                       $state.go('menu.rental.show', {id: $scope.rental.id});
                   })
                   .catch(function (err) {
-                      showMessage.error(err.data.message);
+                     if(err.status == 401) {
+                        $state.go('login');
+                     } else if(err.status == 400) {
+                        showMessage.error(err.data.message);
+                     }
                   })
               }
          }
@@ -1098,7 +1134,11 @@
                 $scope.searchRoom($stateParams.roomId);
              })
              .catch(function (err) {
-                $scope.notFound = true;
+                if(err.status == 401) {
+                    $state.go('login');
+                } else if(err.status == 404) {
+                   $scope.notFound = true;
+                }
              });
 
              $scope.searchRoom = function (roomId) {
@@ -1134,9 +1174,6 @@
                     )
                     .then(function (rooms) {
                        $scope.rooms = rooms;
-                    })
-                    .catch(function (err) {
-                        showMessage.error(err.data.message);
                     }) 
                 } else {
                     var date = $scope.getDateHour();
@@ -1149,7 +1186,7 @@
                     )
                     .then(function (rooms) {
                         $scope.rooms = rooms
-                    });
+                    }) 
                 }
              }
 
@@ -1207,16 +1244,18 @@
 
               }
 
-             $scope.changeRoom = function ($event) {
-                $event.preventDefault();
-                
+             $scope.changeRoom = function () {
                 rentalService.changeRoom($scope.rental, $scope.currentRoom.roomId)
                 .then(function (rental) {
                     showMessage.success('La habitacion ha sido cambiada');
                     $state.go('menu.rental.show', {id: rental.id})
                 })
                 .catch(function (err) {
-                    showMessage.error(err.data.message);
+                    if(err.status == 401) {
+                        $state.go('login');
+                    } else if(err.status == 400) {
+                        showMessage.error(err.data.message);                       
+                    }
                 })
              }
         }

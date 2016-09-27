@@ -1,46 +1,72 @@
-<h3 class="text-center">Hospedajes</h3>
-
-<hr>
-
-<div ng-if="loading  && !notFound">
+<div ng-if="loading && !notFound">
+  <header-client></header-client>
   <menu-client></menu-client>
-  <div>
-    <button class="btn btn-primary" ng-click="rentalHour()">Alquilar hora</button>
-    <button class="btn btn-primary" ng-click="rentalDay()">Alquilar dia</button>
-     <table class="table" datatable="ng" dt-options="dtOptions">
-           <thead>
-             <tr>
-             <th>Llegada</th>
-             <th>Salida</th>
-             <th>Tipo</th>
-             <th>Opciones</th>
-           </tr>
-           </thead>
-           <tbody>
-              <tr  ng-repeat="rental in rentals">
-             <td>
-               <span ng-bind="rental.arrival_date"></span>
-               <span ng-bind="rental.arrival_time"></span>
-             </td>
-              <td>
-               <span ng-if="rental.departure_date != null" ng-bind="rental.departure_date">
-               </span>
-               <span ng-if="rental.departure_date == null" ng-bind="rental.arrival_date">
-               </span>
-               <span ng-bind="rental.departure_time"></span>
-             </td>
-             <td>
-               <span ng-bind="rental.type"></span>
-             </td>
-             <td>
-               <button class="btn btn-primary" ng-click="show(rental.id)">Ver</button>
-             </td>
-            </tr>
-           </tbody>
-        </table>
+  <div class="col-xs-9">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Hospedajes</h3>
+      </div>
+      <div class="box-body">
+        <div>
+         <div class="box-tools">
+           <a  ui-sref="menu.client.rental_date({id: client.id})" class="btn btn-default btn-sm">
+            <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+             &nbsp;
+            Alquilar dia
+           </a>
+           <a ui-sref="menu.client.rental_hour({id: client.id})" class="btn btn-default btn-sm" >
+            <i class="fa fa-calendar-minus-o" aria-hidden="true"></i>
+              &nbsp;
+             Alquilar hora
+           </a>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table  table-hover" datatable="ng" dt-options="dtOptions">
+               <thead>
+                <tr>
+                 <th>Llegada</th>
+                 <th>Salida</th>
+                 <th>Tipo</th>
+                 <th>Ver</th>
+                </tr>
+               </thead>
+               <tbody>
+                <tr ng-repeat="rental in rentals">
+                 <td>
+                  <span ng-bind="rental.arrival_date|date:'MM/dd/yyyy'"></span>
+                  <span ng-bind="rental.arrival_time|normalizeTime"></span>
+                 </td>
+                 <td>
+                  <span ng-if="rental.departure_date != null" ng-bind="rental.departure_date|date:'MM/dd/yyyy'">
+                  </span>
+                  <span ng-if="rental.departure_date == null" ng-bind="rental.arrival_date|date:'MM/dd/yyyy'">
+                  </span>
+                  <span ng-bind="rental.departure_time|normalizeTime"></span>
+                 </td>
+                 <td>
+                  <span ng-bind="rental.type|normalizeType"></span>
+                 </td>
+                 <td>
+                  <a ui-sref="menu.rental.show({id:rental.id})" class="btn btn-default btn-sm"> 
+                    <i class="fa fa-eye"></i>
+                  </a>
+                 </td>
+                </tr>
+               </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div ng-if="loading && notFound">
-   Cliente no encontrado
+<div class="callout callout-danger lead" ng-if="loading && notFound">
+  <b>Aviso!</b>
+  <p>
+    Cliente no encontrado
+  </p>
 </div>

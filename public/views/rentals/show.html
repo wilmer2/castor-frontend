@@ -55,6 +55,10 @@
      <div class="box box-primary">
        <div class="box-header with-border">
          <h3 class="box-title">Datos</h3>
+         
+         <a class="pull-right" ui-sref="menu.client.show({id: client.id})">
+           Ir a Cliente
+         </a>
        </div>
        <div class="box-body">
          <table class="table table-condensed table-bordered">
@@ -170,8 +174,8 @@
                  <span ng-bind="room.code_number"></span>
                </td>
                <td class="text-center">
-                 <span ng-bind="room.pivot.check_in| date:'MM/dd/yyyy'" ng-if="room.pivot.check_in"></span>
-                 <span ng-bind="rental.arrival_date | date:'MM/dd/yyyy'" ng-if="!room.pivot.check_in"></span>
+                 <span ng-bind="room.pivot.check_in|date:'MM/dd/yyyy'" ng-if="room.pivot.check_in"></span>
+                 <span ng-bind="rental.arrival_date |date:'MM/dd/yyyy'" ng-if="!room.pivot.check_in"></span>
                </td>
                <td class="text-center">
                  <span ng-bind="room.pivot.check_timein|normalizeTime" ng-if="room.pivot.check_timein"></span>
@@ -191,7 +195,7 @@
                  <button class="btn btn-sm btn-default" ng-click="changeRoom(room.id)" uib-tooltip="Cambiar">
                   <i class="fa fa-exchange" aria-hidden="true"></i>
                 </button>
-                <button class="btn-custom btn-delete" ng-click="confirmDeleteRoom(room.id)"  uib-tooltip="Eliminar"> 
+                <button class="btn-custom btn-delete" ng-click="confirmDeleteRoom(room.id)" uib-tooltip="Eliminar"> 
                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
                </div>
@@ -207,178 +211,6 @@
 </div>
 
 <div class="callout callout-danger lead" ng-if="loading && notFound">
-    <b>Aviso!</b>
-    <p>Hospedaje no encontrado</p>
+  <b>Aviso!</b>
+  <p>Hospedaje no encontrado</p>
 </div>
-
-  
-<!--<div ng-if="loading && notFound">
-    Hospedaje no encontrado no encontrado
-</div>
-
-<div ng-if="loading && !notFound">
-
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-    <div>
-      <button class="btn btn-danger" ng-if="!rental.checkout" ng-click="confirmDeleteRental()">
-        Eliminar
-      </button>
-      <button class="btn btn-primary" ng-if="!rental.checkout && !rental.reservation" ng-click="confirmCheckout()">
-        Salida
-      </button>
-      <button class="btn btn-success" ng-if="rental.reservation" ng-click="confirmReservation()">
-        Confimar Reservacion
-      </button>
-      <button class="btn btn-primary" ng-if="rental.reservation">Editar reservacion</button>
-      <button class="btn btn-primary" ng-if="!rental.checkout" ng-click="editRecord()">Editar info</button>
-      <button class="btn btn-default">Imprimir</button>
-    </div>
-      <table class="table">
-        <tr>
-          <td>
-            <strong>Cedula</strong>
-          </td>
-          <td ng-bind="client.identity_card">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Nombre</strong>
-          </td>
-          <td ng-bind="client.first_name">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Apellido</strong>
-          </td>
-          <td ng-bind="client.last_name">
-          </td>
-        </tr>
-        <tr ng-if="rental.checkout_date">
-          <td>
-            <strong>Salida anticipida</strong>
-          </td>
-          <td ng-bind="rental.checkout_date">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Tipo de vehiculo</strong>
-          </td>
-          <td>
-            <span ng-bind="rental.record.vehicle_type" ng-if="rental.record.vehicle_type"></span>
-            <span ng-if="!rental.record.vehicle_type"> N/A</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Estado</strong>
-          </td>
-          <td ng-bind="rental.state"></td>
-        </tr>
-         <tr>
-          <td>
-            <strong>Descripcion de vehiculo</strong>
-          </td>
-          <td>
-            <div ng-bind="rental.record.vehicle_description" ng-if="rental.record.vehicle_description"></div>
-            <span ng-if="!rental.record.vehicle_description"> N/A</span>
-          </td>
-        </tr>
-         <tr>
-          <td>
-            <strong>Sabana</strong>
-          </td>
-          <td>
-            <span ng-if="rental.record.blanket">Si</span>
-            <span ng-if="!rental.record.blanket"> N/A</span>
-          </td>
-        </tr
-        <tr>
-          <td>
-            <strong>Monto</strong>
-          </td>
-          <td ng-bind="rental.amount">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Iva</strong>
-          </td>
-          <td ng-bind="rental.amount_impost">    
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Total</strong>
-          </td>
-          <td ng-bind="rental.amount_total">
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-
-      <br>
-      <br>
-
-      <h3 class="text-center"> 
-         Habitacione
-        <button class="btn btn-primary btn-xs" ng-if="!rental.checkout" ng-click="addRoom()">
-            <i class="fa fa-plus"></i> Agregar
-        </button> 
-      </h3>
-
-      <hr>
-      <table class="table" datatable="ng" dt-options="dtOptions">
-           <thead>
-             <tr>
-             <th>Codigo</th>
-             <th>Fecha de registro</th>
-             <th>Hora de registro</th>
-             <th>Fecha de salida</th>
-             <th>Hora de salida</th>
-             <th ng-if="!rental.checkout">Accione</th>
-           </tr>
-           </thead>
-           <tbody>
-              <tr  ng-repeat="room in rooms">
-               <td>
-                 <span ng-bind="room.code_number"></span>
-               </td>
-              <td>
-                 <span ng-bind="room.pivot.check_in" ng-if="room.pivot.check_in"></span>
-                 <span ng-bind="rental.arrival_date" ng-if="!room.pivot.check_in"></span>
-             </td>
-             <td>
-                 <span ng-bind="room.pivot.check_timein" ng-if="room.pivot.check_timein"></span>
-                 <span ng-bind="rental.arrival_time" ng-if="!room.pivot.check_timein"></span>
-             </td>
-             <td>
-                 <span ng-bind="room.pivot.check_out" ng-if="room.pivot.check_out"></span>
-                 <span ng-bind="rental.departure_date" ng-if="!room.pivot.check_out"></span>
-                 <span ng-if="!rental.departure_date && !room.pivot.check_out">N/A</span>
-             </td>
-             <td>
-                 <span ng-bind="room.pivot.check_timeout" ng-if="room.pivot.check_timeout"></span>
-                 <span ng-bind="rental.departure_time" ng-if="!room.pivot.check_timeout"></span>
-             </td>
-             <td ng-if="!rental.checkout">
-               <div ng-if="!room.pivot.check_out">
-                   <button class="btn btn-danger" ng-click="confirmDeleteRoom(room.id)">Eliminar</button>
-                  <button class="btn btn-primary" ng-click="changeRoom(room.id)">Cambiar</button>
-               </div>
-               <span ng-if="room.pivot.check_out">N/A</span>
-             </td>
-            </tr>
-           </tbody>
-        </table>
-    </div>
-  </div>
-
-</div>-->

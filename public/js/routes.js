@@ -293,6 +293,16 @@
             authenticate: true,
             isAdmin: false
          })
+         .state('menu.rental.room_renovate_date', {
+            url: "/room/renovate-date",
+            templateUrl: "/views/rentals/rental-edit-rooms.html",
+            controller: "renovateDateRooms",
+            params: {
+               dataTransition: null
+            },
+            authenticate: true,
+            isAdmin: false
+         })
          .state('menu.rental.renovate_date', {
             url: "/{id}/renovate-date",
             templateUrl: "/views/rentals/renovate-date.html",
@@ -304,16 +314,6 @@
             url: "/{id}/renovate-hour",
             templateUrl: "/views/rentals/renovate-hour.html",
             controller: "renovateHour",
-            authenticate: true,
-            isAdmin: false
-         })
-         .state('menu.rental.room_renovate_date', {
-            url: "/room/renovate-date",
-            templateUrl: "/views/rentals/rental-edit-rooms.html",
-            controller: "renovateDateRooms",
-            params: {
-               dataTransition: null
-            },
             authenticate: true,
             isAdmin: false
          })

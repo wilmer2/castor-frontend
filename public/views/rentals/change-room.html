@@ -1,29 +1,60 @@
-<div ng-if="notFound">
-   Hospedaje no encontrada
+<div class="callout callout-danger lead" ng-if="notFound">
+    <b>Aviso!</b>
+    <p>Hospedaje no encontrada</p>
 </div>
-<div ng-if="roomNotFound">
-  Habitacion no encontrada
+<div class="callout callout-danger lead" ng-if="roomNotFound">
+    <b>Aviso!</b>
+    <p>Habitación no encontrada</p>
 </div>
-<div ng-if="rental.checkout">
-  El hospedaje ya tiene salida
+<div class="callout callout-warning lead" ng-if="rental.checkout">
+  <b>Aviso!</b>
+  <p>Hospedaje ya tiene salida</p>
 </div>
 
-<div ng-if="loading">
-  <div ng-if="rooms.length == 0 && loadingRoom">
-     No hay habitaciones disponibles para cambio
-  </div>
-  <form ng-submit="changeRoom($event)" ng-if="rooms.length > 0">
-      <label ng-if="!rental.reservation">Seleccione estado habitacion</label>
-      <select ng-model="rental.state"  ng-if="!rental.reservation">
-          <option value="disponible">disponible</option>
-          <option value="mantenimiento">mantenimiento</option>
-      </select>
-      <div class="col-lg-3" ng-repeat="room in rooms">
-           <select-room></select-room>
+<div class="row" ng-if="loading &&  rooms.length > 0">
+  <div class="col-md-12">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Seleccione Habitacion</h3>
+        <div class="box-tools pull-right">
+            <strong>Habitación Actual:</strong>
+            <span ng-bind="currentRoom.code_number"></span>
+        
+          <div class="count-rental">
+            <div ng-if="!rental.reservation">
+              <label>Estado de Cambio</label>
+              <select ng-model="rental.state">
+               <option value="disponible">disponible</option>
+               <option value="mantenimiento">mantenimiento</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
-      <button class="btn btn-success" ng-disabled="rental.room_id == ''" ng-show="rooms.length > 0"> 
+      <div class="box-body">
+        <div class="row">
+          <div class="box-tools pull-right">
+            <button class="btn btn-primary btn-change" ng-disabled="rental.room_id == ''" ng-click="changeRoom()"> 
+              Enviar
+            </button>
+          </div>       
+        </div>
+        <br>
+       
+        <div ng-repeat="room in rooms" class="col-sm-4 select-room">
+          <select-room></select-room>
+        </div>
+      </div>
+      <div class="box-footer text-center">
+        <button class="btn btn-primary" ng-disabled="rental.room_id == ''" ng-click="changeRoom()"> 
            Enviar
-      </button>
-  </form> 
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div class="callout callout-danger lead" ng-if="rooms.length == 0 && loadingRoom">
+  <b>Aviso!</b>
+  <p>No hay habitaciones disponibles para cambio</p>
 </div>

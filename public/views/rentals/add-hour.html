@@ -1,23 +1,32 @@
-<div ng-if="notFound">
-   Hospedaje no encontrada
+<div class="callout callout-danger lead" ng-if="notFound">
+   <b>Aviso!</b>
+   <p>Hospedaje no encontrado </p>
 </div>
-<div ng-if="rental.checkout">
-   El hospedaje ya tiene salida
+<div class="callout callout-warning lead" ng-if="rental.checkout">
+   <b>Aviso!</b>
+   <p>El hospedaje ya tiene salida </p>
 </div>
-<div ng-if="rental.type == 'days' && !rental.checkout">
-   El hospedaje debe ser por horas
+<div class="callout callout-danger lead" ng-if="rental.type == 'days' && !rental.checkout">
+  <b>Aviso!</b>
+  <p>El hospedaje debe ser por horas</p>
 </div>
-<div ng-if="loading && timeOut">
-   La hora de salida ya paso
-</div>
-<div ng-if="loading &&  !timeOut">
-    <form ng-submit="addRoomForHour($event)">
-      <div ng-if="rooms.length == 0 && loadingRoom">
-          No hay habitaciones para registrar
+
+<div class="row" ng-if="loading && rooms.length > 0  && !rental.checkout">
+  <div class="col-md-12">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+         <h3 class="box-title">Agregar Habitaciones</h3>
+        <div class="box-tools pull-right"> <btn-add></btn-add></div>
       </div>
-      <div class="col-lg-3" ng-repeat="room in rooms" ng-show="rooms.length > 0">
-          <select-room></select-room>
+      <br>
+      <div class="box-body no-padding">
+        <div ng-repeat="room in rooms" class="col-sm-4 select-room">
+         <select-room></select-room>
+        </div>
       </div>
-      <btn-add></btn-add>
-    </form>
+      <div class="box-footer text-center">
+        <btn-add></btn-add>
+      </div>
+    </div>
+  </div>
 </div>

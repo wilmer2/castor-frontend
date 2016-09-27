@@ -1,6 +1,6 @@
 (function () {
     angular.module('castor.filters', [])
-    .filter('normalizeTime', ['time', function (time) {
+     .filter('normalizeTime', ['time', function (time) {
         return function (element) {
           var standar = element.split(':');
           var hourStand = standar[0];
@@ -18,5 +18,19 @@
 
          return hourStand;
        }
-    }])
+     }])
+
+     .filter('normalizeType', function () {
+        return function (element) {
+          var type = 'Dias'
+
+          if(element == 'hours') {
+             type = 'Horas';
+          }
+
+          return type;
+        }
+     })
+
+
 })()
