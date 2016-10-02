@@ -55,13 +55,15 @@
        '$rootScope',  
        'authService',
        'settingService',
+       'clientService',
 
         function (
           $scope, 
           $state, 
           $rootScope,
           authService,
-          settingService
+          settingService,
+          clientService
         ) {
             $scope.$watch($rootScope.loggedIn, function () {
                authService.getUser().then(function (user) {
@@ -70,10 +72,39 @@
                   return settingService.getSetting();
                 })
                .then(function (setting) {
-                  $scope.companyName = setting.name;
+                  $rootScope.companyName = setting.name;
                })
 
             });
+
+            $scope.q = {};
+
+            $scope.searchClients = function () { 
+              if($scope.q.name.replace(/ /g,'') != '') {
+                clientService.search($scope.q)
+                .then(function (clients) {
+                  $scope.clients = clients;
+                })
+                .catch(function (err) {
+                   if(err.status == 401) {
+                     $state.go('login');
+                   } 
+                })
+              } else {
+                 $scope.empty();
+              }            
+               
+            }
+
+            $scope.show = function (id) {
+              $scope.q.name = '';
+              $scope.empty();
+              $state.go('menu.client.show', {id: id});
+            }
+
+            $scope.empty = function () {
+               $scope.clients = [];
+            }
 
             $scope.logout = function ($event) {
                $event.preventDefault();

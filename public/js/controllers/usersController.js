@@ -12,7 +12,9 @@
                     $state.go('menu.user.list');
                 })
                 .catch(function (err) {
-                    if(err.status == 400) {
+                    if(err.status == 401 || err.status == 403) {
+                        $state.go('login');
+                    } else if(err.status == 400) {
                         showMessage.error(err.data.message);
                     } 
                 })
@@ -43,7 +45,9 @@
                 $scope.user = user;
              })
              .catch(function (err) {
-                if(err.status == 404) {
+                if(err.status == 401 || err.status == 403) {
+                    $state.go('login');
+                } else if(err.status == 404) {
                     $scope.loading = true;
                     $scope.notFound = true;
                 }
@@ -58,9 +62,11 @@
                     $state.go('menu.user.list');
                 })
                 .catch(function (err) {
-                  if(err.status == 400) {
+                   if(err.status == 401 || err.status == 403) {
+                      $state.go('login');
+                   } else if(err.status == 400) {
                       showMessage.error(err.data.message);
-                  }
+                   }
                 })
              }
 
@@ -73,13 +79,15 @@
         'DTOptionsBuilder',
         'userService',
         'settingService',
+        'authService',
 
         function (
             $scope,
             $state,
             DTOptionsBuilder,
             userService,
-            settingService
+            settingService,
+            authService
         ) {
               $scope.users = [];
               $scope.dtOptions = DTOptionsBuilder.newOptions()
@@ -92,7 +100,9 @@
                   $scope.users = userService.loadRoles(users);
               })
               .catch(function (err) {
-                  console.log(err);
+                  if(err.status == 401 || 403) {
+                     $state.go('login');
+                  }
               });
 
              $scope.edit = function (userId) {

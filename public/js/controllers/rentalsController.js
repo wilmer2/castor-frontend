@@ -172,6 +172,19 @@
             });
           }
 
+          $scope.confirmCheckReservation = function () {
+            var message = 'Esta seguro de confirmar reservacion';
+
+            alertify.confirm(message, $scope.confirmReservation)
+            .setting({
+              'title': 'Confirmar Reservacion',
+              'labels': {
+                'ok': 'Confirmar',
+                'cancel': 'Cancelar'
+              }
+            })
+          }
+
           $scope.confirmDeleteRoom = function (roomId) {
             var message = 'Esta seguro de eliminar habitacon';
             $scope.deleteRoomId = roomId;
@@ -631,14 +644,15 @@
 
                 $scope.rooms = [];
                 $scope.rental.room_ids = [];
-
-                var currentTime = time.getHour();
+                $scope.rental.departure_date = time.filterDate($scope.rental.renovate_date);
+               
+                var initTime = '00:00:00';
 
                 rentalService.getConfirmDateRooms(
                   $scope.rental.id,
                   $scope.rental.old_departure,
-                  time.filterDate($scope.rental.departure_date),
-                  currentTime
+                  $scope.rental.departure_date,
+                  initTime
                 )
                 .then(function (data) {
                   $scope.select = data.select;
@@ -770,11 +784,22 @@
              rentalService.getEnabledRooms($stateParams.id)
              .then(function (data) {
                 $scope.rental = rentalService.formatDataEdit(data.rental);
-                $scope.currentRooms = extendRoomService.extendRooms(data.available_rooms);
-                $scope.loading = true;
+                
+                if(
+                    !$scope.rental.checkout && !$scope.rental.reservation &&
+                    $scope.rental != 'days'
+                ) {
+                     $scope.currentRooms = extendRoomService.extendRooms(data.available_rooms);
+                     $scope.loading = true;
+                }
+               
              })
             .catch(function (err) {
-                $scope.notFound = true;
+                if(err.status == 401) {
+                    $state.go('login');
+                } else if(err.status == 404) {
+                    $scope.notFound = true;
+                }
             });
 
             $scope.availableHourRooms = function ($event) {
@@ -786,30 +811,40 @@
                 var renovateHour = time.sumHours(
                     time.formatTime($scope.rental.departure_time), 
                     $scope.rental.renovate_hour
-               );
+                );
                    
-               rentalService.getConfirmHourRooms(
+                var date = time.filterDate($scope.rental.arrival_date);
+ 
+                if($scope.rental.departure_date != null) {
+                    date = time.filterDate($scope.rental.departure_date);
+                }
+                   
+                rentalService.getConfirmHourRooms(
                   $scope.rental.id, 
-                  time.filterDate($scope.rental.arrival_date), 
+                  date, 
                   $scope.rental.departure_time, 
                   renovateHour
-               )
-               .then(function (data) {
+                )
+                .then(function (data) {
                    $scope.select = data.select;
                    $scope.loadRooms(data.rooms);
 
                    $state.go('menu.rental.room_renovate_hour', {dataTransition: {
-                       rental: $scope.rental,
-                       rooms: $scope.rooms,
-                       select: $scope.select,
-                       currentRooms: $scope.currentRooms,
-                       countRoom: $scope.countRoom,
-                       maxRoom: $scope.maxRoom
+                      rental: $scope.rental,
+                      rooms: $scope.rooms,
+                      select: $scope.select,
+                      currentRooms: $scope.currentRooms,
+                      countRoom: $scope.countRoom,
+                      maxRoom: $scope.maxRoom
                    }})
-               })
-               .catch(function (err) {
-                  showMessage.error(err.data.message);
-               })
+                })
+                .catch(function (err) {
+                   if(err.status == 401) {
+                      $state.go('login');
+                   } else if(err.status == 400) {
+                      showMessage.error(err.data.message);
+                   }
+                })
             }
 
             $scope.loadRooms = function (roomsAvailable) {
@@ -841,7 +876,7 @@
              rentalService
           ) {  
                if($stateParams.dataTransition == null)  {
-                   $state.go('/');
+                   $state.go('login');
                } else {
                    $scope.select = $stateParams.dataTransition.select;
                    $scope.rental = $stateParams.dataTransition.rental;
@@ -880,11 +915,15 @@
 
                  $scope.sendData = function () {
                    rentalService.sendRenovateHour($scope.rental).then(function (rental) {
-                       console.log(rental);
                        showMessage.success('Renovacion registrada');
+                       $state.go('menu.rental.show', {id: rental.id})
                    })
                    .catch(function (err) {
-                       showMessage.error(err.data.message);
+                       if(err.status == 401) {
+                          $state.go('login');
+                       } else if(err.status == 400) {
+                          showMessage.error(err.data.message);
+                       }
                    });
                  }
              }

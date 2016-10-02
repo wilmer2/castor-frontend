@@ -672,22 +672,24 @@
            $scope.reservations = [];
 
            $scope.dtOptions = DTOptionsBuilder.newOptions()
-             .withLanguage(settingService.getSettingTable())
-             .withDOM('ftp')
-             .withBootstrap();
+           .withLanguage(settingService.getSettingTable())
+           .withDOM('ftp')
+           .withBootstrap();
 
-          $scope.getReservations = function () {
-            rentalService.getReservations(
+           $scope.getReservations = function () {
+             rentalService.getReservations(
               time.filterDate($scope.startDate), 
               time.filterDate($scope.endDate)
-            )
-            .then(function(reservations) {
+             )
+             .then(function(reservations) {
                 $scope.reservations = reservations;
-            })
-            .catch(function (err) {
-               console.log(err);
-            })
-          }
+             })
+             .catch(function (err) {
+               if(err.status == 401) {
+                  $state.go('login');
+               }
+             })
+           }
 
           $scope.getReservations();
 
@@ -719,7 +721,9 @@
               $scope.reservations = filterReservations;
             })
             .catch(function (err) {
-               if(err.status == 400) {
+               if(err.status == 401) {
+                  $state.go('login');
+               } else if(err.status == 400) {
                  showMessage.error(err.data.message);
                }
             })
@@ -759,39 +763,93 @@
          settingService
        ) {  
 
-           $scope.dtOptions = DTOptionsBuilder.newOptions()
-           .withLanguage(settingService.getSettingTable())
-           .withDOM('ftp')
-           .withBootstrap();
+            $scope.dtOptions = DTOptionsBuilder.newOptions()
+            .withLanguage(settingService.getSettingTable())
+            .withDOM('ftp')
+            .withBootstrap();
 
-           rentalService.getReservationsPending()
-           .then(function (reservations) {
-             $scope.reservations = reservations;
-           })
-           .catch(function (err) {
-             console.log(err);
-           });
+            rentalService.getReservationsPending()
+            .then(function (reservations) {
+              $scope.reservations = reservations;
+            })
+            .catch(function (err) {
+               if(err.status == 401) {
+                  $state.go('login');
+               }
+            });
 
-           $scope.show = function (id) {
-              $state.go('menu.rental.show', {id: id});
-           }
+            $scope.show = function (id) {
+               $state.go('menu.rental.show', {id: id});
+            }
 
-           $scope.confirmReservation = function (reservationId) {
-             rentalService.confirmReservation(reservationId)
+            $scope.deleteReservation = function () {
+             rentalService.deleteRental($scope.deleteReservaionId)
              .then(function (res) {
-               showMessage.success('Reservacion confirmada');
-                  
+               showMessage.success(res.message);
+
                var filterReservations =  _.filter($scope.reservations, function (reservation) {
-                 return reservation.id != reservationId
+                 return reservation.id != $scope.deleteReservaionId
                });
 
                $scope.reservations = filterReservations;
              })
              .catch(function (err) {
-                if(err.status == 400) {
-                  showMessage.error(err.data.message);
+                if(err.status == 401) {
+                   $state.go('login');
+                } else if(err.status == 400) {
+                   showMessage.error(err.data.message);
+                }
+             });
+           }
+
+           $scope.confirmDeleteReservation = function (reservationId) {
+             var message = 'Esta seguro de eliminar reservacion';
+
+             $scope.deleteReservaionId = reservationId;
+
+             alertify.confirm(message, $scope.deleteReservation)
+              .setting({
+               'title': 'Eliminar Reservacion',
+               'labels': {
+                 'ok': 'Confirmar',
+                 'cancel': 'Cancelar'
+                }
+              });
+           }
+
+           $scope.confirmReservation = function () {
+             rentalService.confirmReservation($scope.confirmCheckId)
+             .then(function (res) {
+                showMessage.success('Reservacion confirmada');
+                  
+                var filterReservations =  _.filter($scope.reservations, function (reservation) {
+                  return reservation.id != $scope.confirmCheckId;
+                });
+
+                $scope.reservations = filterReservations;
+             })
+             .catch(function (err) {
+                if(err.status == 401) {
+                   $state.go('login');
+                } else if(err.status == 400) {
+                   showMessage.error(err.data.message);
                 }
              })
+           }
+
+           $scope.confirmCheckReservation = function (reservationId) {
+             var message = 'Esta seguro de confirmar reservacion';
+
+             $scope.confirmCheckId = reservationId;
+
+             alertify.confirm(message,  $scope.confirmReservation)
+              .setting({
+                'title': 'Confirmar Reservacion',
+                'labels': {
+                  'ok': 'Confirmar',
+                  'cancel': 'Cancelar'
+                }
+              });
            }
        }
      ])

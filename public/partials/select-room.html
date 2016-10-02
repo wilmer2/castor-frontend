@@ -6,12 +6,16 @@
     </h1>
   </div>
   <div class="panel-body">
-    <img class="img-responsive img-rounded center-block" ng-src="{{room.img_url}}" height="180" width="230">
+    <div class="row">
+      <img class="img-rounded  center-block" ng-src="{{room.img_url}}" height="130" width="180">
+    </div>
+     <div class="box-header with-border">
+       Coste adicional  <strong ng-bind="room.increment"></strong>
+       <p ng-bind="room.description" class="room-description"></p>
+     </div>
   </div>
-  <div class="panel-footer">
-    Coste adicional  <strong ng-bind="room.increment"></strong>
-     <p ng-bind="room.description"></p>
-     <div class="text-center">
+  <div class="panel-footer text-center">
+    
         <button class="btn btn-primary  btn-block" ng-if="!room.select && !room.inmutable" ng-click="addRoom(room.roomId)" ng-disabled="all">
            Alquilar
         </button>
@@ -21,8 +25,6 @@
         <button class="btn btn-warning btn-block" ng-if="room.select && room.inmutable">
           Seleccionada Previamente
         </button>
-        
-      </div>
   </div>  
 </div>
     

@@ -1,23 +1,35 @@
-<h3 class="text-center">Tipos</h3>
-
-<hr />
-<table class="table" datatable="ng" dt-options="dtOptions">
-      <thead>
-        <tr>
-          <th>Titulo</th>
-          <th>Monto extra</th>
-          <th>Ver</th>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">
+          Tipos
+        </h3>
+      </div>
+      <div class="box-body">
+       <div class="table-responsive">
+        <table class="table table-condensed table-hover" datatable="ng" dt-options="dtOptions">
+        <thead>
+         <tr>
+          <th class="col-fit">Titulo</th>
+          <th class="col-fit">Monto extra</th>
+          <th class="col-fit">Ver</th>
          </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="type in types">
-          <td ng-bind="type.title"></td>
-          <td ng-bind="type.increment"></td>
-          <td>
-            <button class="btn btn-default" ng-click="show(type.id)">
-              Ver
+        </thead>
+        <tbody>
+         <tr ng-repeat="type in types">
+           <td ng-bind="type.title"></td>
+           <td ng-bind="type.increment"></td>
+           <td>
+            <button class="btn btn-primary btn-sm" ng-click="show(type.id)">
+             <i class="fa fa-eye" aria-hidden="true"></i>
             </button>
-          </td> 
-        </tr>
-      </tbody>
-</table>
+           </td> 
+         </tr>
+        </tbody>
+       </table>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>

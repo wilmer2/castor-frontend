@@ -3,12 +3,14 @@
 
     .controller('setting', [
        '$scope',
+       '$rootScope',
        'showMessage',
        'time',
        'settingService',
 
        function (
          $scope,
+         $rootScope,
          showMessage,
          time,
          settingService
@@ -32,6 +34,7 @@
                 .then(function (setting) {
                    showMessage.success('Configuraciones actualizadas');
                    $scope.setting = setting
+                   $rootScope.companyName = setting.name;
 
                    $scope.formatTime();
                 })

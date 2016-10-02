@@ -18,10 +18,12 @@
               $scope.type = type;
           })
           .catch(function (err) {
-              if(err.status == 404) {
-                  $scope.loading = true;
-                  $scope.notFound = true;
-              }
+             if(err.status == 401) {
+                 $state.go('login');
+             } else if(err.status == 404) {
+                 $scope.loading = true;
+                 $scope.notFound = true;
+             }
           })
 
           $scope.edit = function () {
@@ -76,7 +78,11 @@
                   $state.go('menu.type.show', {id: type.id});
               })
               .catch(function (err) {
-                  showMessage.error(err.data.message);
+                  if(err.status == 401) {
+                      $state.go('login');
+                  } else if(err.status == 400) {
+                      showMessage.error(err.data.message);
+                  }
               })
           }
        }
@@ -101,7 +107,9 @@
               $scope.type.mime = '';
           })
           .catch(function (err) {
-              if(err.status == 404) {
+              if(err.status == 401) {
+                  $state.go('login');
+              } else if(err.status == 404) {
                   $scope.loading = true;
                   $scope.notFound = true;
               }
@@ -117,7 +125,11 @@
                   
               })
               .catch(function (err) {
-                  showMessage.error(err.data.message);
+                  if(err.status == 401) {
+                      $state.go('login');
+                  } else if(err.status == 400) {
+                      showMessage.error(err.data.message);
+                  }
               })
           }
       }
@@ -143,7 +155,9 @@
                  $scope.types = types;
              })
              .catch(function (err) {
-                 console.log(err);
+                if(err.status == 401) {
+                   $state.go('login');
+                }
              });
 
              $scope.show = function (typeId) {

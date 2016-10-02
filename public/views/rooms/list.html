@@ -1,23 +1,35 @@
-<h3 class="text-center">Habitaciones</h3>
-
-<hr />
-<table class="table" datatable="ng" dt-options="dtOptions">
-      <thead>
-        <tr>
-          <th>Codigo</th>
-          <th>Estado</th>
-          <th>Ver</th>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">
+          Habitaciones
+        </h3>
+      </div>
+      <div class="box-body">
+       <div class="table-responsive">
+        <table class="table table-condensed table-hover" datatable="ng" dt-options="dtOptions">
+        <thead>
+         <tr>
+          <th class="col-fit">Codigo</th>
+          <th class="col-fit">Estado</th>
+          <th class="col-fit">Ver</th>
          </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="room in rooms">
+        </thead>
+        <tbody>
+         <tr ng-repeat="room in rooms">
           <td ng-bind="room.code_number"></td>
           <td ng-bind="room.state"></td>
           <td>
-            <button class="btn btn-default" ng-click="show(room.id)">
-              Ver
+            <button class="btn btn-primary btn-sm" ng-click="show(room.id)">
+              <i class="fa fa-eye"></i>
             </button>
           </td> 
         </tr>
-      </tbody>
-</table>
+        </tbody>
+       </table>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>

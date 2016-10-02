@@ -25,9 +25,22 @@
         </div>
         <form ng-submit="sendData($event)">
           <div class="box-body">
+            <div class="box-tools" ng-if="rental.type == 'hours'">
+             <a ui-sref="menu.rental.renovate_date({id: rental.id})" class="btn btn-default btn-sm">
+              <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+               &nbsp;
+               Renovar por dia
+             </a>
+            <a ui-sref="menu.rental.renovate_hour({id: rental.id})" class="btn btn-default btn-sm" >
+               <i class="fa fa-calendar-minus-o" aria-hidden="true"></i>
+               &nbsp;
+               Renovar por hora
+             </a>
+           </div>
+           <br>
             <div class="form-group">
               <label>Fecha de salida</label>
-              <input  class="form-control" type="date" ng-model="rental.departure_date" required>
+              <input  class="form-control" type="date" ng-model="rental.renovate_date" required>
             </div>
             <div class="box-footer">
              <button type="submit" class="btn btn-primary">Enviar</button>

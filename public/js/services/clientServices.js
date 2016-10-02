@@ -77,6 +77,19 @@
               return deferred.promise;
           }
 
+          function search(data) {
+              var deferred = $q.defer();
+
+              $http.post(Backend.url + 'clients/search', data)
+              .then(function (res) {
+                  deferred.resolve(res.data);
+              }, function (err) {
+                  deferred.reject(err);
+              });
+
+              return deferred.promise;
+          }
+
           function deleteClient(clientId) {
               var deferred = $q.defer();
 
@@ -106,6 +119,7 @@
             findClient: findClient,
             findByIdentityCard: findByIdentityCard,
             store: store,
+            search: search,
             update: update,
             deleteClient: deleteClient,
             getClients: getClients,

@@ -331,8 +331,13 @@
                 $scope.client = client;
              })
              .catch(function (err) {
-                $scope.loading = true;
-                $scope.notFound = true;
+                if(err.status == 401) {
+                   $state.go('login');
+                } else if(err.status == 404) {
+                   $scope.loading = true;
+                   $scope.notFound = true;
+                }
+                
              })
 
              $scope.availableDateRooms = function ($event) {
@@ -355,7 +360,9 @@
                     }});
                 })
                 .catch(function (err) {
-                    if(err.status == 400) {
+                    if(err.status == 401) {
+                       $state.go('login');
+                    } else if(err.status == 400) {
                        showMessage.error(err.data.message);
                     }
                 })
@@ -401,10 +408,12 @@
                $scope.setting = setting;
             })
             .catch(function (err) {
-               if(err.status == 404) {
-                  $scope.loading = true;
-                  $scope.notFound = true;
-               }
+               if(err.status == 401) {
+                   $state.go('login');
+                } else if(err.status == 404) {
+                   $scope.loading = true;
+                   $scope.notFound = true;
+                }
             })
 
            $scope.availableHourRooms = function ($event) {
@@ -434,7 +443,11 @@
                    }})
                 })
                 .catch(function (err) {
-                    showMessage.error(err.data.message);
+                    if(err.status == 401) {
+                       $state.go('login');
+                    } else if(err.status == 400) {
+                       showMessage.error(err.data.message);
+                    }
                 })
              }
       }
@@ -470,8 +483,12 @@
                 $scope.client = client;
             })
             .catch(function (err) {
-                $scope.loading = true;
-                $scope.notFound = true;
+                if(err.status == 401) {
+                   $state.go('login');
+                } else if(err.status == 404) {
+                   $scope.loading = true;
+                   $scope.notFound = true;
+                }
             });
 
             $scope.availableDateReservationRoom = function ($event) {
@@ -499,7 +516,11 @@
 
                 })
                 .catch(function (err) {
-                    showMessage.error(err.data.message);
+                    if(err.status == 401) {
+                        $state.go('login');
+                    } else if(err.status == 400) {
+                       showMessage.error(err.data.message);
+                    }
                 })
             }
        }
@@ -542,9 +563,11 @@
                $scope.setting = setting;
             })
             .catch(function (err) {
-               if(err.status == 404) {
-                  $scope.loading = true;
-                  $scope.notFound = true;
+               if(err.status == 401) {
+                   $state.go('login');
+               } else if(err.status == 404) {
+                   $scope.loading = true;
+                   $scope.notFound = true;
                }
             });
 
@@ -580,7 +603,11 @@
                   }})
                 })
                 .catch(function (err) {
-                    showMessage.error(err.data.message);
+                    if(err.status == 401) {
+                        $state.go('login');
+                    } else if(err.status == 400) {
+                       showMessage.error(err.data.message);
+                    }
                 })
             }      
         }

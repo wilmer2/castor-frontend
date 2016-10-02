@@ -47,7 +47,7 @@
          <td>
            <strong>Salida anticipida</strong>
          </td>
-         <td ng-bind="rental.checkout_date">
+         <td ng-bind="rental.checkout_date|date: 'MM/dd/yyyy'">
          </td>
        </tr>
        <tr>
@@ -100,21 +100,21 @@
               <span ng-bind="room.code_number"></span>
             </td>
             <td>
-              <span ng-bind="room.pivot.check_in" ng-if="room.pivot.check_in"></span>
-              <span ng-bind="rental.arrival_date" ng-if="!room.pivot.check_in"></span>
+              <span ng-bind="room.pivot.check_in||date: 'MM/dd/yyyy'" ng-if="room.pivot.check_in"></span>
+              <span ng-bind="rental.arrival_date|date: 'MM/dd/yyyy'" ng-if="!room.pivot.check_in"></span>
             </td>
             <td>
-              <span ng-bind="room.pivot.check_timein" ng-if="room.pivot.check_timein"></span>
-              <span ng-bind="rental.arrival_time" ng-if="!room.pivot.check_timein"></span>
+              <span ng-bind="room.pivot.check_timein|normalizeTime" ng-if="room.pivot.check_timein"></span>
+              <span ng-bind="rental.arrival_time|normalizeTime" ng-if="!room.pivot.check_timein"></span>
             </td>
             <td>
-              <span ng-bind="room.pivot.check_out" ng-if="room.pivot.check_out"></span>
-              <span ng-bind="rental.departure_date" ng-if="!room.pivot.check_out"></span>
+              <span ng-bind="room.pivot.check_out|date: 'MM/dd/yyyy'" ng-if="room.pivot.check_out"></span>
+              <span ng-bind="rental.departure_date|date: 'MM/dd/yyyy'" ng-if="!room.pivot.check_out"></span>
               <span ng-if="!rental.departure_date && !room.pivot.check_out">N/A</span>
             </td>
             <td>
-              <span ng-bind="room.pivot.check_timeout" ng-if="room.pivot.check_timeout"></span>
-              <span ng-bind="rental.departure_time" ng-if="!room.pivot.check_timeout"></span>
+              <span ng-bind="room.pivot.check_timeout|normalizeTime" ng-if="room.pivot.check_timeout"></span>
+              <span ng-bind="rental.departure_time|normalizeTime" ng-if="!room.pivot.check_timeout"></span>
             </td>
           </tr>
         </tbody>

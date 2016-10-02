@@ -1,10 +1,15 @@
-<h3 class="text-center">Datos de Habitación</h3>
-<hr>
-<br>
+<div ng-if="loading && notFound" class="callout callout-danger lead">
+  <b>Aviso!</b>
+  <p>Habitación no encontrada</p>
+</div>
 
-<div ng-if="loading && !notFound">
-  <div class="row">
-      <div class="col-md-8 col-md-offset-2">
+<div class="row" ng-if="loading && !notFound">
+  <div class="col-md-12">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Habitación</h3>
+      </div>
+      <div class="box-body">
         <table class="table">
            <tr>
              <td><strong>Codigo de Habitación</strong></td>
@@ -38,17 +43,19 @@
            </tr>
         </table>
       </div>
-  </div>
-  <div class="row">
-    <div class="col-md-1 col-md-offset-4">
-      <button class="btn btn-primary" ng-click="edit()"><i class="fa fa-edit"></i> Editar</button>
-    </div>
-    <div class="col-md-1 col-md-offset-1">
-      <button class="btn btn-danger btn-delete" ng-click="confirmDelete()"><i class="fa fa-trash-o"></i> Eliminar</button>
+      <div class="box-footer">
+       <div class="col-md-1 col-md-offset-4">
+         <button class="btn btn-primary" ng-click="edit()">
+           <i class="fa fa-edit"></i>   Editar
+         </button>
+       </div>
+       <div class="col-md-1 col-md-offset-1">
+         <button class="btn btn-danger btn-delete" ng-click="confirmDelete()">
+            <i class="fa fa-trash-o"></i> Eliminar
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
-<div ng-if="loading && notFound">
-  Habitación no encontrada
-</div>
+  

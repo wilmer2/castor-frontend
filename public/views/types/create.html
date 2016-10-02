@@ -1,11 +1,14 @@
-<h3>Registrar Tipo</h3>
-
-<form ng-submit="typeStore($event)">
-  <input type="text" ng-model="type.title" />
-  <input type="text" ng-model="type.description" />
-  <input type="text" ng-model="type.increment"  /> 
-  <input type="file" upload-img  />
-  
-  <button class="btn btn-primary" type="submit">Registrar Tipo</button>
-</form>
-
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-primary">
+      <div class="box-header">
+        <h3 class="box-title">
+         Registrar Tipo
+        </h3>
+      </div>
+      <form ng-submit="typeStore($event)">
+        <form-type></form-type>
+      </form>
+    </div>
+  </div>
+</div>

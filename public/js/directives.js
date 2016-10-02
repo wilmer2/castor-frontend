@@ -120,6 +120,13 @@
         }
     })
 
+    .directive('formType', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/form-type.html'
+        }
+    })
+
     .directive('stepOne', function () {
         return {
           restrict: 'E',
@@ -138,6 +145,13 @@
         return {
           restrict: 'E',
           templateUrl: '/partials/step-three.html'
+        }
+    })
+
+    .directive('tableRoom', function () {
+        return {
+          restrict: 'E',
+          templateUrl: '/partials/table-room.html'
         }
     })
 

@@ -1,0 +1,23 @@
+<div class="table-responsive">
+  <table class="table table-condensed table-hover" datatable="ng" dt-options="dtOptions">
+    <thead>
+      <tr>
+      <th class="col-fit">Codigo</th>
+      <th class="col-fit">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="room in rooms">
+      <td ng-bind="room.code_number"></td>
+      <td>
+       <button class="btn btn-primary btn-sm" ng-click="show(room.id)" uib-tooltip="Ver">
+         <i class="fa fa-eye"></i>
+       </button>
+       <button class="btn btn-success btn-sm" ng-click="available(room.id)" uib-tooltip="Habilitar">
+         <i class="fa fa-check" aria-hidden="true"></i>
+       </button>
+      </td> 
+      </tr>
+    </tbody>
+  </table>
+</div>

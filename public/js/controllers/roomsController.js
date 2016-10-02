@@ -29,13 +29,15 @@
 
               roomService.store($scope.room)
               .then(function (room) {
-                  showMessage.success('Habitacione registrada');
-                  $state.go('menu.room.show', {id: room.id });
+                 showMessage.success('Habitacione registrada');
+                 $state.go('menu.room.show', {id: room.id });
               })
               .catch(function (err) {
-                  if(err.status == 400) {
-                      showMessage.error(err.data.message);
-                  }
+                 if(err.status == 401) {
+                    $state.go('login');
+                 } else if(err.status == 400) {
+                    showMessage.error(err.data.message);
+                 }
               })
            }
       }
@@ -64,7 +66,9 @@
               $scope.room = room;
            })
            .catch(function (err) {
-              if(err.status == 404) {
+              if(err.status == 401) {
+                  $state.go('login');
+              } else if(err.status == 404) {
                   $scope.loading = true;
                   $scope.notFound = true;
               }
@@ -77,7 +81,12 @@
                   $scope.room = room;
               })
               .catch(function (err) {
-                  if(err.status == 404) {
+                 if(err.status == 401) {
+                     $state.go('login');
+                 } else if(err.status == 400) {
+                     showMessage.error(err.data.message);
+                 } else if(err.status == 404) {
+                     $state.go('menu.room.list')
                      showMessage.error('Habitacion no encontrada');
                   }
               })
@@ -90,9 +99,12 @@
                   $scope.room = room;
               })
               .catch(function (err) {
-                  if(err.status == 400) {
+                  if(err.status == 401) {
+                      $state.go('login');
+                  } else if(err.status == 400) {
                       showMessage.error(err.data.message);
                   } else if(err.status == 404) {
+                      $state.go('menu.room.list')
                       showMessage.error('Habitacion no encontrada');
                   }
               })
@@ -109,12 +121,14 @@
                  $state.go('menu.room.list');
               })
               .catch(function (err) {
-                 if(err.status == 404) {
-                    showMessage.error('Tipo no encontrado');
-                    $state.go('menu.room.list');
+                 if(err.status == 401) {
+                     $state.go('login');
+                 } else if(err.status == 404) {
+                     showMessage.error('Habitacion no encontrado');
+                     $state.go('menu.room.list');
 
-                 } else if (err. status == 400) {
-                    showMessage.error(err.data.message);
+                 } else if(err.status == 400) {
+                     showMessage.error(err.data.message);
                  }
               })
           }
@@ -131,10 +145,6 @@
               }
             });
           }
-
-
-
-
       }
     ])
 
@@ -168,10 +178,12 @@
                 $scope.types = types;
             })
             .catch(function (err) {
-                if(err.status == 404) {
-                    $scope.loading = true;
-                    $scope.notFound = true;
-                }
+               if(err.status == 401) {
+                  $state.go('login');
+               } else if(err.status == 404) {
+                  $scope.loading = true;
+                  $scope.notFound = true;
+               }
             });
 
             $scope.sendData = function ($event) {
@@ -183,7 +195,9 @@
                     $state.go('menu.room.show', {id: room.id});
                 })
                 .catch(function (err) {
-                   if(err.status == 400) {
+                   if(err.status == 401) {
+                      $state.go('login');
+                   } else if(err.status == 400) {
                       showMessage.error(err.data.message);
                    }
                 })
@@ -216,7 +230,9 @@
                 $scope.rooms = rooms;
             })
             .catch(function (err) {
-                console.log(err);
+               if(err.status == 401) {
+                  $state.go('login');
+               }
             });
 
             $scope.show = function (roomId) {
@@ -253,7 +269,9 @@
                 $scope.rooms = rooms;
              })
              .catch(function (err) {
-                console.log(err);
+                if(err.status == 401) {
+                    $state.go('login');
+                }
              });
 
              $scope.show = function (roomId) {
@@ -263,17 +281,19 @@
              $scope.available = function (roomId) {
                 roomService.enableRoom(roomId)
                 .then(function (room) {
-                    showMessage.success('Habitacion habilitada');
+                   showMessage.success('Habitacion habilitada');
 
-                    var filterRooms =  _.filter($scope.rooms, function (room) {
-                        return room.id != roomId;
-                    });
+                   var filterRooms =  _.filter($scope.rooms, function (room) {
+                      return room.id != roomId;
+                   });
 
-                    $scope.rooms =  filterRooms;
+                   $scope.rooms =  filterRooms;
                 })
                 .catch(function (err) {
-                    if(err.status == 404) {
-                        showMessage.error('Habitacion no encontrada');
+                   if(err.status == 401) {
+                      $state.go('login');
+                   } else if(err.status == 404) {
+                      showMessage.error('Habitacion no encontrada');
                     }
                 })
              }
@@ -308,7 +328,9 @@
                 $scope.rooms = rooms;
              })
              .catch(function (err) {
-                console.log(err);
+                if(err.status == 401) {
+                    $state.go('login');
+                }
              });
 
              $scope.show = function (roomId) {
@@ -327,9 +349,11 @@
                     $scope.rooms =  filterRooms;
                 })
                 .catch(function (err) {
-                    if(err.status == 404) {
-                        showMessage.error('Habitacion no encontrada');
-                    }
+                   if(err.status == 401) {
+                      $state.go('login');
+                   } else if(err.status == 404) {
+                      showMessage.error('Habitacion no encontrada');
+                   }
                 })
              }
       }

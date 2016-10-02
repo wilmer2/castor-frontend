@@ -37,7 +37,9 @@
                    $scope.moves = moves;
                 })
                 .catch(function (err) {
-                   console.log(err);
+                   if(err.status == 401 || err.status == 403) {
+                      $state.go('login');
+                   }
                 })
              }
               

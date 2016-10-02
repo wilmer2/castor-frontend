@@ -23,20 +23,27 @@
 
 <aside class="main-sidebar">
   <!-- Inner sidebar -->
-  <section class="sidebar" style="height: auto;">
+  <section class="sidebar" style="height: 956px;">
     <!-- Search Form (Optional) -->
-    <form action="#" method="get" class="sidebar-form">
+    <form class="sidebar-form">
       <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Buscar Cliente">
+        <input type="text" ng-model="q.name" class="form-control" placeholder="Buscar Cliente" ng-keyup="searchClients()">
         <span class="input-group-btn">
           <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
         </span>
       </div>
     </form><!-- /.sidebar-form -->
+     <ul class="drop-down search-list">
+      <li ng-repeat="client in clients" class="element">
+       <a ng-click="show(client.id)">
+         <span class="text-info" ng-bind="client.first_name + ' ' +  client.last_name"></span>
+        </a>
+      </li>
+     </ul>     
 
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
-      <li class="header">Contenido</li>
+      <li class="header">Hotel</li>
       <li class="treeview">
         <a> 
           <i class="fa fa-users" aria-hidden="true"></i>
@@ -108,8 +115,117 @@
               <span>Registrar por hora</span>
             </a>
           </li>
+          <li>
+            <a ui-sref="menu.rental.reservation_pending">
+              <i class="fa fa-list"></i>
+              <span>Pendientes</span>
+            </a>
+          </li>
+           <li>
+            <a ui-sref="menu.rental.reservation">
+              <i class="fa fa-list"></i>
+              <span>Todas</span>
+            </a>
+          </li>
         </ul>
       </li>
+      <li class="treeview">
+        <a>
+          <i class="fa fa-bed"></i>
+          <span>Habitaciones</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+         <li>
+           <a ui-sref="menu.room.create">
+             <i class="fa fa-plus"></i>
+             <span>Registrar</span>
+           </a>
+         </li>
+         <li>
+          <a ui-sref="menu.room.list">
+            <i class="fa fa-list"></i>
+            <span>Todas</span>
+          </a>
+         </li>
+         <li>
+           <a ui-sref="menu.room.maintenance">
+             <i class="fa fa-list"></i>
+             <span>Mantenimiento</span>
+           </a>
+         </li>
+         <li>
+           <a ui-sref="menu.room.disabled">
+              <i class="fa fa-list"></i>
+             <span>Deshabilitadas</span>
+           </a>
+         </li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a>
+         <i class="fa fa-cubes"></i>
+         <span>Tipo</span>
+         <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+         </span>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <a ui-sref="menu.type.create">
+              <i class="fa fa-plus"></i>
+              <span>Registrar</span>
+            </a>
+          </li>
+          <li>
+            <a ui-sref="menu.type.list">
+              <i class="fa fa-list"></i>
+              <span>Listar</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="sidebar-menu" ng-if="currentUser.role != 2">
+      <li class="header">
+        Administracion
+      </li>
+      <li class="treeview">
+        <a> 
+          <i class="fa fa-users" aria-hidden="true"></i>
+          <span>Usuarios</span>
+          <span class="pull-right-container">
+             <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <a ui-sref="menu.user.create">
+               <i class="fa fa-plus"></i>
+              <span>Registrar</span>
+            </a>
+          </li>
+          <li>
+            <a ui-sref="menu.user.list"><i class="fa fa-list"></i> 
+            <span>Lista</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a ui-sref="menu.move.list">
+         <i class="fa fa-money"></i>
+         <span>Movimientos</span>
+        </a>
+      </li>
+      <li>
+        <a ui-sref="menu.setting.edit">
+          <i class="fa fa-cog"></i>
+          <span>Configuraciones</span>
+        </a>
+      </li>
+      
     </ul>
   </section><!-- /.sidebar -->
 </aside><!-- /.main-sidebar -->

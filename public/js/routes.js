@@ -238,7 +238,7 @@
             isAdmin: false
          })
          .state('menu.rental.reservation_pending', {
-            url: "/reservations/pending",
+            url: "/reservations-pending",
             templateUrl: "/views/rentals/list-reservation-pending.html",
             controller: "reservationPending",
             authenticate: true,
@@ -310,13 +310,6 @@
             authenticate: true,
             isAdmin: false
          })
-         .state('menu.rental.renovate_hour', {
-            url: "/{id}/renovate-hour",
-            templateUrl: "/views/rentals/renovate-hour.html",
-            controller: "renovateHour",
-            authenticate: true,
-            isAdmin: false
-         })
          .state('menu.rental.room_renovate_hour', {
             url: "/room/renovate-hour",
             templateUrl: "/views/rentals/rental-edit-rooms.html",
@@ -324,6 +317,13 @@
             params: {
                dataTransition: null
             },
+            authenticate: true,
+            isAdmin: false
+         })
+         .state('menu.rental.renovate_hour', {
+            url: "/{id}/renovate-hour",
+            templateUrl: "/views/rentals/renovate-hour.html",
+            controller: "renovateHour",
             authenticate: true,
             isAdmin: false
          })
