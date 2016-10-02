@@ -7,7 +7,7 @@
         };
     })
 
-    .factory('showMessage', ['toaster', function (toaster) {
+    .factory('showMessage', [function () {
         function success(message) {
            alertify.success(message);
         }
