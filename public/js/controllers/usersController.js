@@ -89,7 +89,7 @@
             settingService,
             authService
         ) {
-              $scope.users = [];
+              $scope.loading = false;
               $scope.dtOptions = DTOptionsBuilder.newOptions()
               .withLanguage(settingService.getSettingTable())
               .withDOM('ftp')
@@ -97,6 +97,7 @@
 
               userService.getUsers()
                .then(function (users) {
+                  $scope.loading = true;
                   $scope.users = userService.loadRoles(users);
               })
               .catch(function (err) {

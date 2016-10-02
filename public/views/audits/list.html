@@ -1,0 +1,31 @@
+<div class="row" ng-if="loading">
+   <div class="col-xs-12">
+     <div class="box box-primary">
+      <div class="box-header">
+        <h3 class="box-title">Auditoria</h3>
+      </div>
+      <div class="box-body">
+        <div>
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table table-bordered" datatable="ng" dt-options="dtOptions">
+               <thead>
+                <tr>
+                 <th>Información</th>
+                 <th>Fecha</th>
+                </tr>
+               </thead>
+               <tbody>
+                 <tr ng-repeat="audit in audits">
+                   <td ng-bind="audit.message"></td>
+                   <td ng-bind="audit.created_at"></td> 
+                 </tr>
+               </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+   </div>
+</div>

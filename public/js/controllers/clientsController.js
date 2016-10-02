@@ -134,7 +134,7 @@
         'settingService',
 
         function ($scope, $state, DTOptionsBuilder, clientService, settingService) {
-             $scope.clients = [];
+             $scope.loading = false;
              $scope.dtOptions = DTOptionsBuilder.newOptions()
              .withLanguage(settingService.getSettingTable())
              .withDOM('ftp')
@@ -142,6 +142,7 @@
 
              clientService.getClients()
              .then(function (clients) {
+                 $scope.loading = true;
                  $scope.clients = clients;
              })
              .catch(function (err) {

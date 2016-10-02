@@ -47,7 +47,7 @@
                      "oAria": {
                          "sSortAscending":  ": activate to sort column ascending",
                          "sSortDescending": ": activate to sort column descending"
-                     }         
+                     }     
                 };
 
                 return optionTable;

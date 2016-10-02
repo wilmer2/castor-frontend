@@ -127,21 +127,21 @@
           <td>
             <strong>Monto</strong>
           </td>
-          <td ng-bind="rental.amount">
+          <td ng-bind="rental.amount  + ' bs'">
           </td>
         </tr>
         <tr>
           <td>
             <strong>Iva</strong>
           </td>
-          <td ng-bind="rental.amount_impost">    
+          <td ng-bind="rental.amount_impost  + ' bs'">    
           </td>
         </tr>
         <tr>
           <td>
             <strong>Total</strong>
           </td>
-          <td ng-bind="rental.amount_total">
+          <td ng-bind="rental.amount_total  + ' bs'">
           </td>
         </tr>
       </table>

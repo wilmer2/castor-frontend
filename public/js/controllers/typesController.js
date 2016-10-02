@@ -143,16 +143,16 @@
         'settingService',
 
         function ($scope, $state, DTOptionsBuilder, typeService, settingService) {
-            $scope.types = [];
-
+            $scope.loading = false;
             $scope.dtOptions = DTOptionsBuilder.newOptions()
             .withLanguage(settingService.getSettingTable())
             .withDOM('ftp')
             .withBootstrap();
-
+          
             typeService.getTypes()
              .then(function (types) {
-                 $scope.types = types;
+                $scope.loading = true;
+                $scope.types = types;
              })
              .catch(function (err) {
                 if(err.status == 401) {

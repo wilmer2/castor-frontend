@@ -219,6 +219,7 @@
          roomService,
          settingService
        ) {  
+            $scope.loading = false;
 
             $scope.dtOptions = DTOptionsBuilder.newOptions()
             .withLanguage(settingService.getSettingTable())
@@ -227,7 +228,8 @@
 
             roomService.getRooms()
             .then(function (rooms) {
-                $scope.rooms = rooms;
+               $scope.loading = true;
+               $scope.rooms = rooms;
             })
             .catch(function (err) {
                if(err.status == 401) {
@@ -257,7 +259,7 @@
           roomService,
           settingService
         ) {  
-             $scope.rooms = [];
+             $scope.loading = false;
 
              $scope.dtOptions = DTOptionsBuilder.newOptions()
              .withLanguage(settingService.getSettingTable())
@@ -266,6 +268,7 @@
 
              roomService.getRoomMaintenace()
              .then(function (rooms) {
+                $scope.loading = true;
                 $scope.rooms = rooms;
              })
              .catch(function (err) {
@@ -316,46 +319,48 @@
         roomService,
         settingService
       ) {
-             $scope.rooms = [];
+          
+          $scope.loading = false;
 
-             $scope.dtOptions = DTOptionsBuilder.newOptions()
-             .withLanguage(settingService.getSettingTable())
-             .withDOM('ftp')
-             .withBootstrap();
+          $scope.dtOptions = DTOptionsBuilder.newOptions()
+          .withLanguage(settingService.getSettingTable())
+          .withDOM('ftp')
+          .withBootstrap();
 
-             roomService.getRoomDisabled()
-             .then(function (rooms) {
-                $scope.rooms = rooms;
-             })
-             .catch(function (err) {
-                if(err.status == 401) {
-                    $state.go('login');
-                }
-             });
-
-             $scope.show = function (roomId) {
-                $state.go('menu.room.show', {id: roomId});
+          roomService.getRoomDisabled()
+          .then(function (rooms) {
+             $scope.loading = true;
+             $scope.rooms = rooms;
+          })
+          .catch(function (err) {
+             if(err.status == 401) {
+                $state.go('login');
              }
+          });
 
-             $scope.available = function (roomId) {
-                roomService.enableRoom(roomId)
-                .then(function (room) {
-                    showMessage.success('Habitacion habilitada');
+          $scope.show = function (roomId) {
+            $state.go('menu.room.show', {id: roomId});
+          }
 
-                    var filterRooms =  _.filter($scope.rooms, function (room) {
-                        return room.id != roomId;
-                    });
+          $scope.available = function (roomId) {
+            roomService.enableRoom(roomId)
+            .then(function (room) {
+               showMessage.success('Habitacion habilitada');
 
-                    $scope.rooms =  filterRooms;
-                })
-                .catch(function (err) {
-                   if(err.status == 401) {
+               var filterRooms =  _.filter($scope.rooms, function (room) {
+                 return room.id != roomId;
+               });
+
+               $scope.rooms =  filterRooms;
+            })
+            .catch(function (err) {
+               if(err.status == 401) {
                       $state.go('login');
-                   } else if(err.status == 404) {
+                } else if(err.status == 404) {
                       showMessage.error('Habitacion no encontrada');
                    }
-                })
-             }
+            })
+        }
       }
     ])
 })(_, alertify)

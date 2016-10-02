@@ -129,15 +129,15 @@
          <tbody>
            <tr>
             <th>Subtotal:</th>
-            <td ng-bind="rental.amount"></td>
+            <td ng-bind="rental.amount + ' bs'"></td>
            </tr>
            <tr>
             <th>Iva (<span ng-bind="impost"></span>%)</th>
-            <td ng-bind="rental.amount_impost"></td>
+            <td ng-bind="rental.amount_impost + ' bs'"></td>
            </tr>
            <tr>
              <th>Total:</th>
-             <td ng-bind="rental.amount_total"></td>
+             <td ng-bind="rental.amount_total + ' bs'"></td>
            </tr>
           </tbody>
         </table>

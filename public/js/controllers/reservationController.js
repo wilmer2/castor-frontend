@@ -762,6 +762,7 @@
          rentalService,
          settingService
        ) {  
+            $scope.loading = false;
 
             $scope.dtOptions = DTOptionsBuilder.newOptions()
             .withLanguage(settingService.getSettingTable())
@@ -770,6 +771,7 @@
 
             rentalService.getReservationsPending()
             .then(function (reservations) {
+              $scope.loading = true;
               $scope.reservations = reservations;
             })
             .catch(function (err) {

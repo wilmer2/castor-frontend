@@ -1,18 +1,30 @@
-<div class="container col-md-4 login" ng-if="loading">
-  <form class="form-signin" role="form" ng-submit="login($event)">
-     <h2 class="form-signin-heading text-primary">Iniciar sesion</h2>
-     <div class="input-group">
-       <span class="input-group-addon"><i class="fa fa-user"></i></span>
-       <input type="email" ng-model="credentials.email" class="form-control" placeholder="Usuario" required>
-      
-     </div>
-     <div class="input-group">
-       <span class="input-group-addon"><i class="fa fa-unlock-alt"></i></span>
-       <input type="password" ng-model="credentials.password" class="form-control" placeholder="Contraseña" required> 
-     </div>
-     <button class="btn btn-lg btn-primary btn-block" type="submit">
-       <i class="fa fa-sign-in"></i> Ingresar
-      </button>
- </form>
 
+  <div class="login-box" style="height:600px">
+  <div class="login-logo">
+    <a><b>Hotel</b></a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg">Ingresa para iniciar sesion</p>
+
+    <form ng-submit="login($event)">
+      <div class="form-group has-feedback">
+        <input type="email" class="form-control" placeholder="Email" style="cursor: auto;" ng-model="credentials.email" required>
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" placeholder="Contraseña" ng-model="credentials.password" required>
+       
+      </div>
+      <div class="row">
+        <!-- /.col -->
+        <div class="col-xs-4  col-md-offset-8">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+
+  </div>
+  <!-- /.login-box-body -->
 </div>

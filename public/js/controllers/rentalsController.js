@@ -221,7 +221,7 @@
         settingService,
         rentalService
       ) {
-           $scope.rentals = [];
+           $scope.loading = false;
 
            $scope.dtOptions = DTOptionsBuilder.newOptions()
            .withLanguage(settingService.getSettingTable())
@@ -231,6 +231,7 @@
 
            rentalService.all()
            .then(function (rentals) {
+              $scope.loading = true;
               $scope.rentals = rentals
            })
            .catch(function (err) {
