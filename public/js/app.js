@@ -15,6 +15,8 @@
     ])
 
     app.run(function ($rootScope, $state, authService, showMessage) {
+       alertify.defaults.theme.ok = "btn btn-primary";
+       alertify.defaults.theme.cancel = "btn btn-danger";
         
        $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
           if(toState.authenticate) {
@@ -37,4 +39,4 @@
        })
     })
 
-})();
+})(alertify);
